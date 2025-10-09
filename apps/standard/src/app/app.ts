@@ -5,9 +5,12 @@ import {Logo} from "@rip-shop/shared-components";
 import {
   SwitchThemeComponent
 } from "../../../../libs/shared-components/src/lib/components/switch-theme/switch-theme-component";
+import {
+  HeaderDescriptionComponent
+} from "../../../../libs/shared-components/src/lib/components/header-description/header-description-component";
 
 @Component({
-  imports: [NxWelcome, RouterModule, Logo, SwitchThemeComponent],
+  imports: [NxWelcome, RouterModule, Logo, SwitchThemeComponent, HeaderDescriptionComponent],
   selector: 'app-root',
   templateUrl: './app.html',
   styleUrl: './app.scss',

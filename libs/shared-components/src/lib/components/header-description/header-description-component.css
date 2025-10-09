@@ -1,0 +1,31 @@
+@font-face {
+  font-family: 'IBM Plex Serif';
+  src: url('../../styles/fonts/IBMPlexSerif-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  text-align: center;
+}
+
+.title {
+  font-family: 'IBM Plex Serif', serif;
+  font-weight: 400;
+  font-size: clamp(24px, 1.67vw, 40px);
+  color: var(--text-primary);
+  margin: 0;
+  line-height: 1.2;
+}
+
+.description {
+  font-family: 'IBM Plex Serif', serif;
+  font-weight: 400;
+  font-size: clamp(12px, 0.57vw, 14px);
+  color: var(--text-secondary);
+  margin: 0;
+  line-height: 1.4;
+}
