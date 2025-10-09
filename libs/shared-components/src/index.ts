@@ -1,1 +1,1 @@
-export * from './lib/shared-components/shared-components';
+export * from './lib/components/logo/logo';

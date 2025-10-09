@@ -1,0 +1,17 @@
+:root {
+  --background-primary: #FFFFFF;   /* Основной фон */
+  --background-secondary: #F5F5F5; /* Подложка (карточки, модалки) */
+  --text-primary: #000000;         /* Основной текст */
+  --text-secondary: #666666;       /* Вторичный текст */
+  --accent-color: #007BFF;         /* Акцент (кнопки, ссылки) */
+  --border-color: #DDDDDD;         /* Границы */
+}
+
+.dark {
+  --background-primary: #121212;   /* Тёмный фон */
+  --background-secondary: #1E1E1E; /* Тёмная подложка */
+  --text-primary: #FFFFFF;         /* Светлый текст */
+  --text-secondary: #B0B0B0;       /* Вторичный текст */
+  --accent-color: #0D6EFD;         /* Акцент в тёмной теме */
+  --border-color: #333333;         /* Тёмные границы */
+}

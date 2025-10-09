@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { SharedComponents } from './shared-components';
+import { SwitchThemeComponent } from './switch-theme-component';
 
-describe('SharedComponents', () => {
-  let component: SharedComponents;
-  let fixture: ComponentFixture<SharedComponents>;
+describe('SwitchThemeComponent', () => {
+  let component: SwitchThemeComponent;
+  let fixture: ComponentFixture<SwitchThemeComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SharedComponents],
+      imports: [SwitchThemeComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(SharedComponents);
+    fixture = TestBed.createComponent(SwitchThemeComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

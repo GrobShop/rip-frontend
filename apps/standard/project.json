@@ -18,7 +18,13 @@
         "assets": [
           {
             "glob": "**/*",
-            "input": "apps/standard/public"
+            "input": "apps/standard/public",
+            "output": "/"
+          },
+          {
+            "glob": "**/*",
+            "input": "libs/shared-components/src/lib/assets",
+            "output": "assets"
           }
         ],
         "styles": ["apps/standard/src/styles.scss"]
