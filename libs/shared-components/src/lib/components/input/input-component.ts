@@ -18,6 +18,7 @@ export class InputComponent {
   @Input() icon: string = '';
   @Input() copyBtn: boolean = false;
   @Input() labelText: string = '';
+  @Input() type: string = 'text';
 
   @ViewChild('inputElement') inputElement!: ElementRef<HTMLInputElement>;
 

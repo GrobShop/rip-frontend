@@ -1,0 +1,15 @@
+.login-page{
+  width: 100vw;
+  height: 100vh;
+}
+
+.login-page-actions{
+  width: 100vw;
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  gap: 10px;
+}

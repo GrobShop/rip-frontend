@@ -4,7 +4,7 @@
     <img *ngIf="icon.length > 0" [src]="icon" class="left-icon" alt="Icon">
     <input
       #inputElement
-      type="text"
+      [type]="type"
       [placeholder]="placeholderText"
       class="custom-input"
       [style.padding-left]="icon.length <= 0 ? '10px!important' : null" [style.padding]="icon.length <= 0 ? '0 10px!important' : null"

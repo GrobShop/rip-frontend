@@ -12,9 +12,10 @@ import {NavLinksComponent} from "../../../../libs/shared-components/src/lib/comp
 import {HeaderComponent} from "../../../../libs/shared-components/src/lib/components/header/header-component";
 import {InputComponent} from "../../../../libs/shared-components/src/lib/components/input/input-component";
 import {ButtonComponent} from "../../../../libs/shared-components/src/lib/components/button/button-component";
+import {LoginPage} from "../../../../libs/shared-components/src/lib/pages/login-page";
 
 @Component({
-  imports: [NxWelcome, RouterModule, Logo, SwitchThemeComponent, HeaderDescriptionComponent, NavLinksComponent, HeaderComponent, InputComponent, ButtonComponent],
+  imports: [NxWelcome, RouterModule, Logo, SwitchThemeComponent, HeaderDescriptionComponent, NavLinksComponent, HeaderComponent, InputComponent, ButtonComponent, LoginPage],
   selector: 'app-root',
   templateUrl: './app.html',
   styleUrl: './app.scss',
