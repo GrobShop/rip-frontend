@@ -1,7 +1,10 @@
 <div class="logo">
-  <span class="letter">R</span>
-  <span class="dot">.</span>
-  <span class="letter-i">I</span>
-  <span class="dot">.</span>
-  <span class="letter">P</span>
+  <div class="logo-text">
+    <span class="letter">R</span>
+    <span class="dot">.</span>
+    <span class="letter-i">I</span>
+    <span class="dot">.</span>
+    <span class="letter">P</span>
+  </div>
+  <span *ngIf="annotationText.length > 0" class="annotation">{{annotationText}}</span>
 </div>

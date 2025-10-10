@@ -13,6 +13,7 @@
   font-weight: 400;
   font-size: clamp(20px, 2.1vw, 48px);
   line-height: 1.2;
+  position: relative;
 }
 
 .letter {
@@ -27,4 +28,12 @@
   font-size: clamp(16px, 1.8vw, 40px);
   margin: 0 2px;
   color: var(--text-color, #FFFFFF);
+}
+
+.annotation{
+  font-family: 'IBM Plex Serif';
+  font-size: clamp(7px, 1.1vw, 11px);
+  color: #B5B5B5;
+  position: relative;
+  bottom: -7px;
 }

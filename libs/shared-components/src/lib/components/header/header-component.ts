@@ -19,5 +19,6 @@ import {NgIf} from "@angular/common";
 })
 export class HeaderComponent {
   @Input() isNavLinksComponent = true;
+  @Input() logoAnnotationText: string = '';
   protected readonly NavLinks = NavLinks;
 }
