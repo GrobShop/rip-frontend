@@ -1,0 +1,41 @@
+.card {
+  background-color: #383838;
+  border-radius: 18px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s;
+  cursor: pointer;
+}
+
+.card:hover {
+  transform: scale(1.02); /* Лёгкое увеличение при наведении */
+}
+
+.category-image {
+  width: 100%;
+  height: clamp(110px, 148px, 220px); /* ~148px на 1920px */
+  object-fit: cover; /* Для сохранения пропорций изображения */
+}
+
+.category-title {
+  width: 100%;
+  height: clamp(40px, 50px, 60px); /* ~50px на 1920px */
+  background-color: #2D2D2D;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+  /*padding: 0 12px;*/
+}
+
+.title-text {
+  font-family: 'IBM Plex Serif', serif;
+  font-weight: 400;
+  font-size: clamp(12px, 0.83vw, 18px); /* ~16px на 1920px */
+  color: #FFFFFF;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
