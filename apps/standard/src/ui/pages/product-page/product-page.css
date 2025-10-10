@@ -16,3 +16,25 @@
   gap: 20px;
   flex-wrap: wrap;
 }
+
+.product-page-actions{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  margin: 10px 0;
+}
+
+@media (max-width: 630px) {
+  .product-page-list{
+    gap: 0;
+    margin: 2px;
+  }
+}
+
+@media (max-width: 430px) {
+  .product-page-list{
+    gap: 0;
+    margin: 2px;
+  }
+}

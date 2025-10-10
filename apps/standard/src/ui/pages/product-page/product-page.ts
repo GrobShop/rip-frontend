@@ -6,13 +6,15 @@ import {
   HeaderDescriptionComponent
 } from "../../../../../../libs/shared-components/src/lib/components/header-description/header-description-component";
 import {HeaderComponent} from "../../../../../../libs/shared-components/src/lib/components/header/header-component";
+import {ButtonComponent} from "../../../../../../libs/shared-components/src/lib/components/button/button-component";
 
 @Component({
   selector: 'app-product-page',
   imports: [
     ProductCardComponent,
     HeaderDescriptionComponent,
-    HeaderComponent
+    HeaderComponent,
+    ButtonComponent
   ],
   templateUrl: './product-page.html',
   styleUrl: './product-page.css',

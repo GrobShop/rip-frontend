@@ -66,3 +66,29 @@
   flex-direction: column;
   gap: 8px;
 }
+
+@media (max-width: 630px) {
+  .card{
+    width: 520px!important;
+    transform: scale(0.8);
+  }
+  .title{
+    font-size: 10px!important;
+  }
+  .description{
+    font-size: 9px!important;
+  }
+}
+
+@media (max-width: 430px) {
+  .card{
+    width: 490px!important;
+    transform: scale(0.75);
+  }
+  .title{
+    font-size: 9px!important;
+  }
+  .description{
+    font-size: 9px!important;
+  }
+}

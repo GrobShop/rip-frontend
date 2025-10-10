@@ -21,7 +21,11 @@
 }
 
 .left-icon {
-  width: 24px; /* Фиксированный размер иконки */
-  height: 24px;
+  width: 18px; /* Фиксированный размер иконки */
+  height: 18px;
   fill: #FFFFFF; /* Белый для согласованности */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
 }
