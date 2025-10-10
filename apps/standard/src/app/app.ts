@@ -10,9 +10,10 @@ import {
 } from "../../../../libs/shared-components/src/lib/components/header-description/header-description-component";
 import {NavLinksComponent} from "../../../../libs/shared-components/src/lib/components/nav-links/nav-links-component";
 import {HeaderComponent} from "../../../../libs/shared-components/src/lib/components/header/header-component";
+import {InputComponent} from "../../../../libs/shared-components/src/lib/components/input/input-component";
 
 @Component({
-  imports: [NxWelcome, RouterModule, Logo, SwitchThemeComponent, HeaderDescriptionComponent, NavLinksComponent, HeaderComponent],
+  imports: [NxWelcome, RouterModule, Logo, SwitchThemeComponent, HeaderDescriptionComponent, NavLinksComponent, HeaderComponent, InputComponent],
   selector: 'app-root',
   templateUrl: './app.html',
   styleUrl: './app.scss',

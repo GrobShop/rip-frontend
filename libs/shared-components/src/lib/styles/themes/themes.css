@@ -5,6 +5,8 @@
   --text-secondary: #666666;       /* Вторичный текст */
   --accent-color: #007BFF;         /* Акцент (кнопки, ссылки) */
   --border-color: #DDDDDD;         /* Границы */
+
+  --input-color: #373737;
 }
 
 .dark {
@@ -14,4 +16,6 @@
   --text-secondary: #B0B0B0;       /* Вторичный текст */
   --accent-color: #0D6EFD;         /* Акцент в тёмной теме */
   --border-color: #333333;         /* Тёмные границы */
+
+  --input-color: #373737;
 }

@@ -1,0 +1,18 @@
+<div class="wrapper">
+  <label *ngIf="labelText" class="label">{{ labelText }}</label>
+  <div class="input-container" [style.width]="adaptedWidth" [style.height]="adaptedHeight">
+    <img *ngIf="icon.length > 0" [src]="icon" class="left-icon" alt="Icon">
+    <input
+      #inputElement
+      type="text"
+      [placeholder]="placeholderText"
+      class="custom-input"
+      [style.padding-left]="icon.length <= 0 ? '10px!important' : null" [style.padding]="icon.length <= 0 ? '0 10px!important' : null"
+    >
+    <button *ngIf="copyBtn" class="copy-btn" (click)="copyValue()">
+      <svg class="copy-icon" aria-hidden="true">
+        <use href="assets/icons/input/copy.svg"></use>
+      </svg>
+    </button>
+  </div>
+</div>
