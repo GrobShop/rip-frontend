@@ -1,0 +1,6 @@
+<button class="custom-button" [style.width]="adaptedWidth" [style.height]="adaptedHeight" [style.backgroundColor]="color">
+  <svg *ngIf="icon" class="left-icon" aria-hidden="true">
+    <use [attr.href]="icon + '#icon'"></use>
+  </svg>
+  <span *ngIf="text" class="button-text">{{ text }}</span>
+</button>
