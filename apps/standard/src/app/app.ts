@@ -8,9 +8,11 @@ import {
 import {
   HeaderDescriptionComponent
 } from "../../../../libs/shared-components/src/lib/components/header-description/header-description-component";
+import {NavLinksComponent} from "../../../../libs/shared-components/src/lib/components/nav-links/nav-links-component";
+import {HeaderComponent} from "../../../../libs/shared-components/src/lib/components/header/header-component";
 
 @Component({
-  imports: [NxWelcome, RouterModule, Logo, SwitchThemeComponent, HeaderDescriptionComponent],
+  imports: [NxWelcome, RouterModule, Logo, SwitchThemeComponent, HeaderDescriptionComponent, NavLinksComponent, HeaderComponent],
   selector: 'app-root',
   templateUrl: './app.html',
   styleUrl: './app.scss',

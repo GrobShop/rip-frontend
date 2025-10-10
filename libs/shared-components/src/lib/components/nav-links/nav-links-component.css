@@ -1,0 +1,21 @@
+.nav-links {
+  display: flex;
+  gap: clamp(8px, 1vw, 16px);
+  align-items: center;
+}
+
+.link {
+  font-family: 'IBM Plex Serif', serif;
+  font-weight: 400;
+  font-size: clamp(12px, 0.83vw, 20px);
+  color: var(--text-primary);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.link:hover {
+}
+
+.link.active {
+  color: #737373;
+}

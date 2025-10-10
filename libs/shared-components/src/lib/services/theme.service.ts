@@ -4,12 +4,12 @@ import { BehaviorSubject } from 'rxjs';
 @Injectable({ providedIn: 'root' })
 export class ThemeService {
   private renderer: Renderer2;
-  private themeSubject = new BehaviorSubject<string>('light');
+  private themeSubject = new BehaviorSubject<string>('dark');
   theme$ = this.themeSubject.asObservable();
 
   constructor(rendererFactory: RendererFactory2) {
     this.renderer = rendererFactory.createRenderer(null, null);
-    this.applyTheme(localStorage.getItem('theme') || 'light');
+    this.applyTheme(localStorage.getItem('theme') || 'dark');
   }
 
   toggleTheme() {
