@@ -1,0 +1,23 @@
+<div class="card" [style.width]="adaptedWidth" [style.height]="adaptedHeight">
+  <div class="left-section">
+    <lib-image-carousel-component [images]="product?.images || []"></lib-image-carousel-component>
+  </div>
+  <div class="right-section">
+    <h2 *ngIf="product?.title" class="title">{{ product.title }}</h2>
+    <p *ngIf="product?.description" class="description">{{ product.description }}</p>
+    <div class="bottom-section">
+      <div class="price-container">
+        <span class="price">{{ product?.price }} р</span>
+      </div>
+      <div class="buttons">
+        <lib-button-component [text]="'В корзину'" [width]="'100px'" [height]="'36px'" [color]="'#111111'" icon=""></lib-button-component>
+        <lib-button-component
+          [text]="product?.isFavorite ? 'Из избранного' : 'Избранное'"
+          [width]="'100px'"
+          [height]="'36px'"
+          [color]="'#111111'"
+        ></lib-button-component>
+      </div>
+    </div>
+  </div>
+</div>

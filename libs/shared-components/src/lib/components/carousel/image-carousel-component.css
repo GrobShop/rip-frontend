@@ -1,0 +1,92 @@
+.carousel-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: clamp(170px, 243px, 340px); /* ~203px + 20px стрелки с каждой стороны */
+  gap: 12px; /* Отступ между изображением и точками */
+}
+
+.image-wrapper {
+  position: relative;
+  width: clamp(150px, 203px, 300px); /* ~203px на 1920px */
+  height: clamp(110px, 161px, 220px); /* ~161px на 1920px */
+  border-radius: 18px;
+  overflow: hidden;
+}
+
+.carousel-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 18px;
+}
+
+.image-placeholder {
+  width: 100%;
+  height: 100%;
+  background-color: #444444;
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.placeholder-icon {
+  width: 40px;
+  height: 40px;
+  fill: #FFFFFF;
+}
+
+.arrow {
+  position: absolute;
+  top: 40%;
+  background: rgba(0, 0, 0, 0.3);
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 10%;
+}
+
+.left-arrow {
+  left: 8px;
+}
+
+.right-arrow {
+  right: 8px;
+}
+
+.arrow:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.arrow-icon {
+  width: 20px;
+  height: 20px;
+  fill: #FFFFFF;
+}
+
+.controls {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding: 0 8px;
+}
+
+.dots {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  background-color: #B3B3B3;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.dot.active {
+  background-color: #FFFFFF;
+}

@@ -14,9 +14,10 @@ import {InputComponent} from "../../../../libs/shared-components/src/lib/compone
 import {ButtonComponent} from "../../../../libs/shared-components/src/lib/components/button/button-component";
 import {LoginPage} from "../../../../libs/shared-components/src/lib/pages/login-page/login-page";
 import {CategoryPage} from "../ui/pages/category-page/category-page";
+import {ProductPage} from "../ui/pages/product-page/product-page";
 
 @Component({
-  imports: [NxWelcome, RouterModule, Logo, SwitchThemeComponent, HeaderDescriptionComponent, NavLinksComponent, HeaderComponent, InputComponent, ButtonComponent, LoginPage, CategoryPage],
+  imports: [NxWelcome, RouterModule, Logo, SwitchThemeComponent, HeaderDescriptionComponent, NavLinksComponent, HeaderComponent, InputComponent, ButtonComponent, LoginPage, CategoryPage, ProductPage],
   selector: 'app-root',
   templateUrl: './app.html',
   styleUrl: './app.scss',
