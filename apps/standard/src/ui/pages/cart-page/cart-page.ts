@@ -32,4 +32,8 @@ export class CartPage {
   onOrder(){
     this.isOrder = true;
   }
+
+  onCancelOrder(){
+    this.isOrder = false;
+  }
 }
