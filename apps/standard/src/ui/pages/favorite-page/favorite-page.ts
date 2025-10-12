@@ -7,6 +7,7 @@ import {ButtonComponent} from "../../../../../../libs/shared-components/src/lib/
 import {
   ProductCardComponent
 } from "../../../../../../libs/shared-components/src/lib/components/cards/product/product-card/product-card-component";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-favorite-page',
@@ -20,4 +21,12 @@ import {
   styleUrl: './favorite-page.css',
   standalone: true
 })
-export class FavoritePage {}
+export class FavoritePage {
+
+  constructor(private router: Router) {}
+
+
+  async goHomepage(){
+    await this.router.navigate(['/categories']);
+  }
+}

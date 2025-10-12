@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, Output} from '@angular/core';
 import {NgIf} from "@angular/common";
 
 @Component({
@@ -16,6 +16,8 @@ export class ButtonComponent {
   @Input() height: string = '46px';
   @Input() color: string = '#111111';
   @Input() icon: string = '';
+
+  @Output()
 
   get adaptedWidth(): string {
     return this.width ? `clamp(120px, ${this.width}, 300px)` : 'clamp(120px, 170px, 300px)';

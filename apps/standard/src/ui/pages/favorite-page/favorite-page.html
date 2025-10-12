@@ -6,7 +6,7 @@
     <lib-header-description-component title="Избранное"/>
   </div>
   <div class="product-page-actions">
-    <lib-button-component width="130px" height="40px" color="#292929" text="На главную" [icon]="'assets/icons/view/home.svg'"/>
+    <lib-button-component (click)="goHomepage()" width="130px" height="40px" color="#292929" text="На главную" [icon]="'assets/icons/view/home.svg'"/>
   </div>
   <div class="product-page-list">
     <lib-product-card-component [product]="{id: '1', images: ['https://img.freepik.com/premium-photo/cuties-cat-ever-looking-you-wallpaper_974726-637.jpg', 'https://i.pinimg.com/736x/a4/d1/9d/a4d19d9004c56379938b79ae6978e059.jpg', ''], price: 1500, isFavorite: false, title: 'Название продукта', description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.\n'}"/>

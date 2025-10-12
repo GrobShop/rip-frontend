@@ -9,6 +9,7 @@ import {
 } from "../../../../../../libs/shared-components/src/lib/components/cards/product/product-card/product-card-component";
 import {NgIf} from "@angular/common";
 import {InputComponent} from "../../../../../../libs/shared-components/src/lib/components/input/input-component";
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-cart-page',
@@ -29,11 +30,18 @@ export class CartPage {
   totalCount: number = 5;
   isOrder: boolean = false;
 
+  constructor(private router: Router) {}
+
+
   onOrder(){
     this.isOrder = true;
   }
 
   onCancelOrder(){
     this.isOrder = false;
+  }
+
+  async goHomepage(){
+    await this.router.navigate(['/categories']);
   }
 }
