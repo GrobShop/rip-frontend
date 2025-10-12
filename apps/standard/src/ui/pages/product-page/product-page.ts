@@ -7,6 +7,8 @@ import {
 } from "../../../../../../libs/shared-components/src/lib/components/header-description/header-description-component";
 import {HeaderComponent} from "../../../../../../libs/shared-components/src/lib/components/header/header-component";
 import {ButtonComponent} from "../../../../../../libs/shared-components/src/lib/components/button/button-component";
+import {ActivatedRoute} from "@angular/router";
+import {Router} from "express";
 
 @Component({
   selector: 'app-product-page',
@@ -20,4 +22,13 @@ import {ButtonComponent} from "../../../../../../libs/shared-components/src/lib/
   styleUrl: './product-page.css',
   standalone: true
 })
-export class ProductPage {}
+export class ProductPage {
+  categoryId: any;
+
+  // constructor(private route: ActivatedRoute, private router: Router,) {
+  // }
+  //
+  // ngOnInit(){
+  //   this.categoryId = +this.route.snapshot.paramMap.get('categoryId')!;
+  // }
+}

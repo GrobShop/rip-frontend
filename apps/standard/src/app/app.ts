@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import {RouterModule, RouterOutlet} from '@angular/router';
 import { NxWelcome } from './nx-welcome';
 import {Logo} from "@rip-shop/shared-components";
 import {
@@ -19,7 +19,7 @@ import {FavoritePage} from "../ui/pages/favorite-page/favorite-page";
 import {CartPage} from "../ui/pages/cart-page/cart-page";
 
 @Component({
-  imports: [NxWelcome, RouterModule, Logo, SwitchThemeComponent, HeaderDescriptionComponent, NavLinksComponent, HeaderComponent, InputComponent, ButtonComponent, LoginPage, CategoryPage, ProductPage, FavoritePage, CartPage],
+  imports: [NxWelcome, RouterModule, Logo, SwitchThemeComponent, HeaderDescriptionComponent, NavLinksComponent, HeaderComponent, InputComponent, ButtonComponent, LoginPage, CategoryPage, ProductPage, FavoritePage, CartPage, RouterOutlet],
   selector: 'app-root',
   templateUrl: './app.html',
   styleUrl: './app.scss',
