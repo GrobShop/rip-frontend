@@ -6,6 +6,12 @@
     [routerLinkActiveOptions]="{ exact: false }"
     class="link"
   >
-    {{ item.title }}
+    <img [src]="item.icon" class="nav-icon">
+<!--    <svg *ngIf="item.icon" class="nav-icon">-->
+<!--      <use [attr.href]="item.icon"></use>-->
+<!--    </svg>-->
+    <span>
+      {{ item.title }}
+    </span>
   </a>
 </nav>

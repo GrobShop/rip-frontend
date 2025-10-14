@@ -1,1 +1,10 @@
 @import '../../../libs/shared-components/src/lib/styles/themes/themes.css';
+body{
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+}
+body.dark{
+  background: url("assets/images/Bg_dark.png") no-repeat center center fixed;
+  background-size: cover;
+}

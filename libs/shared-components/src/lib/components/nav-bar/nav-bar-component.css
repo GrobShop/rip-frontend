@@ -1,0 +1,40 @@
+.nav-bar {
+  background-color: #232323;
+  border-radius: 13px;
+  padding: clamp(8px, 1vw, 12px);
+  position: fixed;
+  bottom: clamp(8px, 2vw, 16px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: clamp(280px, 90vw, 600px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 630px) {
+  .nav-bar {
+    width: clamp(250px, 95vw, 320px);
+    padding: clamp(6px, 1.5vw, 10px);
+    bottom: clamp(6px, 1.5vw, 12px);
+  }
+}
+
+@media (min-width: 1920px) {
+  .nav-bar {
+    width: clamp(500px, 50vw, 700px);
+  }
+}
+
+.nav-icon{
+  width: 22px!important;
+  height: 22px!important;
+  display: inline-block;
+}
+
+a svg{
+  width: 22px!important;
+  height: 22px!important;
+}

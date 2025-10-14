@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {RouterLink, RouterLinkActive} from "@angular/router";
-import {NgForOf} from "@angular/common";
+import {NgForOf, NgIf} from "@angular/common";
 import {NavLink} from "../../interfaces/navlinks.interface";
 
 @Component({
@@ -8,7 +8,8 @@ import {NavLink} from "../../interfaces/navlinks.interface";
   imports: [
     RouterLink,
     NgForOf,
-    RouterLinkActive
+    RouterLinkActive,
+    NgIf
   ],
   templateUrl: './nav-links-component.html',
   styleUrl: './nav-links-component.css',
