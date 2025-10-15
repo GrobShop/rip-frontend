@@ -1,0 +1,21 @@
+<div class="card" [style.width]="adaptedWidth" [style.height]="adaptedHeight">
+  <div class="left-section">
+    <lib-image-carousel-component [images]="[category.image]"></lib-image-carousel-component>
+  </div>
+  <div class="right-section">
+    <h2 *ngIf="category?.title" class="title">{{ category.title }}</h2>
+    <p *ngIf="category?.description" class="description">{{ category.description }}</p>
+    <div class="bottom-section">
+      <div class="buttons">
+        <lib-button-component  [text]="'Редактировать'" [height]="'36px'" [color]="'#111111'" [icon]="'assets/icons/controls/edit.svg'"></lib-button-component>
+        <lib-button-component
+          [text]="'Удалить'"
+          [width]="'100px'"
+          [height]="'36px'"
+          [color]="'#111111'"
+          [icon]="'assets/icons/controls/delete.svg'"
+        ></lib-button-component>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,18 @@
+.category-page{
+  width: 100vw;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+.category-page-list{
+  max-width: 100vw;
+  min-height: 85vh;
+  height: 85vh;
+  margin: 10px;
+  display: flex;
+  justify-content: start;
+  align-items: start;
+  align-content: start;
+  gap: 10px;
+  flex-wrap: wrap;
+}

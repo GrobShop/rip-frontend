@@ -1,6 +1,6 @@
 <div class="carousel-container">
   <div class="image-wrapper">
-    <button class="arrow left-arrow" (click)="prevImage()" [disabled]="currentIndex === 0">
+    <button *ngIf="images.length > 1" class="arrow left-arrow" (click)="prevImage()" [disabled]="currentIndex === 0">
       <svg class="arrow-icon" aria-hidden="true">
         <use href="assets/icons/controls/arrow-left.svg"></use>
       </svg>
@@ -17,13 +17,13 @@
         <use href="assets/icons/image/image-placeholder.svg"></use>
       </svg>
     </div>
-    <button class="arrow right-arrow" (click)="nextImage()" [disabled]="currentIndex === images.length - 1">
+    <button *ngIf="images.length > 1" class="arrow right-arrow" (click)="nextImage()" [disabled]="currentIndex === images.length - 1">
       <svg class="arrow-icon" aria-hidden="true">
         <use href="assets/icons/controls/arrow-right.svg"></use>
       </svg>
     </button>
   </div>
-  <div class="controls">
+  <div *ngIf="images.length > 1" class="controls">
     <div class="dots">
           <span
             *ngFor="let img of images; let i = index"
