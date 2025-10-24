@@ -1,4 +1,4 @@
-import {Component, ElementRef, Input, ViewChild} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, Output, ViewChild} from '@angular/core';
 import {NgIf} from "@angular/common";
 import {ClipboardService} from "../../services/clipboard.service";
 
@@ -19,6 +19,11 @@ export class InputComponent {
   @Input() copyBtn: boolean = false;
   @Input() labelText: string = '';
   @Input() type: string = 'text';
+  @Input() value: string = '';
+
+  @Output() valueChange = new EventEmitter<string>(); // Отправляем значение при изменении
+
+  inputValue: string = '';
 
   @ViewChild('inputElement') inputElement!: ElementRef<HTMLInputElement>;
 
@@ -37,5 +42,10 @@ export class InputComponent {
     if (value) {
       await this.copyService.copyToClipboard(value);
     }
+  }
+
+  onInputChange(event: Event) {
+    this.inputValue = (event.target as HTMLInputElement).value;
+    this.valueChange.emit(this.inputValue);
   }
 }

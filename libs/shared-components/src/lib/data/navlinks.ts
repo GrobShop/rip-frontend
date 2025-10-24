@@ -8,7 +8,7 @@ export const NavLinks: NavLink[] = [
 
 
 export const AdminNavLinks: NavLink[] = [
-  { id: "categories-control", title: "Категории", link: '/categories-control', icon: 'assets/icons/nav/category-icon.svg'},
-  { id: "partners-control", title: "Партнеры", link: '/partners-control', icon: 'assets/icons/nav/partners-icon.svg'},
-  { id: "products-control", title: "Товары", link: '/products-control', icon: 'assets/icons/nav/products-icon.svg' },
+  { id: "categories-control", title: "Категории", link: '/categories-controls', icon: 'assets/icons/nav/category-icon.svg'},
+  { id: "partners-control", title: "Партнеры", link: '/partners-controls', icon: 'assets/icons/nav/partners-icon.svg'},
+  { id: "products-control", title: "Товары", link: '/products-controls', icon: 'assets/icons/nav/products-icon.svg' },
 ];

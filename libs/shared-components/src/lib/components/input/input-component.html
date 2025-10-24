@@ -6,6 +6,8 @@
       #inputElement
       [type]="type"
       [placeholder]="placeholderText"
+      [value]="value"
+      (input)="onInputChange($event)"
       class="custom-input"
       [style.padding-left]="icon.length <= 0 ? '10px!important' : null" [style.padding]="icon.length <= 0 ? '0 10px!important' : null"
     >

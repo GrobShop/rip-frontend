@@ -9,17 +9,22 @@ import {
 import {
   CategoryCardAdmin
 } from "../../../../../../libs/shared-components/src/lib/components/cards/category/category-card-admin/category-card-admin";
+import {NavBarComponent} from "../../../../../../libs/shared-components/src/lib/components/nav-bar/nav-bar-component";
+import {AdminNavLinks} from "../../../../../../libs/shared-components/src/lib/data/navlinks";
 
 @Component({
   selector: 'app-categories-controls-page',
-  imports: [
-    CategoryCardMinComponent,
-    HeaderComponent,
-    HeaderDescriptionComponent,
-    CategoryCardAdmin
-  ],
+    imports: [
+        CategoryCardMinComponent,
+        HeaderComponent,
+        HeaderDescriptionComponent,
+        CategoryCardAdmin,
+        NavBarComponent
+    ],
   templateUrl: './categories-controls-page.html',
   styleUrl: './categories-controls-page.css',
   standalone: true
 })
-export class CategoriesControlsPage {}
+export class CategoriesControlsPage {
+  protected readonly AdminNavLinks = AdminNavLinks;
+}
