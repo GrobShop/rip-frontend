@@ -4,11 +4,11 @@ import {AuthGuard} from "./auth.guard";
 import {AuthGuardInverse} from "./auth-inverse.guard";
 
 export const routes: Routes = [
-  // {
-  //   path: '',
-  //   redirectTo: 'login',
-  //   pathMatch: 'full'
-  // },
+  {
+    path: '',
+    redirectTo: 'login',
+    pathMatch: 'full'
+  },
   {
     path: 'categories-controls',
     loadChildren: () => import('../ui/pages/categories-controls-page/categories-controls-page.module').then(m => m.CategoriesControlsPageModule),

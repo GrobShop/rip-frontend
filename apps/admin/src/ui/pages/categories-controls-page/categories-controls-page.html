@@ -11,3 +11,15 @@
   </div>
 </div>
 <lib-nav-bar-component [links]="AdminNavLinks"/>
+<lib-modal-base-component
+  [isOpen]="modalsControls.createOrEditCategory.isModalOpen"
+  [closeOnOverlayClick]="true"
+  [contentBorderRadius]="'12px'"
+  (closed)="closeCreateOrEditCategoryModal()"
+  [isDraggable]="true"
+>
+  <app-categories-modal-component
+    [mode]="modalsControls.createOrEditCategory.mode"
+    (closed)="closeCreateOrEditCategoryModal()"
+  />
+</lib-modal-base-component>

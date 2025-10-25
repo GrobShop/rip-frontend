@@ -1,0 +1,29 @@
+.category-modal-main-img-title{
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+}
+
+
+.category-modal-description{
+  margin: 10px 0;
+}
+
+.category-modal-controls{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+  gap: 10px;
+}
+
+.category-modal-image-placeholder, .placeholder-icon{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+}
