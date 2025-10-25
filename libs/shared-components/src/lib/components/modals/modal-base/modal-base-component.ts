@@ -14,7 +14,7 @@ export class ModalBaseComponent {
   @Input() isOpen: boolean = false;
   @Input() closeOnOverlayClick: boolean = true;
   @Input() closeOnButton: boolean = true;
-  @Input() contentBackgroundColor: string = '#D9D9D9';
+  @Input() contentBackgroundColor: string = '#555555';
   @Input() contentBorderRadius: string = '8px';
   @Input() isDraggable: boolean = false;
   @Input() position: string = 'absolute';

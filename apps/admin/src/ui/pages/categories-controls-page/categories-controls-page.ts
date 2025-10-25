@@ -49,7 +49,7 @@ import {InputComponent} from "../../../../../../libs/shared-components/src/lib/c
 })
 export class CategoriesControlsPage {
 
-  constructor(private http: HttpClient, private categoryService: CategoryService, private categoryLocalService: CategoryLocalService, private httpClient: HttpClient, private injector: EnvironmentInjector) {
+  constructor(private http: HttpClient, private categoryService: CategoryService, protected categoryLocalService: CategoryLocalService, private httpClient: HttpClient, private injector: EnvironmentInjector) {
   }
 
   filteredCategories: Category[] = [];
@@ -76,6 +76,7 @@ export class CategoriesControlsPage {
 
   closeCreateOrEditCategoryModal(){
     this.modalsControls.createOrEditCategory.isModalOpen = false;
+    this.selectedCategoryEntry = null;
   }
 
   openCreateOrEditCategoryModal(){
@@ -95,6 +96,7 @@ export class CategoriesControlsPage {
   onEditCategory(category: Category) {
     this.modalsControls.createOrEditCategory.mode = CategoryModalModes.EDIT;
     this.openCreateOrEditCategoryModal();
+    this.selectedCategoryEntry = category;
   }
 
   onAddCategory(){

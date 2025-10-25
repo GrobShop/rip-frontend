@@ -47,5 +47,7 @@
   <app-categories-modal-component
     [mode]="modalsControls.createOrEditCategory.mode"
     (closed)="closeCreateOrEditCategoryModal()"
+    [selectedCategoryEntry]="selectedCategoryEntry"
+    [categoryLocalService]="categoryLocalService"
   />
 </lib-modal-base-component>

@@ -15,16 +15,16 @@
         </div>
       </div>
       <div class="category-modal-title">
-        <lib-input-component placeholderText="Введите название категории..."/>
+        <lib-input-component (valueChange)="onChangeName($event)" [value]="localCategory.title" placeholderText="Введите название категории..."/>
       </div>
     </div>
     <div class="category-modal-description">
-      <lib-textarea-component placeholderText="Введите описание категории..."/>
+      <lib-textarea-component (valueChange)="onChangeDescription($event)" [value]="localCategory.description ? localCategory.description : ''" placeholderText="Введите описание категории..."/>
     </div>
   </div>
   <div class="category-modal-controls">
-    <lib-button-component *ngIf="mode === CategoryModalModes.CREATE" text="Добавить" color="#48BD1E"/>
-    <lib-button-component *ngIf="mode === CategoryModalModes.EDIT" text="Подтвердить" color="#48BD1E"/>
-    <lib-button-component text="Отмена" color="#FF0000"/>
+    <lib-button-component (click)="onAddNewCategory()" *ngIf="mode === CategoryModalModes.CREATE" text="Добавить" color="#48BD1E"/>
+    <lib-button-component (click)="onUpdateNewCategory()" *ngIf="mode === CategoryModalModes.EDIT" text="Подтвердить" color="#48BD1E"/>
+<!--    <lib-button-component text="Отмена" color="#FF0000"/>-->
   </div>
 </div>
