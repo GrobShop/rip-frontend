@@ -21,8 +21,8 @@
 }
 
 .left-icon {
-  width: 18px; /* Фиксированный размер иконки */
-  height: 18px;
+  width: 20px; /* Фиксированный размер иконки */
+  height: 20px;
   fill: #FFFFFF; /* Белый для согласованности */
   display: flex;
   align-items: center;

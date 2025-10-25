@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, EnvironmentInjector, Input} from '@angular/core';
 import {
   CategoryCardMinComponent
 } from "../../../../../../libs/shared-components/src/lib/components/cards/category/category-card-min/category-card-min-component";
@@ -16,7 +16,16 @@ import {
   ModalBaseComponent
 } from "../../../../../../libs/shared-components/src/lib/components/modals/modal-base/modal-base-component";
 import {CategoryModalModes} from "../../../shared/modes/modals/category-model-modes.enum";
-import {Category} from "../../../../../../libs/shared-components/src/lib/interfaces/category.interface";
+import {Category, CategoryServer} from "../../../../../../libs/shared-components/src/lib/interfaces/category.interface";
+import {CategoryService} from "../../../services/routes/category/category.service";
+import {CategoryLocalService} from "../../../services/routes/category/category-local.service";
+import {HttpClient, HttpClientModule} from "@angular/common/http";
+import {NgForOf, NgIf} from "@angular/common";
+import {
+  ConfirmModalService
+} from "../../../../../../libs/shared-components/src/lib/services/modals/confirm-modal.service";
+import {ButtonComponent} from "../../../../../../libs/shared-components/src/lib/components/button/button-component";
+import {InputComponent} from "../../../../../../libs/shared-components/src/lib/components/input/input-component";
 
 @Component({
   selector: 'app-categories-controls-page',
@@ -27,16 +36,36 @@ import {Category} from "../../../../../../libs/shared-components/src/lib/interfa
     CategoryCardAdmin,
     NavBarComponent,
     CategoriesModalComponent,
-    ModalBaseComponent
+    ModalBaseComponent,
+    HttpClientModule,
+    NgForOf,
+    NgIf,
+    ButtonComponent,
+    InputComponent
   ],
   templateUrl: './categories-controls-page.html',
   styleUrl: './categories-controls-page.css',
   standalone: true
 })
 export class CategoriesControlsPage {
+
+  constructor(private http: HttpClient, private categoryService: CategoryService, private categoryLocalService: CategoryLocalService, private httpClient: HttpClient, private injector: EnvironmentInjector) {
+  }
+
+  filteredCategories: Category[] = [];
   categories: Category[] = [];
   selectedCategoryEntry: Category | null = null;
+  searchQuery: string = "";
 
+  async ngOnInit(){
+    await this.categoryLocalService.syncCategories();
+    await this.updateCategories();
+  }
+
+  protected async updateCategories() {
+    this.categories = this.categoryLocalService.getCategories();
+    this.filteredCategories = this.categories;
+  }
 
   modalsControls = {
     createOrEditCategory: {
@@ -54,4 +83,35 @@ export class CategoriesControlsPage {
   }
 
   protected readonly AdminNavLinks = AdminNavLinks;
+
+  async onDeleteCategory(category: Category) {
+    const confirm = await ConfirmModalService.createConfirmModal(this.injector, '', `Вы уверены, что хотите удалить категорию "${category.title}"?`);
+    if(confirm){
+      await this.categoryLocalService.deleteCategory(category.id);
+      await this.updateCategories();
+    }
+  }
+
+  onEditCategory(category: Category) {
+    this.modalsControls.createOrEditCategory.mode = CategoryModalModes.EDIT;
+    this.openCreateOrEditCategoryModal();
+  }
+
+  onAddCategory(){
+    this.modalsControls.createOrEditCategory.mode = CategoryModalModes.CREATE;
+    this.openCreateOrEditCategoryModal();
+  }
+
+  onChangeSearchQuery(query: string) {
+    this.searchQuery = query;
+    this.filterCategories();
+  }
+
+  filterCategories() {
+    if(this.searchQuery === ''){
+      this.filteredCategories = this.categories;
+      return;
+    }
+    this.filteredCategories = this.filteredCategories.filter((entry) => (entry.title.toLowerCase() ?? '').includes(this.searchQuery.toLowerCase()));
+  }
 }

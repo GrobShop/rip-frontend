@@ -5,10 +5,36 @@
   <div class="category-page-title">
       <lib-header-description-component title="Управление категориями"/>
   </div>
+  <div class="category-page-controls">
+    <div class="category-count">
+      <span>Всего категорий: {{categories.length}}</span>
+    </div>
 
-  <div class="category-page-list">
-    <lib-category-card-admin [category]="{id: '1', title: 'Название категории', image: 'https://t3.ftcdn.net/jpg/03/03/37/44/360_F_303374466_8DSGb72S4UmQdJtbDkELyzc0f0O0gjqe.jpg', description: 'описание категории'}"/>
+    <div class="category-add-btn">
+      <lib-button-component (click)="onAddCategory()" text="Добавить категорию" width="200px" height="45px"/>
+    </div>
+
+    <div class="category-search">
+      <lib-input-component placeholderText="Поиск" [icon]="'assets/icons/input/search.svg'" (valueChange)="onChangeSearchQuery($event)"/>
+    </div>
   </div>
+
+  <div class="category-page-list" *ngIf="categories.length > 0">
+    <lib-category-card-admin
+      *ngFor="let category of filteredCategories"
+      [category]="category"
+      (onDeleteEvent)="onDeleteCategory($event)"
+      (onEditEvent)="onEditCategory($event)"
+    />
+  </div>
+
+  <div class="category-not-found" *ngIf="categories.length <= 0">
+    <p>Категорий пока нет. Добавьте первую категорию для управления контентом.</p>
+  </div>
+
+<!--  <div *ngIf="filteredCategories.length <= 0 && categories.length > 0">-->
+<!--    <p>Категорий с таким названием еще нет.</p>-->
+<!--  </div>-->
 </div>
 <lib-nav-bar-component [links]="AdminNavLinks"/>
 <lib-modal-base-component
