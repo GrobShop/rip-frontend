@@ -1,0 +1,15 @@
+<div class="image-selector">
+  <div class="image-selector-preview">
+    <lib-image-carousel-component [images]="croppedImages.length > 0 ? croppedImages : selectedImages" />
+    <div *ngIf="croppedImages.length === 0 && selectedImages.length === 0" class="placeholder-image">
+      <svg class="placeholder-icon">
+        <use href="assets/icons/image/image-placeholder.svg"></use>
+      </svg>
+    </div>
+  </div>
+  <div class="image-selector-controls">
+    <button (click)="triggerFileInput()" class="select-button">Выбрать изображение</button>
+    <button *ngIf="croppedImages.length > 0 || selectedImages.length > 0" (click)="clearSelection()" class="clear-button">Очистить</button>
+    <input #fileInput type="file" [multiple]="multiple" (change)="onFileSelected($event)" style="display: none;" accept="image/*" />
+  </div>
+</div>
