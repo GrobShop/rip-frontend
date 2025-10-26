@@ -20,6 +20,7 @@ export class InputComponent {
   @Input() labelText: string = '';
   @Input() type: string = 'text';
   @Input() value: string = '';
+  @Input() disabled: boolean = false;
 
   @Output() valueChange = new EventEmitter<string>(); // Отправляем значение при изменении
 

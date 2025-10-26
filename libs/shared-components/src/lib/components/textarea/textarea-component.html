@@ -9,6 +9,7 @@
       (input)="onInputChange($event)"
       class="custom-textarea"
       [style.padding-left]="icon.length <= 0 ? '10px!important' : null" [style.padding]="icon.length <= 0 ? '0 10px!important' : null"
+      [disabled]="disabled"
     ></textarea>
     <button *ngIf="copyBtn" class="copy-btn" (click)="copyValue()">
       <svg class="copy-icon" aria-hidden="true">

@@ -19,6 +19,7 @@ export class TextareaComponent {
   @Input() copyBtn: boolean = false;
   @Input() labelText: string = '';
   @Input() value: string = '';
+  @Input() disabled: boolean = false;
 
   @Output() valueChange = new EventEmitter<string>();
 

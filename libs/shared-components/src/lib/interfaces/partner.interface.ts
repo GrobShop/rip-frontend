@@ -8,7 +8,7 @@ export interface Partner {
   contact_person: string;
   phone: string;
   address: string;
-  admin_notes: number;
+  admin_notes: string;
 }
 
 export interface PartnerServer extends Partner {

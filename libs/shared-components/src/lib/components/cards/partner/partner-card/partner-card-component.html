@@ -1,0 +1,22 @@
+<div class="card partner-card" [style.width]="adaptedWidth" [style.height]="adaptedHeight">
+  <h2 *ngIf="partner.company_name" class="title">{{ partner.company_name }}</h2>
+  <div class="card-inputs">
+    <lib-input-component [disabled]="true" labelText="Инн" placeholderText="Инн" [copyBtn]="true"/>
+    <lib-input-component [disabled]="true" labelText="Контактное лицо" placeholderText="Контактное лицо" [copyBtn]="true"/>
+    <lib-input-component [disabled]="true" labelText="Номер телефона" placeholderText="Номер телефона" [copyBtn]="true"/>
+    <lib-input-component [disabled]="true" labelText="Электронная почта" placeholderText="Электронная почта" [copyBtn]="true"/>
+    <lib-input-component [disabled]="true" labelText="Пароль" placeholderText="Пароль" [copyBtn]="true"/>
+    <lib-input-component [disabled]="true" labelText="Фактический адрес" placeholderText="Фактический адрес" [copyBtn]="true"/>
+    <lib-textarea-component [disabled]="true" labelText="Примечание" placeholderText="Причечание" [copyBtn]="true"/>
+  </div>
+  <div class="card-controls">
+    <lib-button-component [text]="'Редактировать'" [height]="'36px'" [color]="'#111111'" [icon]="'assets/icons/controls/edit.svg'"></lib-button-component>
+    <lib-button-component
+      [text]="'Удалить'"
+      [width]="'100px'"
+      [height]="'36px'"
+      [color]="'#111111'"
+      [icon]="'assets/icons/controls/delete.svg'"
+    ></lib-button-component>
+  </div>
+</div>
