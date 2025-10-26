@@ -98,32 +98,6 @@ export class CategoryService {
     );
   }
 
-  // async addLogoCategory(categoryId: string, filePath: string): Promise<{ logo_url: string; message: string }> {
-  //   const fileContent = await (await fetch(filePath)).arrayBuffer(); // Читаем файл как Blob
-  //   const blob = new Blob([fileContent], { type: 'application/octet-stream' });
-  //   const fileName = filePath.split('/').pop() || 'logo';
-  //   const file = new File([blob], fileName, { type: 'application/octet-stream' });
-  //
-  //   const formData = new FormData();
-  //   formData.append('logo', file);
-  //
-  //   const headers = await this.getHeaders();
-  //   return firstValueFrom(
-  //     this.http.post<{ logo_url: string; message: string }>(ApiRoutes.ADMIN.CATEGORY.ADD_LOGO_CATEGORY(categoryId), formData, { headers }).pipe(
-  //       map((response: any) => {
-  //         if (response.logo_url && response.message) {
-  //           ToastService.success('Логотип успешно загружен!');
-  //           return response;
-  //         } else if (response.error) {
-  //           throw new Error(response.error);
-  //         } else {
-  //           throw new Error('Некорректный ответ сервера');
-  //         }
-  //       })
-  //     )
-  //   );
-  // }
-
   async addLogoCategory(categoryId: string, filePath: string): Promise<{ logo_url: string; message: string }> {
     const fileContent = await (await fetch(filePath)).arrayBuffer(); // Читаем файл как Blob
     const blob = new Blob([fileContent], { type: 'application/octet-stream' });
