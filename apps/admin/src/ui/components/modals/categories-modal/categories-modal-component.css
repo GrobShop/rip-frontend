@@ -10,6 +10,8 @@
 
 .category-modal-description{
   margin: 10px 0;
+  display: flex;
+  justify-content: center;
 }
 
 .category-modal-controls{

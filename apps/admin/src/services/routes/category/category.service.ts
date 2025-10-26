@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { firstValueFrom } from 'rxjs';
 import {AuthHeadersService} from "../auth/auth-headers.service";
 import {Category, CategoryServer} from "../../../../../../libs/shared-components/src/lib/interfaces/category.interface";
 import {ApiRoutes} from "../../../../../../libs/shared-components/src/lib/data/api/api.routes";
 import {ToastService} from "../../../../../../libs/shared-components/src/lib/services/notification/toast.service";
+import {StoreService} from "../../../../../../libs/shared-components/src/lib/services/vault/store.service";
+import {StoreKeys} from "../../../../../../libs/shared-components/src/lib/data/vault/store.keys";
 
 @Injectable({
   providedIn: 'root'
@@ -96,6 +98,32 @@ export class CategoryService {
     );
   }
 
+  // async addLogoCategory(categoryId: string, filePath: string): Promise<{ logo_url: string; message: string }> {
+  //   const fileContent = await (await fetch(filePath)).arrayBuffer(); // Читаем файл как Blob
+  //   const blob = new Blob([fileContent], { type: 'application/octet-stream' });
+  //   const fileName = filePath.split('/').pop() || 'logo';
+  //   const file = new File([blob], fileName, { type: 'application/octet-stream' });
+  //
+  //   const formData = new FormData();
+  //   formData.append('logo', file);
+  //
+  //   const headers = await this.getHeaders();
+  //   return firstValueFrom(
+  //     this.http.post<{ logo_url: string; message: string }>(ApiRoutes.ADMIN.CATEGORY.ADD_LOGO_CATEGORY(categoryId), formData, { headers }).pipe(
+  //       map((response: any) => {
+  //         if (response.logo_url && response.message) {
+  //           ToastService.success('Логотип успешно загружен!');
+  //           return response;
+  //         } else if (response.error) {
+  //           throw new Error(response.error);
+  //         } else {
+  //           throw new Error('Некорректный ответ сервера');
+  //         }
+  //       })
+  //     )
+  //   );
+  // }
+
   async addLogoCategory(categoryId: string, filePath: string): Promise<{ logo_url: string; message: string }> {
     const fileContent = await (await fetch(filePath)).arrayBuffer(); // Читаем файл как Blob
     const blob = new Blob([fileContent], { type: 'application/octet-stream' });
@@ -105,7 +133,15 @@ export class CategoryService {
     const formData = new FormData();
     formData.append('logo', file);
 
-    const headers = await this.getHeaders();
+    // Получаем токен вручную, исключая Content-Type
+    const accessToken = await StoreService.get(StoreKeys.ACCESS_TOKEN);
+    if (!accessToken) {
+      throw new Error('Access token not found');
+    }
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${accessToken}`
+    });
+
     return firstValueFrom(
       this.http.post<{ logo_url: string; message: string }>(ApiRoutes.ADMIN.CATEGORY.ADD_LOGO_CATEGORY(categoryId), formData, { headers }).pipe(
         map((response: any) => {

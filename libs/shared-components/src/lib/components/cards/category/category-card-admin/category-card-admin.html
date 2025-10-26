@@ -1,6 +1,6 @@
 <div class="card" [style.width]="adaptedWidth" [style.height]="adaptedHeight">
   <div class="left-section">
-    <lib-image-carousel-component [images]="[category.image]"></lib-image-carousel-component>
+    <lib-image-carousel-component [images]="[logoCategoryUrl ? logoCategoryUrl : '']"></lib-image-carousel-component>
   </div>
   <div class="right-section">
     <h2 *ngIf="category?.title" class="title">{{ category.title }}</h2>

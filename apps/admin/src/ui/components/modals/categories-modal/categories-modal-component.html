@@ -5,14 +5,7 @@
   <div class="category-modal-main">
     <div class="category-modal-main-img-title">
       <div class="category-modal-image">
-        <div class="category-modal-image-placeholder">
-          <svg class="placeholder-icon">
-            <use href="assets/icons/image/image-placeholder.svg"></use>
-          </svg>
-        </div>
-        <div class="category-modal-image">
-
-        </div>
+        <lib-image-selector-component [multiple]="false" [selectedImages]="selectedImages" (imagesChanged)="onImagesChanged($event)" />
       </div>
       <div class="category-modal-title">
         <lib-input-component (valueChange)="onChangeName($event)" [value]="localCategory.title" placeholderText="Введите название категории..."/>
@@ -25,6 +18,5 @@
   <div class="category-modal-controls">
     <lib-button-component (click)="onAddNewCategory()" *ngIf="mode === CategoryModalModes.CREATE" text="Добавить" color="#48BD1E"/>
     <lib-button-component (click)="onUpdateNewCategory()" *ngIf="mode === CategoryModalModes.EDIT" text="Подтвердить" color="#48BD1E"/>
-<!--    <lib-button-component text="Отмена" color="#FF0000"/>-->
   </div>
 </div>

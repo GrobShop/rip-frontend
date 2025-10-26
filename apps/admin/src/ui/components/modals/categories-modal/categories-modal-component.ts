@@ -11,6 +11,9 @@ import {ButtonComponent} from "../../../../../../../libs/shared-components/src/l
 import {NgIf} from "@angular/common";
 import {Category} from "../../../../../../../libs/shared-components/src/lib/interfaces/category.interface";
 import {CategoryLocalService} from "../../../../services/routes/category/category-local.service";
+import {
+  ImageSelectorComponent
+} from "../../../../../../../libs/shared-components/src/lib/components/image-selector/image-selector-component";
 
 @Component({
   selector: 'app-categories-modal-component',
@@ -19,7 +22,8 @@ import {CategoryLocalService} from "../../../../services/routes/category/categor
     InputComponent,
     TextareaComponent,
     ButtonComponent,
-    NgIf
+    NgIf,
+    ImageSelectorComponent
   ],
   templateUrl: './categories-modal-component.html',
   styleUrl: './categories-modal-component.css',
@@ -31,13 +35,18 @@ export class CategoriesModalComponent {
   @Input() selectedCategoryEntry: Category | null = null;
   @Output() closed = new EventEmitter<void>();
   localCategory: Category = {id: '', title: '', image: '', description: ''};
+  selectedImages: string[] = [];
 
   ngOnInit(){
     this.localCategory = this.selectedCategoryEntry !== null ? this.selectedCategoryEntry : {id: '', title: '', image: '', description: ''};
+    this.selectedImages = this.localCategory.image ? [this.localCategory.image] : [];
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.localCategory = this.selectedCategoryEntry !== null ? this.selectedCategoryEntry : {id: '', title: '', image: '', description: ''};
+    if (changes['selectedCategoryEntry']) {
+      this.localCategory = this.selectedCategoryEntry !== null ? { ...this.selectedCategoryEntry } : { id: '', title: '', image: '', description: '' };
+      this.selectedImages = this.localCategory.image ? [this.localCategory.image] : [];
+    }
   }
 
   onChangeName(newName: string){
@@ -48,14 +57,23 @@ export class CategoriesModalComponent {
     this.localCategory.description = newDescription;
   }
 
+  onImagesChanged(images: string[]) {
+    this.selectedImages = images;
+    this.localCategory.image = images.length > 0 ? images[0] : '';
+  }
+
   protected readonly CategoryModalModes = CategoryModalModes;
 
-  onAddNewCategory() {
+  async onAddNewCategory() {
     if(this.localCategory.title === ''){
       return;
     }
-    const newCategoryEntry = this.categoryLocalService?.createCategory(this.localCategory.title, this.localCategory.description ? this.localCategory.description: "");
-    this.categoryLocalService?.addLogoCategory()
+    const newCategoryEntry = await this.categoryLocalService?.createCategory(this.localCategory.title, this.localCategory.description ? this.localCategory.description: "");
+    if (newCategoryEntry && this.selectedImages.length > 0 && this.categoryLocalService !== null) {
+      await this.categoryLocalService?.addLogoCategory(newCategoryEntry.id, this.selectedImages[0]);
+      this.localCategory.image = (await this.categoryLocalService.getCategoryLogo(newCategoryEntry.id)).toString();
+    }
+    this.closed.emit();
   }
 
   onUpdateNewCategory() {
@@ -64,5 +82,6 @@ export class CategoriesModalComponent {
       return;
     }
     this.categoryLocalService?.updateCategory(this.localCategory);
+    this.closed.emit();
   }
 }
