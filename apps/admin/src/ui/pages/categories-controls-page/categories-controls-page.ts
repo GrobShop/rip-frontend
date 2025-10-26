@@ -58,11 +58,12 @@ export class CategoriesControlsPage {
   searchQuery: string = "";
 
   async ngOnInit(){
-    await this.categoryLocalService.syncCategories();
+    // await this.categoryLocalService.syncCategories();
     await this.updateCategories();
   }
 
   protected async updateCategories() {
+    await this.categoryLocalService.syncCategories();
     this.categories = this.categoryLocalService.getCategories();
     this.filteredCategories = this.categories;
   }

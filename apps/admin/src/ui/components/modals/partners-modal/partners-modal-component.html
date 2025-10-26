@@ -1,0 +1,21 @@
+<div class="category-modal">
+  <div class="category-modal-header">
+    <lib-header-description-component [title]="mode === CategoryModalModes.CREATE ? 'Создание партнера' : 'Редактирование партнера'"/>
+  </div>
+  <div class="category-modal-main">
+    <div class="category-list">
+      <lib-input-component (valueChange)="onCompanyNameChange($event)" [value]="localPartner.company_name" [required]="true" labelText="Название партнера" placeholderText="Название партнера" [copyBtn]="true"/>
+      <lib-input-component (valueChange)="onInnChange($event)" [value]="localPartner.inn" labelText="Инн" placeholderText="Инн" [copyBtn]="true"/>
+      <lib-input-component (valueChange)="onContactPersonChange($event)" [required]="true" [value]="localPartner.contact_person" labelText="Контактное лицо" placeholderText="Контактное лицо" [copyBtn]="true"/>
+      <lib-input-component (valueChange)="onPhoneChange($event)" [required]="true" [value]="localPartner.phone" labelText="Номер телефона" placeholderText="Номер телефона" [copyBtn]="true"/>
+      <lib-input-component (valueChange)="onEmailChange($event)" [required]="true" [value]="localPartner.email" labelText="Электронная почта" placeholderText="Электронная почта" [copyBtn]="true"/>
+      <lib-input-component (valueChange)="onPasswordChange($event)" *ngIf="mode === CategoryModalModes.CREATE" [required]="true" [value]="localPartner.password" labelText="Пароль" placeholderText="Пароль" [copyBtn]="true"/>
+      <lib-input-component (valueChange)="onAddressChange($event)" [required]="true" [value]="localPartner.address" labelText="Фактический адрес" placeholderText="Фактический адрес" [copyBtn]="true"/>
+      <lib-textarea-component (valueChange)="onNotesChange($event)" [value]="localPartner.admin_notes" labelText="Примечание" placeholderText="Причечание" [copyBtn]="true"/>
+    </div>
+  </div>
+  <div class="category-modal-controls">
+    <lib-button-component (click)="onAddNewPartner()" *ngIf="mode === CategoryModalModes.CREATE" text="Добавить" color="#48BD1E"/>
+    <lib-button-component (click)="onUpdateNewPartner()" *ngIf="mode === CategoryModalModes.EDIT" text="Подтвердить" color="#48BD1E"/>
+  </div>
+</div>

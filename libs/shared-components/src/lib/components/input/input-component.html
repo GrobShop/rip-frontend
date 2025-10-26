@@ -11,6 +11,7 @@
       class="custom-input"
       [style.padding-left]="icon.length <= 0 ? '10px!important' : null" [style.padding]="icon.length <= 0 ? '0 10px!important' : null"
       [disabled]="disabled"
+      [required]="required"
     >
     <button *ngIf="copyBtn" class="copy-btn" (click)="copyValue()">
       <svg class="copy-icon" aria-hidden="true">

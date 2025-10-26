@@ -1,6 +1,7 @@
 import {Component, ElementRef, EventEmitter, Input, Output, ViewChild} from '@angular/core';
 import {NgIf} from "@angular/common";
 import {ClipboardService} from "../../services/clipboard.service";
+import {ToastService} from "../../services/notification/toast.service";
 
 @Component({
   selector: 'lib-input-component',
@@ -21,6 +22,8 @@ export class InputComponent {
   @Input() type: string = 'text';
   @Input() value: string = '';
   @Input() disabled: boolean = false;
+  @Input() required: boolean = false;
+
 
   @Output() valueChange = new EventEmitter<string>(); // Отправляем значение при изменении
 
@@ -43,6 +46,7 @@ export class InputComponent {
     if (value) {
       await this.copyService.copyToClipboard(value);
     }
+    ToastService.success('Значение скопировано!');
   }
 
   onInputChange(event: Event) {

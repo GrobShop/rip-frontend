@@ -6,6 +6,46 @@
     <lib-header-description-component title="Управление партнерами"/>
   </div>
 
-  <lib-partner-card-component [partner]="{id: '', address: '', admin_notes: '', company_name: 'Название компании', inn: '', contact_person: '', email: '', password: '', phone: '', role: '' }"/>
+  <div class="category-page-controls">
+    <div class="category-count">
+      <span>Всего категорий: {{partners.length}}</span>
+    </div>
+
+    <div class="category-add-btn">
+      <lib-button-component (click)="onAddPartner()" text="Добавить партнера" width="200px" height="45px"/>
+    </div>
+
+    <div class="category-search">
+      <lib-input-component placeholderText="Поиск" [icon]="'assets/icons/input/search.svg'" (valueChange)="onChangeSearchQuery($event)"/>
+    </div>
+  </div>
+
+  <div class="category-page-list" *ngIf="partners.length > 0">
+    <lib-partner-card-component
+      *ngFor="let partner of filteredPartners"
+      [partner]="partner"
+      (onDeleteEvent)="onDeletePartner($event)"
+      (onEditEvent)="onEditPartner($event)"
+      [partnerLocalService]="partnerLocalService"
+    />
+  </div>
+
+  <div class="category-not-found" *ngIf="partners.length <= 0">
+    <p>Партнеров пока нет. Добавьте первого партнера для управления контентом.</p>
+  </div>
 </div>
 <lib-nav-bar-component [links]="AdminNavLinks"/>
+<lib-modal-base-component
+  [isOpen]="modalsControls.createOrEditPartner.isModalOpen"
+  [closeOnOverlayClick]="true"
+  [contentBorderRadius]="'12px'"
+  (closed)="closeCreateOrEditPartnerModal()"
+  [isDraggable]="true"
+>
+  <app-partners-modal-component
+    [mode]="modalsControls.createOrEditPartner.mode"
+    (closed)="closeCreateOrEditPartnerModal()"
+    [selectedPartnerEntry]="selectedPartnerEntry"
+    [partnerLocalService]="partnerLocalService"
+  />
+</lib-modal-base-component>
