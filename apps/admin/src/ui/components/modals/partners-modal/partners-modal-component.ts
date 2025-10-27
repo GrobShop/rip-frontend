@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, Input, Output, SimpleChanges} from '@angular/core';
 import {CategoryLocalService} from "../../../../services/routes/category/category-local.service";
 import {Category} from "../../../../../../../libs/shared-components/src/lib/interfaces/category.interface";
 import {Partner} from "../../../../../../../libs/shared-components/src/lib/interfaces/partner.interface";
@@ -17,6 +17,12 @@ import {
   TextareaComponent
 } from "../../../../../../../libs/shared-components/src/lib/components/textarea/textarea-component";
 import {ToastService} from "../../../../../../../libs/shared-components/src/lib/services/notification/toast.service";
+import {
+  PasswordStrengthBarComponent
+} from "../../../../../../../libs/shared-components/src/lib/components/bars/password-strength-bar/password-strength-bar-component";
+import {
+  PasswordGenerator
+} from "../../../../../../../libs/shared-components/src/lib/services/password/password-generate.service";
 
 @Component({
   selector: 'app-partners-modal-component',
@@ -26,7 +32,8 @@ import {ToastService} from "../../../../../../../libs/shared-components/src/lib/
     ImageSelectorComponent,
     InputComponent,
     NgIf,
-    TextareaComponent
+    TextareaComponent,
+    PasswordStrengthBarComponent
   ],
   templateUrl: './partners-modal-component.html',
   styleUrl: './partners-modal-component.css',
@@ -37,8 +44,37 @@ export class PartnersModalComponent {
   @Input() partnerLocalService: PartnersLocalService | null = null;
   @Input() selectedPartnerEntry: Partner | null = null;
   @Output() closed = new EventEmitter<void>();
-  localPartner: Partner = {id: '', address: '', admin_notes: '', company_name: '', inn: '', contact_person: '', email: '', password: '', phone: '', role: '' };
+  @Output() updatePartners = new EventEmitter<void>();
+  localPartner: Partner = {id: '', address: '', admin_notes: '', company_name: '', inn: '', contact_person: '', email: '', password: '', phone: '', role: 'Partner' };
+
+  passwordGeneratorOptions = {
+    lengthPassword: 12,
+    minNumbers: 2,
+    minSymbol: 2,
+    isUpperLetter: true,
+    isLowerLetter: true,
+    isNumbers: true,
+    isSymbols: true,
+  }
+
+  private passwordGenerator = new PasswordGenerator();
+
+
   protected readonly CategoryModalModes = CategoryModalModes;
+
+  ngOnInit(){
+    this.localPartner = this.selectedPartnerEntry !== null ? this.selectedPartnerEntry : {id: '', address: '', admin_notes: '', company_name: '', inn: '', contact_person: '', email: '', password: '', phone: '', role: 'Partner' };
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['selectedPartnerEntry']) {
+      this.localPartner = this.selectedPartnerEntry !== null ? this.selectedPartnerEntry : {id: '', address: '', admin_notes: '', company_name: '', inn: '', contact_person: '', email: '', password: '', phone: '', role: 'Partner' };
+    }
+  }
+
+  onClearLocalPartner(){
+    this.localPartner = {id: '', address: '', admin_notes: '', company_name: '', inn: '', contact_person: '', email: '', password: '', phone: '', role: 'Partner' };
+  }
 
   async onAddNewPartner() {
     if(this.localPartner.company_name === ''){
@@ -62,7 +98,9 @@ export class PartnersModalComponent {
       return;
     }
     const newPartnerEntry = await this.partnerLocalService?.createPartner(this.localPartner);
+    this.onClearLocalPartner();
     this.closed.emit();
+    this.updatePartners.emit();
   }
 
   onUpdateNewPartner() {
@@ -72,6 +110,7 @@ export class PartnersModalComponent {
     }
     this.partnerLocalService?.updatePartner(this.localPartner);
     this.closed.emit();
+    this.updatePartners.emit();
   }
 
   onInnChange($event: string) {
@@ -104,5 +143,38 @@ export class PartnersModalComponent {
 
   onCompanyNameChange($event: string) {
     this.localPartner.company_name = $event;
+  }
+
+  onLengthPasswordChange($event: string) {
+    this.passwordGeneratorOptions.lengthPassword = Number($event);
+  }
+
+  onMinNumbersChange($event: string) {
+    this.passwordGeneratorOptions.minNumbers = Number($event);
+
+  }
+
+  onMinSymbolsChange($event: string) {
+    this.passwordGeneratorOptions.minSymbol = Number($event);
+  }
+
+  onIsUpperLeterChange() {
+    this.passwordGeneratorOptions.isUpperLetter = !this.passwordGeneratorOptions.isUpperLetter;
+  }
+
+  onIsLowerLeterChange() {
+    this.passwordGeneratorOptions.isLowerLetter = !this.passwordGeneratorOptions.isLowerLetter;
+  }
+
+  onIsNumbersChange() {
+    this.passwordGeneratorOptions.isNumbers = !this.passwordGeneratorOptions.isNumbers;
+  }
+
+  onIsSymbolsChange() {
+    this.passwordGeneratorOptions.isSymbols = !this.passwordGeneratorOptions.isSymbols;
+  }
+
+  onGeneratePassword() {
+    this.localPartner.password = this.passwordGenerator.generatePassword(this.passwordGeneratorOptions.lengthPassword, {minNumbers: this.passwordGeneratorOptions.minNumbers, minSymbols: this.passwordGeneratorOptions.minSymbol, useNumbers: this.passwordGeneratorOptions.isNumbers, useLowerLetters: this.passwordGeneratorOptions.isLowerLetter, useUpperLetters: this.passwordGeneratorOptions.isUpperLetter, useSpecialSymbols: this.passwordGeneratorOptions.isSymbols});
   }
 }

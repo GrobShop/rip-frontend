@@ -71,7 +71,7 @@ export class PartnersControlsPage {
   }
 
   async ngOnInit(){
-    await this.partnerLocalService.syncPartners();
+    // await this.partnerLocalService.syncPartners();
     await this.updatePartners();
   }
 
@@ -91,8 +91,8 @@ export class PartnersControlsPage {
 
   onEditPartner(partner: Partner) {
     this.modalsControls.createOrEditPartner.mode = CategoryModalModes.EDIT;
-    this.openCreateOrEditPartnerModal();
     this.selectedPartnerEntry = partner;
+    this.openCreateOrEditPartnerModal();
   }
 
   onAddPartner() {

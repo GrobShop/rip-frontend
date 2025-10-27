@@ -1,0 +1,18 @@
+.partners-modal-main{
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  color: var(--text-primary);
+}
+
+.password-generator{
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.partners-modal-controls{
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}

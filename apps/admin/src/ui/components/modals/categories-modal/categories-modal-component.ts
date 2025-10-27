@@ -34,6 +34,7 @@ export class CategoriesModalComponent {
   @Input() categoryLocalService: CategoryLocalService | null = null;
   @Input() selectedCategoryEntry: Category | null = null;
   @Output() closed = new EventEmitter<void>();
+  @Output() updateCategories = new EventEmitter<void>();
   localCategory: Category = {id: '', title: '', image: '', description: ''};
   selectedImages: string[] = [];
 
@@ -74,6 +75,7 @@ export class CategoriesModalComponent {
       this.localCategory.image = (await this.categoryLocalService.getCategoryLogo(newCategoryEntry.id)).toString();
     }
     this.closed.emit();
+    this.updateCategories.emit();
   }
 
   onUpdateNewCategory() {
@@ -83,5 +85,6 @@ export class CategoriesModalComponent {
     }
     this.categoryLocalService?.updateCategory(this.localCategory);
     this.closed.emit();
+    this.updateCategories.emit();
   }
 }
