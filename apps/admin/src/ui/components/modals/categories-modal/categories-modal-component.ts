@@ -50,6 +50,10 @@ export class CategoriesModalComponent {
     }
   }
 
+  onClearLocalCategory(){
+    this.localCategory = {id: '', title: '', image: '', description: ''};
+  }
+
   onChangeName(newName: string){
     this.localCategory.title = newName;
   }
@@ -75,6 +79,7 @@ export class CategoriesModalComponent {
       this.localCategory.image = (await this.categoryLocalService.getCategoryLogo(newCategoryEntry.id)).toString();
     }
     this.closed.emit();
+    this.onClearLocalCategory();
     this.updateCategories.emit();
   }
 

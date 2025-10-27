@@ -1,0 +1,42 @@
+.category-page{
+  width: 100vw;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+.category-page-list{
+  max-width: 100vw;
+  min-height: 85vh;
+  height: 85vh;
+  margin: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: start;
+  align-content: start;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.category-not-found{
+  text-align: center;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  color: white;
+  height: 85vh;
+}
+
+.category-page-controls{
+  width: 96vw;
+  color: var(--text-primary);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 10px;
+  margin-left: 2vw;
+  margin-top: 10px;
+}
+
+.category-add-btn{
+  margin-left: 12vw;
+}

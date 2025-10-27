@@ -5,5 +5,49 @@
   <div class="category-page-title">
     <lib-header-description-component title="Управление товарами"/>
   </div>
+
+  <div class="category-page-controls">
+    <div class="category-count">
+      <span>Всего товаров: {{products.length}}</span>
+    </div>
+
+    <div class="category-add-btn">
+      <lib-button-component (click)="onAddProduct()" text="Добавить товар" width="200px" height="45px"/>
+    </div>
+
+    <div class="category-search">
+      <lib-input-component placeholderText="Поиск" [icon]="'assets/icons/input/search.svg'" (valueChange)="onChangeSearchQuery($event)"/>
+    </div>
+  </div>
+
+  <div class="category-page-list" *ngIf="products.length > 0">
+    <lib-product-card-admin
+      *ngFor="let partner of filteredProducts"
+      [product]="partner"
+      (onDeleteEvent)="onDeleteProduct($event)"
+      (onEditEvent)="onEditProduct($event)"
+      [productLocalService]="productLocalService"
+    />
+  </div>
+
+  <div class="category-not-found" *ngIf="products.length <= 0">
+    <p>Товаров пока нет. Добавьте первого партнера для управления контентом.</p>
+  </div>
 </div>
 <lib-nav-bar-component [links]="AdminNavLinks"/>
+<lib-modal-base-component
+  [isOpen]="modalsControls.createOrEditProduct.isModalOpen"
+  [closeOnOverlayClick]="true"
+  [contentBorderRadius]="'12px'"
+  (closed)="closeCreateOrEditPartnerModal()"
+  [isDraggable]="true"
+>
+  <app-product-modal-component
+    [mode]="modalsControls.createOrEditProduct.mode"
+    (closed)="closeCreateOrEditPartnerModal()"
+    [selectedProductEntry]="selectedProductEntry"
+    [productLocalService]="productLocalService"
+    (updateProducts)="updateProducts()"
+    [categories]="categories"
+  />
+</lib-modal-base-component>

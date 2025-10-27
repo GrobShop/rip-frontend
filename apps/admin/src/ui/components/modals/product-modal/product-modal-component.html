@@ -1,0 +1,24 @@
+<div class="category-modal">
+  <div class="category-modal-header">
+    <lib-header-description-component [title]="mode === CategoryModalModes.CREATE ? 'Создание товара' : 'Редактирование товара'"/>
+  </div>
+  <div class="category-modal-main">
+    <div class="category-modal-main-img-title">
+      <div class="category-modal-image">
+        <lib-image-selector-component [multiple]="true" [selectedImages]="selectedImages" (imagesChanged)="onImagesChanged($event)" />
+      </div>
+      <div class="category-modal-title product-modal-title">
+        <lib-input-component labelText="Название товара" (valueChange)="onChangeName($event)" [value]="localProducts.title" placeholderText="Введите название товара..."/>
+        <lib-input-component labelText="Цена товара" (valueChange)="onChangePrice($event)" [value]="localProducts.price.toString()" placeholderText="Введите цену товара..."/>
+
+      </div>
+    </div>
+    <div class="category-modal-description">
+      <lib-textarea-component (valueChange)="onChangeDescription($event)" [value]="localProducts.description ? localProducts.description : ''" placeholderText="Введите описание товара..."/>
+    </div>
+  </div>
+  <div class="category-modal-controls">
+    <lib-button-component (click)="onAddNewProduct()" *ngIf="mode === CategoryModalModes.CREATE" text="Добавить" color="#48BD1E"/>
+    <lib-button-component (click)="onUpdateNewProduct()" *ngIf="mode === CategoryModalModes.EDIT" text="Подтвердить" color="#48BD1E"/>
+  </div>
+</div>
