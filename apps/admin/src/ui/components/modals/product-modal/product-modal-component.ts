@@ -16,6 +16,7 @@ import {NgIf} from "@angular/common";
 import {
   TextareaComponent
 } from "../../../../../../../libs/shared-components/src/lib/components/textarea/textarea-component";
+import {SelectComponent} from "../../../../../../../libs/shared-components/src/lib/components/select/select-component";
 
 @Component({
   selector: 'app-product-modal-component',
@@ -25,7 +26,8 @@ import {
     ImageSelectorComponent,
     InputComponent,
     NgIf,
-    TextareaComponent
+    TextareaComponent,
+    SelectComponent
   ],
   templateUrl: './product-modal-component.html',
   styleUrl: './product-modal-component.css',
@@ -42,15 +44,26 @@ export class ProductModalComponent {
 
   @Input() categories: Category[] = [];
 
+  optionsCategories: { value: string; label: string }[] = [];
+
+
   ngOnInit(){
     this.localProducts = this.selectedProductEntry !== null ? this.selectedProductEntry : {id: '', title: '', images: [], description: '', isFavorite: false, price: 0};
     this.selectedImages = this.localProducts.images ? this.localProducts.images : [];
+
+    this.categories.forEach(category => {
+      this.optionsCategories.push({value: category.id, label: category.title});
+    })
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['selectedCategoryEntry']) {
       this.localProducts = this.selectedProductEntry !== null ? { ...this.selectedProductEntry } : {id: '', title: '', images: [], description: '', isFavorite: false, price: 0};
       this.selectedImages = this.localProducts.images ? this.localProducts.images : [];
+
+      this.categories.forEach(category => {
+        this.optionsCategories.push({value: category.id, label: category.title});
+      })
     }
   }
 
@@ -99,5 +112,9 @@ export class ProductModalComponent {
     this.productLocalService?.updateProduct(this.localProducts);
     this.closed.emit();
     this.updateProducts.emit();
+  }
+
+  onCategorySelected($event: string) {
+    this.localProducts.category_id = $event;
   }
 }

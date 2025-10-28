@@ -61,12 +61,32 @@ export class ProductService {
     );
   }
 
-  async getAllProducts(): Promise<ProductServer[]> {
+  // async getAllProducts(categoryId: string): Promise<ProductServer[]> {
+  //   const headers = await this.getHeaders();
+  //   return firstValueFrom(
+  //     this.http.get<ProductServer[]>(ApiRoutes.ADMIN.PRODUCT.GET_ALL_PRODUCTS(categoryId), { headers }).pipe(
+  //       map((response: any) => {
+  //         if (Array.isArray(response)) {
+  //           return response as ProductServer[];
+  //         } else if (response.error) {
+  //           throw new Error(response.error);
+  //         } else {
+  //           throw new Error('Некорректный ответ сервера');
+  //         }
+  //       })
+  //     )
+  //   );
+  // }
+
+  async getAllProducts(creatorId: string): Promise<ProductServer[]> {
     const headers = await this.getHeaders();
     return firstValueFrom(
-      this.http.get<ProductServer[]>(ApiRoutes.ADMIN.PRODUCT.GET_ALL_PRODUCTS, { headers }).pipe(
+      this.http.get<ProductServer[]>(ApiRoutes.ADMIN.PRODUCT.GET_ALL_PRODUCTS(creatorId), { headers }).pipe(
         map((response: any) => {
-          if (Array.isArray(response)) {
+          if(response.products === null){
+            return [];
+          }
+          if (Array.isArray(response.products)) {
             return response as ProductServer[];
           } else if (response.error) {
             throw new Error(response.error);

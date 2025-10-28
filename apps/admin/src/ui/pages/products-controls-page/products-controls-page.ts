@@ -33,6 +33,8 @@ import {ProductModalComponent} from "../../components/modals/product-modal/produ
 import {Category} from "../../../../../../libs/shared-components/src/lib/interfaces/category.interface";
 import {CategoryService} from "../../../services/routes/category/category.service";
 import {CategoryLocalService} from "../../../services/routes/category/category-local.service";
+import {StoreService} from "../../../../../../libs/shared-components/src/lib/services/vault/store.service";
+import {StoreKeys} from "../../../../../../libs/shared-components/src/lib/data/vault/store.keys";
 
 @Component({
   selector: 'app-products-controls-page',
@@ -78,13 +80,21 @@ export class ProductsControlsPage {
     await this.updateProducts();
   }
 
+  async ngOnChanges(){
+    // await this.partnerLocalService.syncPartners();
+    await this.updateCategories();
+    await this.updateProducts();
+  }
+
   protected async updateCategories() {
     await this.categoryLocalService.syncCategories();
     this.categories = this.categoryLocalService.getCategories();
   }
 
   protected async updateProducts() {
-    await this.productLocalService.syncProducts();
+    const userId = await StoreService.get(StoreKeys.USER_ID);
+    console.log(userId);
+    await this.productLocalService.syncProducts(userId ? userId : '');
     this.products = this.productLocalService.getProducts();
     this.filteredProducts = this.products;
   }

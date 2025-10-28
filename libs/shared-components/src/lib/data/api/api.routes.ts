@@ -20,12 +20,24 @@ export const ApiRoutes = {
       UPDATE_PARTNER: (partnerId: string) => ApiSettings.apiUrl + `/auth/partners/${partnerId}`,
       DELETE_PARTNER: (partnerId: string) => ApiSettings.apiUrl + `/auth/partners/${partnerId}`,
     },
+    // PRODUCT: {
+    //   CREATE_PRODUCT: ApiSettings.apiUrl + '/products',
+    //   GET_PRODUCT_BY_ID: (productId: string) => ApiSettings.apiUrl + `/products/${productId}`,
+    //   GET_ALL_PRODUCTS: ApiSettings.apiUrl + '/product',
+    //   UPDATE_PRODUCT: (productId: string) => ApiSettings.apiUrl + `/product/${productId}`,
+    //   DELETE_PRODUCT: (productId: string) => ApiSettings.apiUrl + `/product/${productId}`,
+    //   ADD_PRODUCT_IMAGE: ApiSettings.apiUrl + '/products/images',
+    //   GET_IMAGE_BY_ID: (productId: string, imageId: string) => ApiSettings.apiUrl + `/products/images/${productId}/${imageId}`,
+    //   GET_ALL_IMAGES: (productId: string) => ApiSettings.apiUrl + `/products/${productId}?include_images=true`,
+    // }
+
     PRODUCT: {
       CREATE_PRODUCT: ApiSettings.apiUrl + '/products',
       GET_PRODUCT_BY_ID: (productId: string) => ApiSettings.apiUrl + `/products/${productId}`,
-      GET_ALL_PRODUCTS: ApiSettings.apiUrl + '/product',
-      UPDATE_PRODUCT: (productId: string) => ApiSettings.apiUrl + `/product/${productId}`,
-      DELETE_PRODUCT: (productId: string) => ApiSettings.apiUrl + `/product/${productId}`,
+      // GET_ALL_PRODUCTS: (categoryId: string) => ApiSettings.apiUrl + `/products/category/${categoryId}`,
+      GET_ALL_PRODUCTS: (creatorId: string) => ApiSettings.apiUrl + `/products/creator/${creatorId}`,
+      UPDATE_PRODUCT: (productId: string) => ApiSettings.apiUrl + `/products/${productId}`,
+      DELETE_PRODUCT: (productId: string) => ApiSettings.apiUrl + `/products/${productId}`,
       ADD_PRODUCT_IMAGE: ApiSettings.apiUrl + '/products/images',
       GET_IMAGE_BY_ID: (productId: string, imageId: string) => ApiSettings.apiUrl + `/products/images/${productId}/${imageId}`,
       GET_ALL_IMAGES: (productId: string) => ApiSettings.apiUrl + `/products/${productId}?include_images=true`,

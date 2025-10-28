@@ -10,7 +10,7 @@
       <div class="category-modal-title product-modal-title">
         <lib-input-component labelText="Название товара" (valueChange)="onChangeName($event)" [value]="localProducts.title" placeholderText="Введите название товара..."/>
         <lib-input-component labelText="Цена товара" (valueChange)="onChangePrice($event)" [value]="localProducts.price.toString()" placeholderText="Введите цену товара..."/>
-
+        <lib-select-component [placeholder]="'Категория'" [options]="optionsCategories" (optionSelected)="onCategorySelected($event)"/>
       </div>
     </div>
     <div class="category-modal-description">

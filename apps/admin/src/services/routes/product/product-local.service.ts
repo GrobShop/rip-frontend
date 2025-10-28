@@ -12,9 +12,9 @@ export class ProductLocalService {
 
   constructor(private serverProductService: ProductService) {}
 
-  async syncProducts(): Promise<void> {
+  async syncProducts(creatorId: string): Promise<void> {
     try {
-      const serverProducts: ProductServer[] = await this.serverProductService.getAllProducts();
+      const serverProducts: ProductServer[] = await this.serverProductService.getAllProducts(creatorId);
       this.products = serverProducts.map(p => ({
         id: p.id,
         title: p.name,
