@@ -12,24 +12,56 @@ export class ProductLocalService {
 
   constructor(private serverProductService: ProductService) {}
 
+  // async syncProducts(creatorId: string): Promise<void> {
+  //   try {
+  //     const serverProducts: ProductServer[] = await this.serverProductService.getAllProducts(creatorId);
+  //     this.products = serverProducts.map(p => ({
+  //       id: p.id,
+  //       title: p.name,
+  //       description: p.description,
+  //       isFavorite: false, // По умолчанию
+  //       price: p.price,
+  //       images: [] // Инициализируем пустым массивом, будем заполнять через getAllImages
+  //     }));
+  //     // Синхронизация изображений
+  //     for (const product of this.products) {
+  //       const { images } = await this.serverProductService.getAllImages(product.id);
+  //       product.images = images.map(img => img.image_url);
+  //     }
+  //   } catch (e) {
+  //     console.error(e);
+  //   }
+  // }
+
   async syncProducts(creatorId: string): Promise<void> {
     try {
       const serverProducts: ProductServer[] = await this.serverProductService.getAllProducts(creatorId);
+
+      // Очищаем старые данные
       this.products = serverProducts.map(p => ({
         id: p.id,
         title: p.name,
-        description: p.description,
-        isFavorite: false, // По умолчанию
+        description: p.description || '',
+        isFavorite: false,
         price: p.price,
-        images: [] // Инициализируем пустым массивом, будем заполнять через getAllImages
+        images: [],
+        category_id: p.category_id,
+        stock: p.stock
       }));
-      // Синхронизация изображений
+
+      // Загружаем изображения для каждого продукта
       for (const product of this.products) {
-        const { images } = await this.serverProductService.getAllImages(product.id);
-        product.images = images.map(img => img.image_url);
+        try {
+          const { images } = await this.serverProductService.getAllImages(product.id);
+          product.images = images.map(img => img.image_url);
+        } catch (imgError) {
+          console.warn(`Не удалось загрузить изображения для продукта ${product.id}`, imgError);
+          product.images = [];
+        }
       }
     } catch (e) {
-      console.error(e);
+      console.error('Ошибка синхронизации продуктов:', e);
+      this.products = []; // Сбрасываем при ошибке
     }
   }
 

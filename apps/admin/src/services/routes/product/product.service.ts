@@ -61,10 +61,10 @@ export class ProductService {
     );
   }
 
-  // async getAllProducts(categoryId: string): Promise<ProductServer[]> {
+  // async getAllProducts(creatorId: string): Promise<ProductServer[]> {
   //   const headers = await this.getHeaders();
   //   return firstValueFrom(
-  //     this.http.get<ProductServer[]>(ApiRoutes.ADMIN.PRODUCT.GET_ALL_PRODUCTS(categoryId), { headers }).pipe(
+  //     this.http.get<ProductServer[]>(ApiRoutes.ADMIN.PRODUCT.GET_ALL_PRODUCTS(creatorId), { headers }).pipe(
   //       map((response: any) => {
   //         if (Array.isArray(response)) {
   //           return response as ProductServer[];
@@ -81,13 +81,14 @@ export class ProductService {
   async getAllProducts(creatorId: string): Promise<ProductServer[]> {
     const headers = await this.getHeaders();
     return firstValueFrom(
-      this.http.get<ProductServer[]>(ApiRoutes.ADMIN.PRODUCT.GET_ALL_PRODUCTS(creatorId), { headers }).pipe(
+      this.http.get<{ products: ProductServer[] | null }>(ApiRoutes.ADMIN.PRODUCT.GET_ALL_PRODUCTS(creatorId), { headers }).pipe(
         map((response: any) => {
-          if(response.products === null){
-            return [];
-          }
-          if (Array.isArray(response.products)) {
-            return response as ProductServer[];
+          if (response && response.products !== undefined && response.products !== null) {
+            if (Array.isArray(response.products)) {
+              return response.products as ProductServer[];
+            } else {
+              return []; // Пустой массив, если products не массив
+            }
           } else if (response.error) {
             throw new Error(response.error);
           } else {

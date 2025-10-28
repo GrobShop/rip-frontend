@@ -76,20 +76,21 @@ export class ProductsControlsPage {
 
   async ngOnInit(){
     // await this.partnerLocalService.syncPartners();
-    await this.updateCategories();
+    // await this.updateCategories();
     await this.updateProducts();
   }
 
-  async ngOnChanges(){
-    // await this.partnerLocalService.syncPartners();
-    await this.updateCategories();
-    await this.updateProducts();
-  }
+  // async ngOnChanges(){
+  //   // await this.partnerLocalService.syncPartners();
+  //   await this.updateCategories();
+  //   await this.updateProducts();
+  // }
 
-  protected async updateCategories() {
-    await this.categoryLocalService.syncCategories();
-    this.categories = this.categoryLocalService.getCategories();
-  }
+  // protected async updateCategories() {
+  //   await this.categoryLocalService.syncCategories();
+  //   this.categories = this.categoryLocalService.getCategories();
+  //   console.log(this.categories);
+  // }
 
   protected async updateProducts() {
     const userId = await StoreService.get(StoreKeys.USER_ID);

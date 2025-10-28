@@ -17,6 +17,7 @@ import {
   TextareaComponent
 } from "../../../../../../../libs/shared-components/src/lib/components/textarea/textarea-component";
 import {SelectComponent} from "../../../../../../../libs/shared-components/src/lib/components/select/select-component";
+import {CategoryService} from "../../../../services/routes/category/category.service";
 
 @Component({
   selector: 'app-product-modal-component',
@@ -46,11 +47,18 @@ export class ProductModalComponent {
 
   optionsCategories: { value: string; label: string }[] = [];
 
+  constructor(private categoryService: CategoryService, private categoryLocalService: CategoryLocalService) {
+  }
 
-  ngOnInit(){
+
+  async ngOnInit(){
     this.localProducts = this.selectedProductEntry !== null ? this.selectedProductEntry : {id: '', title: '', images: [], description: '', isFavorite: false, price: 0};
     this.selectedImages = this.localProducts.images ? this.localProducts.images : [];
 
+    await this.categoryLocalService.syncCategories();
+    this.categories = this.categoryLocalService.getCategories();
+
+    console.log(this.categories);
     this.categories.forEach(category => {
       this.optionsCategories.push({value: category.id, label: category.title});
     })
@@ -85,7 +93,7 @@ export class ProductModalComponent {
 
   onImagesChanged(images: string[]) {
     this.selectedImages = images;
-    // this.localProducts.images = images.length > 0 ? images[0] : '';
+    this.localProducts.images = images.length > 0 ? images : [];
   }
 
   protected readonly CategoryModalModes = CategoryModalModes;
@@ -95,10 +103,12 @@ export class ProductModalComponent {
       return;
     }
     const newProductEntry = await this.productLocalService?.createProduct(this.localProducts);
-    // if (newCategoryEntry && this.selectedImages.length > 0 && this.categoryLocalService !== null) {
-    //   await this.categoryLocalService?.addLogoCategory(newCategoryEntry.id, this.selectedImages[0]);
-    //   this.localCategory.image = (await this.categoryLocalService.getCategoryLogo(newCategoryEntry.id)).toString();
-    // }
+    if (newProductEntry && this.selectedImages.length > 0 && this.categoryLocalService !== null) {
+      for(let i = 0; i < this.selectedImages.length; i++) {
+        await this.productLocalService?.addProductImage(newProductEntry.id, this.selectedImages[i]);
+      }
+      // this.localProducts.images = (await this.productLocalService?.getProductImage(newProductEntry.id)).toString();
+    }
     this.closed.emit();
     this.onClearLocalProduct();
     this.updateProducts.emit();
