@@ -3,6 +3,7 @@
   border-radius: 20px;
   display: flex;
   overflow: hidden;
+  position: relative;
 }
 
 .left-section {
@@ -52,6 +53,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.price-container-product{
+  position: absolute;
+  bottom: 20px;
 }
 
 .price {

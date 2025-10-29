@@ -1,51 +1,114 @@
-import {Component, Input} from '@angular/core';
-import {NgIf} from "@angular/common";
+import {Component, Input, SimpleChanges} from '@angular/core';
+import {AsyncPipe, NgIf} from "@angular/common";
 import {ButtonComponent} from "../../../button/button-component";
-import {Product} from "../../../../interfaces/product.interface";
+import {Product, ProductImage} from "../../../../interfaces/product.interface";
 import {ImageCarouselComponent} from "../../../carousel/image-carousel-component";
-import {ProductService} from "../../../../../../../../apps/admin/src/services/routes/product/product.service";
-import {
-  ProductLocalService
-} from "../../../../../../../../apps/admin/src/services/routes/product/product-local.service";
+import {ProductService} from "../../../../../../../../apps/standard/src/services/routes/product/product.service";
+import {ProductLocalService} from "../../../../../../../../apps/standard/src/services/routes/product/product-local.service";
+import {BehaviorSubject, catchError, Observable, of, switchMap} from "rxjs";
 
 @Component({
   selector: 'lib-product-card-component',
   imports: [
     NgIf,
     ButtonComponent,
-    ImageCarouselComponent
+    ImageCarouselComponent,
+    AsyncPipe
   ],
   templateUrl: './product-card-component.html',
   styleUrl: './product-card-component.css',
   standalone: true
 })
 export class ProductCardComponent {
-  @Input() product: Product = {id: '', images: [], price: 0, isFavorite: false, title: '', description: ''};
+  // @Input() product: Product = {id: '', images: [], price: 0, isFavorite: false, title: '', description: ''};
+  //
+  // logoCategoryUrls: string[] | null = null; // Сохраняем URL вместо Blob
+  //
+  // constructor(private productService: ProductService, private productLocalService: ProductLocalService) {
+  // }
+  //
+  // async ngOnInit(){
+  //   this.logoCategoryUrls = [];
+  //   // if(this.productLocalService){
+  //       console.log(this.product.productImages);
+  //       if(this.product.productImages !== undefined){
+  //         for(const image of this.product.productImages){
+  //           const blob = await this.productLocalService.getProductImage(this.product.id, image.id);
+  //           this.logoCategoryUrls?.push(URL.createObjectURL(blob));
+  //         }
+  //       }
+  //   // }
+  // }
+  //
+  // get adaptedWidth(): string {
+  //   return 'clamp(400px, 583px, 700px)';
+  // }
+  //
+  // get adaptedHeight(): string {
+  //   return 'clamp(160px, 218px, 300px)';
+  // }
 
-  logoCategoryUrls: string[] | null = null; // Сохраняем URL вместо Blob
 
-  constructor(private productService: ProductService, private productLocalService: ProductLocalService) {
+  @Input() product!: Product;
+
+  // Реактивный стрим для URL изображений
+  imageUrls$!: Observable<string[]>;
+
+  private imageUrlsSubject = new BehaviorSubject<string[]>([]);
+  private blobUrls: string[] = [];
+
+  constructor(private productLocalService: ProductLocalService) {}
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['product'] && this.product) {
+      this.loadProductImages();
+    }
   }
 
-  async ngOnInit(){
-    this.logoCategoryUrls = [];
-    if(this.productLocalService){
-      try {
-        const images = await this.productLocalService.getAllProductImages(this.product.id);
-        if(images.images.length === 0){
-          return;
-        }
-        for(const image of images.images){
-          const blob = await this.productLocalService.getProductImage(this.product.id, image.id);
-          this.logoCategoryUrls?.push(URL.createObjectURL(blob));
-          // this.product.images.push(URL.createObjectURL(blob));
-        }
-
-        console.log(this.logoCategoryUrls);
-      } catch (e) {
-        console.error('Ошибка загрузки логотипа:', e);
-      }
+  private loadProductImages(): void {
+    if (!this.product.productImages || this.product.productImages.length === 0) {
+      this.imageUrlsSubject.next([]);
+      return;
     }
+
+    // Создаём стрим: ProductImage[] → Promise<string[]> → string[]
+    this.imageUrls$ = of(this.product.productImages).pipe(
+      switchMap(images =>
+        Promise.all(
+          images.map(async (img: ProductImage) => {
+            try {
+              const blob = await this.productLocalService.getProductImage(this.product.id, img.id);
+              const url = URL.createObjectURL(blob);
+              this.blobUrls.push(url); // Сохраняем для revoke
+              return url;
+            } catch (error) {
+              console.warn(`Failed to load image ${img.id}`, error);
+              return '';
+            }
+          })
+        ).then(urls => urls.filter(url => url))
+      ),
+      catchError(err => {
+        console.error('Error loading images:', err);
+        return of([]);
+      })
+    );
+
+    // Подписываемся и пушим в subject для async pipe
+    this.imageUrls$.subscribe(urls => {
+      this.imageUrlsSubject.next(urls);
+    });
+  }
+
+  // Для async pipe в шаблоне
+  get imageUrlsAsync$(): Observable<string[]> {
+    return this.imageUrlsSubject.asObservable();
+  }
+
+  ngOnDestroy(): void {
+    // Освобождаем память
+    this.blobUrls.forEach(url => URL.revokeObjectURL(url));
+    this.blobUrls = [];
   }
 
   get adaptedWidth(): string {

@@ -1,14 +1,14 @@
 <div class="card" [style.width]="adaptedWidth" [style.height]="adaptedHeight">
   <div class="left-section">
-    <lib-image-carousel-component [images]="logoCategoryUrls ? logoCategoryUrls : []"></lib-image-carousel-component>
+    <lib-image-carousel-component [images]="(imageUrlsAsync$ | async) || []"></lib-image-carousel-component>
   </div>
   <div class="right-section">
     <h2 *ngIf="product?.title" class="title">{{ product.title }}</h2>
     <p *ngIf="product?.description" class="description">{{ product.description }}</p>
+    <div class="price-container price-container-product">
+      <span class="price">{{ product?.price }} р</span>
+    </div>
     <div class="bottom-section">
-      <div class="price-container">
-        <span class="price">{{ product?.price }} р</span>
-      </div>
       <div class="buttons">
         <lib-button-component  [text]="'В корзину'" [width]="'100px'" [height]="'36px'" [color]="'#111111'" [icon]="'assets/icons/view/cart_shop.svg'"></lib-button-component>
         <lib-button-component

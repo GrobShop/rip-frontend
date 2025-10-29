@@ -7,6 +7,7 @@ export interface Product {
   images: string[];
   category_id?: string;
   stock?: number;
+  productImages?: ProductImage[];
 }
 
 export interface ProductServer{

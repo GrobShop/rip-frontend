@@ -29,13 +29,24 @@ export class ProductLocalService {
       // Загружаем изображения для каждого продукта
       for (const product of this.products) {
         try {
-          const { images } = await this.publicProductService.getAllImages(product.id);
-          product.images = images.map(img => img.image_url);
+          const productObject = await this.publicProductService.getAllImages(product.id);
+          product.productImages = productObject.images;
         } catch (imgError) {
           console.warn(`Не удалось загрузить изображения для продукта ${product.id}`, imgError);
           product.images = [];
         }
       }
+
+      // // В syncProductsByCategory
+      // for (const product of this.products) {
+      //   try {
+      //     const { images } = await this.publicProductService.getAllImages(product.id);
+      //     product.images = images.map(img => img.image_url); // ← сразу URL
+      //   } catch (imgError) {
+      //     console.warn(`Не удалось загрузить изображения для продукта ${product.id}`, imgError);
+      //     product.images = [];
+      //   }
+      // }
     } catch (e) {
       console.error('Ошибка синхронизации продуктов:', e);
       this.products = [];
@@ -59,7 +70,7 @@ export class ProductLocalService {
         description: serverProduct.description || '',
         price: serverProduct.price,
         stock: serverProduct.stock,
-        images: images.map(img => img.image_url),
+        images: images.map(img => img.image_url), // ← ВОТ СЮДА!
         category_id: serverProduct.category_id,
         isFavorite: false
       };
