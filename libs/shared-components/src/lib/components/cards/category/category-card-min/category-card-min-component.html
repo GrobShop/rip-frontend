@@ -1,5 +1,6 @@
-<div class="card" [style.width]="adaptedWidth" [style.height]="adaptedHeight">
-  <img *ngIf="category?.image" [src]="category.image" class="category-image" [alt]="category.title">
+<div class="card" [style.width]="adaptedWidth" [style.height]="adaptedHeight" (click)="onNavigateToProductsPage()">
+  <lib-image-carousel-component [images]="[logoCategoryUrl ? logoCategoryUrl : '']"></lib-image-carousel-component>
+<!--  <img *ngIf="category?.image" [src]="category.image" class="category-image" [alt]="category.title">-->
   <div class="category-title">
     <span *ngIf="category?.title" class="title-text">{{ category.title }}</span>
   </div>

@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { firstValueFrom } from 'rxjs';
 import { ApiRoutes } from '../../../../../../libs/shared-components/src/lib/data/api/api.routes';
+import {AuthHeadersService} from "../../../../../admin/src/services/routes/auth/auth-headers.service";
 
 export interface CategoryPublic {
   id: string;
@@ -21,10 +22,15 @@ export interface CategoryPublic {
 export class CategoryService {
   constructor(private http: HttpClient) {}
 
+  private async getHeaders(): Promise<any> {
+    return await AuthHeadersService.getAuthHeaders();
+  }
+
   /** Получить все категории (публичный доступ) */
   async getAllCategories(): Promise<CategoryPublic[]> {
+    const headers = await this.getHeaders();
     return firstValueFrom(
-      this.http.get<CategoryPublic[]>(ApiRoutes.STANDARD.CATEGORY.GET_ALL).pipe(
+      this.http.get<CategoryPublic[]>(ApiRoutes.STANDARD.CATEGORY.GET_ALL, {headers}).pipe(
         map((response: any) => {
           if (Array.isArray(response)) {
             return response as CategoryPublic[];
@@ -40,8 +46,9 @@ export class CategoryService {
 
   /** Получить категорию по ID */
   async getCategoryById(categoryId: string): Promise<CategoryPublic> {
+    const headers = await this.getHeaders();
     return firstValueFrom(
-      this.http.get<CategoryPublic>(ApiRoutes.STANDARD.CATEGORY.GET_BY_ID(categoryId)).pipe(
+      this.http.get<CategoryPublic>(ApiRoutes.STANDARD.CATEGORY.GET_BY_ID(categoryId), {headers}).pipe(
         map((response: any) => {
           if (response.id) {
             return response as CategoryPublic;
@@ -57,10 +64,9 @@ export class CategoryService {
 
   /** Получить логотип категории как Blob */
   async getCategoryLogo(categoryId: string): Promise<Blob> {
+    const headers = await this.getHeaders();
     return firstValueFrom(
-      this.http.get(ApiRoutes.STANDARD.CATEGORY.GET_LOGO(categoryId), {
-        responseType: 'blob'
-      }).pipe(
+      this.http.get(ApiRoutes.STANDARD.CATEGORY.GET_LOGO(categoryId), { headers, responseType: 'blob' }).pipe(
         map((blob: Blob) => blob)
       )
     );

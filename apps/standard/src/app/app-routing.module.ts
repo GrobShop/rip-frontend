@@ -15,7 +15,7 @@ export const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'category:categoryId',
+    path: 'category/:categoryId',
     loadChildren: () => import('../ui/pages/product-page/product-page.module').then(m => m.ProductPageModule),
     canActivate: [AuthGuard]
   },
