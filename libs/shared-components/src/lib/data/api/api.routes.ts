@@ -42,5 +42,15 @@ export const ApiRoutes = {
       GET_IMAGE_BY_ID: (productId: string, imageId: string) => ApiSettings.apiUrl + `/products/images/${productId}/${imageId}`,
       GET_ALL_IMAGES: (productId: string) => ApiSettings.apiUrl + `/products/${productId}?include_images=true`,
     }
+  },
+  STANDARD: {
+    LOGIN: {
+      LOGIN: ApiSettings.apiUrl + '/auth/login'
+    },
+    CATEGORY: {
+      GET_ALL: ApiSettings.apiUrl + '/categories',
+      GET_BY_ID: (categoryId: string) => ApiSettings.apiUrl + `/categories/${categoryId}`,
+      GET_LOGO: (categoryId: string) => ApiSettings.apiUrl + `/categories/${categoryId}/logo`
+    }
   }
 };

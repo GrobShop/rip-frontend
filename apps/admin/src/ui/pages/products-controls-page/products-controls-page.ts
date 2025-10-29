@@ -97,6 +97,7 @@ export class ProductsControlsPage {
     console.log(userId);
     await this.productLocalService.syncProducts(userId ? userId : '');
     this.products = this.productLocalService.getProducts();
+    console.log(this.products);
     this.filteredProducts = this.products;
   }
 

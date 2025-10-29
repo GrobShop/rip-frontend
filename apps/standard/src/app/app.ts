@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {ApplicationRef, Component, EnvironmentInjector} from '@angular/core';
 import {RouterModule, RouterOutlet} from '@angular/router';
 import { NxWelcome } from './nx-welcome';
 import {Logo} from "@rip-shop/shared-components";
@@ -17,6 +17,7 @@ import {CategoryPage} from "../ui/pages/category-page/category-page";
 import {ProductPage} from "../ui/pages/product-page/product-page";
 import {FavoritePage} from "../ui/pages/favorite-page/favorite-page";
 import {CartPage} from "../ui/pages/cart-page/cart-page";
+import {ToastService} from "../../../../libs/shared-components/src/lib/services/notification/toast.service";
 
 @Component({
   imports: [NxWelcome, RouterModule, Logo, SwitchThemeComponent, HeaderDescriptionComponent, NavLinksComponent, HeaderComponent, InputComponent, ButtonComponent, LoginPage, CategoryPage, ProductPage, FavoritePage, CartPage, RouterOutlet],
@@ -27,4 +28,8 @@ import {CartPage} from "../ui/pages/cart-page/cart-page";
 })
 export class App {
   protected title = 'standard';
+
+  constructor(appRef: ApplicationRef, injector: EnvironmentInjector) {
+    ToastService.initialize(appRef, injector);
+  }
 }
