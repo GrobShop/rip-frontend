@@ -51,6 +51,12 @@ export const ApiRoutes = {
       GET_ALL: ApiSettings.apiUrl + '/categories',
       GET_BY_ID: (categoryId: string) => ApiSettings.apiUrl + `/categories/${categoryId}`,
       GET_LOGO: (categoryId: string) => ApiSettings.apiUrl + `/categories/${categoryId}/logo`
+    },
+    PRODUCT: {
+      GET_ALL_BY_CATEGORY: (categoryId: string) => ApiSettings.apiUrl + `/products/category/${categoryId}`,
+      GET_BY_ID: (categoryId: string) => ApiSettings.apiUrl + `/products/${categoryId}`,
+      GET_IMAGE_BY_ID: (productId: string, imageId: string) => ApiSettings.apiUrl + `/products/images/${productId}/${imageId}`,
+      GET_ALL_IMAGES: (productId: string) => ApiSettings.apiUrl + `/products/${productId}?include_images=true`,
     }
   }
 };
