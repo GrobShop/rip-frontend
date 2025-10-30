@@ -10,13 +10,10 @@
   </div>
   <div class="cart-page-main">
     <div class="cart-page-list">
-      <lib-product-card-component [product]="{id: '1', images: ['https://img.freepik.com/premium-photo/cuties-cat-ever-looking-you-wallpaper_974726-637.jpg', 'https://i.pinimg.com/736x/a4/d1/9d/a4d19d9004c56379938b79ae6978e059.jpg', ''], price: 1500, isFavorite: false, title: 'Название продукта', description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.\n'}"/>
-      <lib-product-card-component [product]="{id: '1', images: ['https://img.freepik.com/premium-photo/cuties-cat-ever-looking-you-wallpaper_974726-637.jpg', 'https://i.pinimg.com/736x/a4/d1/9d/a4d19d9004c56379938b79ae6978e059.jpg', 'https://avatars.mds.yandex.net/i?id=1ab2f021b6d3fc0c972d6143ccae79ba_l-5878971-images-thumbs&n=13'], price: 1500, isFavorite: false, title: 'Название продукта', description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.\n'}"/>
-      <lib-product-card-component [product]="{id: '1', images: ['https://img.freepik.com/premium-photo/cuties-cat-ever-looking-you-wallpaper_974726-637.jpg', 'https://i.pinimg.com/736x/a4/d1/9d/a4d19d9004c56379938b79ae6978e059.jpg', 'https://avatars.mds.yandex.net/i?id=1ab2f021b6d3fc0c972d6143ccae79ba_l-5878971-images-thumbs&n=13'], price: 1500, isFavorite: false, title: 'Название продукта', description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.\n'}"/>
-      <lib-product-card-component [product]="{id: '1', images: ['https://img.freepik.com/premium-photo/cuties-cat-ever-looking-you-wallpaper_974726-637.jpg', 'https://i.pinimg.com/736x/a4/d1/9d/a4d19d9004c56379938b79ae6978e059.jpg', 'https://avatars.mds.yandex.net/i?id=1ab2f021b6d3fc0c972d6143ccae79ba_l-5878971-images-thumbs&n=13'], price: 1500, isFavorite: false, title: 'Название продукта', description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.\n'}"/>
-      <lib-product-card-component [product]="{id: '1', images: ['https://img.freepik.com/premium-photo/cuties-cat-ever-looking-you-wallpaper_974726-637.jpg', 'https://i.pinimg.com/736x/a4/d1/9d/a4d19d9004c56379938b79ae6978e059.jpg', 'https://avatars.mds.yandex.net/i?id=1ab2f021b6d3fc0c972d6143ccae79ba_l-5878971-images-thumbs&n=13'], price: 1500, isFavorite: false, title: 'Название продукта', description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.\n'}"/>
-      <lib-product-card-component [product]="{id: '1', images: ['https://img.freepik.com/premium-photo/cuties-cat-ever-looking-you-wallpaper_974726-637.jpg', 'https://i.pinimg.com/736x/a4/d1/9d/a4d19d9004c56379938b79ae6978e059.jpg', 'https://avatars.mds.yandex.net/i?id=1ab2f021b6d3fc0c972d6143ccae79ba_l-5878971-images-thumbs&n=13'], price: 1500, isFavorite: false, title: 'Название продукта', description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.\n'}"/>
-      <lib-product-card-component [product]="{id: '1', images: ['https://img.freepik.com/premium-photo/cuties-cat-ever-looking-you-wallpaper_974726-637.jpg', 'https://i.pinimg.com/736x/a4/d1/9d/a4d19d9004c56379938b79ae6978e059.jpg', 'https://avatars.mds.yandex.net/i?id=1ab2f021b6d3fc0c972d6143ccae79ba_l-5878971-images-thumbs&n=13'], price: 1500, isFavorite: false, title: 'Название продукта', description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.\n'}"/>
+      <lib-product-card-component
+        *ngFor="let product of products"
+        [product]="product"
+      />
     </div>
 
     <div class="cart-page-cart">
@@ -30,11 +27,11 @@
 
       <div class="cart-page-cart-confirm-order" *ngIf="isOrder">
         <div class="cart-inputs">
-          <lib-input-component placeholderText="Способ доставки"/>
-          <lib-input-component placeholderText="Способ оплаты"/>
+          <lib-input-component (valueChange)="onChangeShipMethod($event)" placeholderText="Способ доставки"/>
+          <lib-input-component (valueChange)="onChangePaymentMethod($event)" placeholderText="Способ оплаты"/>
         </div>
         <div class="cart-order-btns">
-          <lib-button-component text="Отправить заявку" color="#48BD1E"/>
+          <lib-button-component (click)="onSubmitCartRequest()" text="Отправить заявку" color="#48BD1E"/>
           <lib-button-component (click)="onCancelOrder()" text="Отменить заявку" color="#FF0000"/>
         </div>
       </div>
