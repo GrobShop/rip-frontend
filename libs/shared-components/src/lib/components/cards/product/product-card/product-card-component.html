@@ -12,11 +12,12 @@
       <div class="buttons">
         <lib-button-component  [text]="'В корзину'" [width]="'100px'" [height]="'36px'" [color]="'#111111'" [icon]="'assets/icons/view/cart_shop.svg'"></lib-button-component>
         <lib-button-component
-          [text]="product?.isFavorite ? 'Из избранного' : 'Избранное'"
+          [text]="isWishlist ? 'Из избранного' : 'Избранное'"
           [width]="'100px'"
           [height]="'36px'"
           [color]="'#111111'"
           [icon]="product?.isFavorite ? 'assets/icons/view/favorite_red.svg' : 'assets/icons/view/favorite_standart.svg'"
+          (click)="onWishlistChangeItem()"
         ></lib-button-component>
       </div>
     </div>

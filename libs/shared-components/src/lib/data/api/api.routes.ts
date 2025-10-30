@@ -57,6 +57,12 @@ export const ApiRoutes = {
       GET_BY_ID: (categoryId: string) => ApiSettings.apiUrl + `/products/${categoryId}`,
       GET_IMAGE_BY_ID: (productId: string, imageId: string) => ApiSettings.apiUrl + `/products/images/${productId}/${imageId}`,
       GET_ALL_IMAGES: (productId: string) => ApiSettings.apiUrl + `/products/${productId}?include_images=true`,
+    },
+    WISHLIST: {
+      GET_WISHLIST: ApiSettings.apiUrl + '/wishlists',
+      ADD_ITEM: ApiSettings.apiUrl + '/wishlists/items',
+      GET_ITEMS: (whishlistId: string) => ApiSettings.apiUrl + `/wishlists/items/wishlist/${whishlistId}`,
+      DELETE_ITEM: (itemId: string) => ApiSettings.apiUrl + `/wishlists/items/${itemId}`,
     }
   }
 };

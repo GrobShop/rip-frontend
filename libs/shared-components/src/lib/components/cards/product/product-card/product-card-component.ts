@@ -6,6 +6,10 @@ import {ImageCarouselComponent} from "../../../carousel/image-carousel-component
 import {ProductService} from "../../../../../../../../apps/standard/src/services/routes/product/product.service";
 import {ProductLocalService} from "../../../../../../../../apps/standard/src/services/routes/product/product-local.service";
 import {BehaviorSubject, catchError, Observable, of, switchMap} from "rxjs";
+import {WishlistService} from "../../../../../../../../apps/standard/src/services/routes/whislist/whislist.service";
+import {
+  WishlistLocalService
+} from "../../../../../../../../apps/standard/src/services/routes/whislist/whislist-local.service";
 
 @Component({
   selector: 'lib-product-card-component',
@@ -56,8 +60,13 @@ export class ProductCardComponent {
 
   private imageUrlsSubject = new BehaviorSubject<string[]>([]);
   private blobUrls: string[] = [];
+  isWishlist: boolean = false;
 
-  constructor(private productLocalService: ProductLocalService) {}
+  constructor(private productLocalService: ProductLocalService, private wishlistService: WishlistService, private wishlistLocalService: WishlistLocalService) {}
+
+  ngOnInit(){
+    this.isWishlist = this.wishlistLocalService.isInWishlist(this.product.id);
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['product'] && this.product) {
@@ -117,5 +126,25 @@ export class ProductCardComponent {
 
   get adaptedHeight(): string {
     return 'clamp(160px, 218px, 300px)';
+  }
+
+  async onAddWishlist(){
+    await this.wishlistLocalService.addItem(this.product.id);
+    this.isWishlist = true;
+  }
+
+  async onDeleteWishlist(){
+    const itemId = this.wishlistLocalService.getItemIdByProductId(this.product.id);
+    if(itemId === null){return;}
+    await this.wishlistLocalService.removeItem(itemId);
+    this.isWishlist = false;
+  }
+
+  async onWishlistChangeItem() {
+    if(this.isWishlist){
+      await this.onDeleteWishlist();
+      return;
+    }
+    await this.onAddWishlist();
   }
 }

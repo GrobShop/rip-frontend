@@ -18,6 +18,8 @@ import {ProductPage} from "../ui/pages/product-page/product-page";
 import {FavoritePage} from "../ui/pages/favorite-page/favorite-page";
 import {CartPage} from "../ui/pages/cart-page/cart-page";
 import {ToastService} from "../../../../libs/shared-components/src/lib/services/notification/toast.service";
+import {WishlistService} from "../services/routes/whislist/whislist.service";
+import {WishlistLocalService} from "../services/routes/whislist/whislist-local.service";
 
 @Component({
   imports: [NxWelcome, RouterModule, Logo, SwitchThemeComponent, HeaderDescriptionComponent, NavLinksComponent, HeaderComponent, InputComponent, ButtonComponent, LoginPage, CategoryPage, ProductPage, FavoritePage, CartPage, RouterOutlet],
@@ -29,7 +31,7 @@ import {ToastService} from "../../../../libs/shared-components/src/lib/services/
 export class App {
   protected title = 'standard';
 
-  constructor(appRef: ApplicationRef, injector: EnvironmentInjector) {
+  constructor(appRef: ApplicationRef, injector: EnvironmentInjector, private wishlistService: WishlistService, private wishlistLocalService: WishlistLocalService) {
     ToastService.initialize(appRef, injector);
   }
 }

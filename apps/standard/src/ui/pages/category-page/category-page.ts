@@ -14,6 +14,8 @@ import {NgForOf} from "@angular/common";
 import {
   CategoryCardAdmin
 } from "../../../../../../libs/shared-components/src/lib/components/cards/category/category-card-admin/category-card-admin";
+import {WishlistService} from "../../../services/routes/whislist/whislist.service";
+import {WishlistLocalService} from "../../../services/routes/whislist/whislist-local.service";
 
 @Component({
   selector: 'app-category-page',
@@ -30,13 +32,14 @@ import {
 })
 export class CategoryPage {
 
-  constructor(private http: HttpClient, private categoryService: CategoryService, protected categoryLocalService: CategoryLocalService, private httpClient: HttpClient, private injector: EnvironmentInjector) {
+  constructor(private http: HttpClient, private categoryService: CategoryService, protected categoryLocalService: CategoryLocalService, private httpClient: HttpClient, private injector: EnvironmentInjector, private wishlistService: WishlistService, private wishlistLocalService: WishlistLocalService,) {
   }
 
   categories: Category[] = [];
 
   async ngOnInit(){
     await this.updateCategories();
+    await this.wishlistLocalService.syncWishlist();
   }
 
   protected async updateCategories() {
