@@ -63,6 +63,13 @@ export const ApiRoutes = {
       ADD_ITEM: ApiSettings.apiUrl + '/wishlists/items',
       GET_ITEMS: (whishlistId: string) => ApiSettings.apiUrl + `/wishlists/items/wishlist/${whishlistId}`,
       DELETE_ITEM: (itemId: string) => ApiSettings.apiUrl + `/wishlists/items/${itemId}`,
+    },
+    CART: {
+      GET_CART: ApiSettings.apiUrl + '/carts',
+      ADD_ITEM: ApiSettings.apiUrl + '/carts/items',
+      GET_ITEMS: (cartId: string) => ApiSettings.apiUrl + `/carts/items/cart/${cartId}`,
+      UPDATE_ITEM: (itemId: string) => ApiSettings.apiUrl + `/carts/items/${itemId}`,
+      DELETE_ITEM: (itemId: string) => ApiSettings.apiUrl + `/carts/items/${itemId}`,
     }
   }
 };

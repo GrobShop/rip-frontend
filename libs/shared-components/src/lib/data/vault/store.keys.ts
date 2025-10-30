@@ -6,4 +6,5 @@ export const enum StoreKeys{
   USER_ROLE = 'userRole',
   COMPANY_NAME = 'companyName',
   WISHLIST_ID = 'wishlistId',
+  CART_ID = 'cartId',
 }
