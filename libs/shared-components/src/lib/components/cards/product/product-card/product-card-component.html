@@ -10,8 +10,9 @@
     </div>
     <div class="bottom-section">
       <div class="buttons">
-        <lib-button-component  [text]="'В корзину'" [width]="'100px'" [height]="'36px'" [color]="'#111111'" [icon]="'assets/icons/view/cart_shop.svg'"></lib-button-component>
+        <lib-button-component (click)="onCartChangeItem()"  [text]="!isCart ? 'В корзину' : 'Из корзины'" [width]="'100px'" [height]="'36px'" [color]="'#111111'" [icon]="'assets/icons/view/cart_shop.svg'"></lib-button-component>
         <lib-button-component
+          *ngIf="showFavoriteBtn"
           [text]="isWishlist ? 'Из избранного' : 'Избранное'"
           [width]="'100px'"
           [height]="'36px'"
@@ -19,6 +20,13 @@
           [icon]="product?.isFavorite ? 'assets/icons/view/favorite_red.svg' : 'assets/icons/view/favorite_standart.svg'"
           (click)="onWishlistChangeItem()"
         ></lib-button-component>
+      </div>
+      <div class="quantity-product" *ngIf="showQuantity">
+        <button (click)="onDownQuantity()" class="quantity-btn">-</button>
+        <div class="quantity-container">
+          <span>{{quantity}}</span>
+        </div>
+        <button (click)="onUppQuantity()" class="quantity-btn">+</button>
       </div>
     </div>
   </div>

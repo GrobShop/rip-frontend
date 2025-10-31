@@ -43,6 +43,7 @@
   justify-content: end;
   align-items: end;
   margin-top: auto;
+  flex-direction: column;
 }
 
 .price-container {
@@ -97,4 +98,33 @@
   .description{
     font-size: 9px!important;
   }
+}
+
+.quantity-btn{
+  background-color: black;
+  color: white;
+  border: none;
+  margin: 0;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.quantity-btn:hover{
+  transform: scale(1.05);
+}
+
+.quantity-container{
+  background-color: var(--input-color);
+  color: var(--text-primary);
+  padding: 10px;
+}
+
+.quantity-product{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-top: 5px;
 }

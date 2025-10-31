@@ -13,6 +13,9 @@
       <lib-product-card-component
         *ngFor="let product of products"
         [product]="product"
+        [showFavoriteBtn]="false"
+        [showQuantity]="true"
+        (onQuantityChange)="onQuantityChange($event)"
       />
     </div>
 

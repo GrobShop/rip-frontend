@@ -1,4 +1,4 @@
-import {Component, Input, SimpleChanges} from '@angular/core';
+import {Component, EventEmitter, Input, Output, SimpleChanges} from '@angular/core';
 import {AsyncPipe, NgIf} from "@angular/common";
 import {ButtonComponent} from "../../../button/button-component";
 import {Product, ProductImage} from "../../../../interfaces/product.interface";
@@ -10,6 +10,9 @@ import {WishlistService} from "../../../../../../../../apps/standard/src/service
 import {
   WishlistLocalService
 } from "../../../../../../../../apps/standard/src/services/routes/whislist/whislist-local.service";
+import {CartService} from "../../../../../../../../apps/standard/src/services/routes/cart/cart.service";
+import {CartLocalService} from "../../../../../../../../apps/standard/src/services/routes/cart/cart-local.service";
+import {InputComponent} from "../../../input/input-component";
 
 @Component({
   selector: 'lib-product-card-component',
@@ -17,7 +20,8 @@ import {
     NgIf,
     ButtonComponent,
     ImageCarouselComponent,
-    AsyncPipe
+    AsyncPipe,
+    InputComponent
   ],
   templateUrl: './product-card-component.html',
   styleUrl: './product-card-component.css',
@@ -52,8 +56,9 @@ export class ProductCardComponent {
   //   return 'clamp(160px, 218px, 300px)';
   // }
 
-
   @Input() product!: Product;
+  @Input() showFavoriteBtn: boolean = true;
+  @Input() showQuantity: boolean = false;
 
   // Реактивный стрим для URL изображений
   imageUrls$!: Observable<string[]>;
@@ -61,11 +66,16 @@ export class ProductCardComponent {
   private imageUrlsSubject = new BehaviorSubject<string[]>([]);
   private blobUrls: string[] = [];
   isWishlist: boolean = false;
+  isCart: boolean = false;
+  quantity: number = 1;
 
-  constructor(private productLocalService: ProductLocalService, private wishlistService: WishlistService, private wishlistLocalService: WishlistLocalService) {}
+  @Output() onQuantityChange = new EventEmitter<{quantity: number, product_id: string}>();
+
+  constructor(private productLocalService: ProductLocalService, private wishlistService: WishlistService, private wishlistLocalService: WishlistLocalService, private cartService: CartService, private cartLocalService: CartLocalService) {}
 
   ngOnInit(){
     this.isWishlist = this.wishlistLocalService.isInWishlist(this.product.id);
+    this.isCart = this.cartLocalService.isInCart(this.product.id);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -140,11 +150,42 @@ export class ProductCardComponent {
     this.isWishlist = false;
   }
 
+  async onAddCart(){
+    await this.cartLocalService.addItem(this.product.id);
+    this.isCart = true;
+  }
+
+  async onDeleteCart(){
+    const itemId = this.cartLocalService.getItemIdByProductId(this.product.id);
+    if(itemId === null){return;}
+    await this.cartLocalService.removeItem(itemId);
+    this.isCart = false;
+  }
+
   async onWishlistChangeItem() {
     if(this.isWishlist){
       await this.onDeleteWishlist();
       return;
     }
     await this.onAddWishlist();
+  }
+
+  async onCartChangeItem() {
+    if(this.isCart){
+      await this.onDeleteCart();
+      return;
+    }
+    await this.onAddCart();
+  }
+
+  onDownQuantity() {
+    if(this.quantity === 1){return;}
+    this.quantity--;
+    this.onQuantityChange.emit({quantity: this.quantity, product_id: this.product.id});
+  }
+
+  onUppQuantity() {
+    this.quantity++;
+    this.onQuantityChange.emit({quantity: this.quantity, product_id: this.product.id});
   }
 }

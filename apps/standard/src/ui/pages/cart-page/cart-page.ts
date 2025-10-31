@@ -87,4 +87,12 @@ export class CartPage {
   onSubmitCartRequest() {
 
   }
+
+  onQuantityChange(quantityObj: {quantity: number, product_id: string}) {
+    this.cartItems.map((item) => {
+      if(item.product_id === quantityObj.product_id){
+        item.quantity = quantityObj.quantity;
+      }
+    });
+  }
 }

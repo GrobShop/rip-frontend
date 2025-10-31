@@ -5,6 +5,8 @@ import {NavBarComponent} from "../../../../libs/shared-components/src/lib/compon
 import {AdminNavLinks} from "../../../../libs/shared-components/src/lib/data/navlinks";
 import {ToastService} from "../../../../libs/shared-components/src/lib/services/notification/toast.service";
 import {HttpClientModule} from "@angular/common/http";
+import {WishlistService} from "../../../standard/src/services/routes/whislist/whislist.service";
+import {WishlistLocalService} from "../../../standard/src/services/routes/whislist/whislist-local.service";
 
 @Component({
   imports: [RouterModule, NavBarComponent, RouterOutlet, HttpClientModule],
@@ -17,7 +19,55 @@ export class App {
   protected title = 'admin';
   protected readonly AdminNavLinks = AdminNavLinks;
 
-  constructor(appRef: ApplicationRef, injector: EnvironmentInjector) {
+  constructor(appRef: ApplicationRef, injector: EnvironmentInjector, private wishlistService: WishlistService, private wishlistLocalService: WishlistLocalService) {
     ToastService.initialize(appRef, injector);
+    this.startSessionTimer();
+    this.setupUnloadCleanup();
+  }
+
+  private sessionTimer: any = null;
+  private readonly SESSION_DURATION = 50 * 60 * 1000; // 50 минут
+
+  /** Запуск жёсткого таймера на 50 минут */
+  private startSessionTimer(): void {
+    // Очищаем, если вдруг уже есть
+    this.clearSessionTimer();
+
+    this.sessionTimer = setTimeout(() => {
+      this.expireSession();
+    }, this.SESSION_DURATION);
+
+    console.log('Сессия истекает через 50 минут...');
+  }
+
+  /** Очистка таймера */
+  private clearSessionTimer(): void {
+    if (this.sessionTimer) {
+      clearTimeout(this.sessionTimer);
+      this.sessionTimer = null;
+    }
+  }
+
+  /** Истечение сессии: очистка + перезагрузка */
+  private expireSession(): void {
+    console.log('Сессия истекла — очистка и перезагрузка');
+    localStorage.clear();
+    location.reload();
+  }
+
+  /** Очистка localStorage при закрытии вкладки */
+  private setupUnloadCleanup(): void {
+    const cleanup = () => {
+      localStorage.clear();
+    };
+
+    window.addEventListener('beforeunload', cleanup);
+    window.addEventListener('pagehide', cleanup);
+  }
+
+  /** Очистка при уничтожении компонента */
+  ngOnDestroy(): void {
+    this.clearSessionTimer();
+    // Слушатели beforeunload/pagehide автоматически удаляются
   }
 }
