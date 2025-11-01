@@ -88,11 +88,27 @@ export class CartPage {
 
   }
 
-  onQuantityChange(quantityObj: {quantity: number, product_id: string}) {
+  onQuantityChange(quantityObj: {quantity: number, product_id: string, product: Product}) {
     this.cartItems.map((item) => {
       if(item.product_id === quantityObj.product_id){
         item.quantity = quantityObj.quantity;
       }
     });
+
+    let allCount = 0;
+    let allAmount = 0;
+    this.totalAmount = 0;
+    this.cartItems.forEach((item) => {
+      allCount += Number(item.quantity);
+      this.products.forEach((itemProduct) => {
+        if(item.product_id === itemProduct.id){
+          let amountProduct = item.quantity * itemProduct.price;
+          allAmount += Number(amountProduct);
+        }
+      })
+    });
+
+    this.totalAmount = Number(allAmount.toFixed(2));
+    this.totalCount = allCount;
   }
 }

@@ -16,3 +16,9 @@
   gap: 10px;
   flex-wrap: wrap;
 }
+
+@media (max-width: 630px) {
+  .category-page-list{
+    justify-content: center;
+  }
+}

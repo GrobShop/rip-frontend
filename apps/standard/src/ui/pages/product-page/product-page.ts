@@ -17,7 +17,7 @@ import {ProductService} from "../../../services/routes/product/product.service";
 import {ProductLocalService} from "../../../services/routes/product/product-local.service";
 import {CategoryService} from "../../../services/routes/category/category.service";
 import {CategoryLocalService} from "../../../services/routes/category/category-local.service";
-import {NgForOf} from "@angular/common";
+import {NgForOf, NgIf} from "@angular/common";
 import {Category} from "../../../../../../libs/shared-components/src/lib/interfaces/category.interface";
 
 @Component({
@@ -27,7 +27,8 @@ import {Category} from "../../../../../../libs/shared-components/src/lib/interfa
     HeaderDescriptionComponent,
     HeaderComponent,
     ButtonComponent,
-    NgForOf
+    NgForOf,
+    NgIf
   ],
   templateUrl: './product-page.html',
   styleUrl: './product-page.css',

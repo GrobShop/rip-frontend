@@ -69,7 +69,7 @@ export class ProductCardComponent {
   isCart: boolean = false;
   quantity: number = 1;
 
-  @Output() onQuantityChange = new EventEmitter<{quantity: number, product_id: string}>();
+  @Output() onQuantityChange = new EventEmitter<{quantity: number, product_id: string, product: Product}>();
 
   constructor(private productLocalService: ProductLocalService, private wishlistService: WishlistService, private wishlistLocalService: WishlistLocalService, private cartService: CartService, private cartLocalService: CartLocalService) {}
 
@@ -181,11 +181,11 @@ export class ProductCardComponent {
   onDownQuantity() {
     if(this.quantity === 1){return;}
     this.quantity--;
-    this.onQuantityChange.emit({quantity: this.quantity, product_id: this.product.id});
+    this.onQuantityChange.emit({quantity: this.quantity, product_id: this.product.id, product: this.product});
   }
 
   onUppQuantity() {
     this.quantity++;
-    this.onQuantityChange.emit({quantity: this.quantity, product_id: this.product.id});
+    this.onQuantityChange.emit({quantity: this.quantity, product_id: this.product.id, product: this.product});
   }
 }
