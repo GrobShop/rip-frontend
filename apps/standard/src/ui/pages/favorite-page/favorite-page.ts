@@ -36,6 +36,10 @@ export class FavoritePage {
   constructor(private router: Router, private wishlistService: WishlistService, private wishlistLocalService: WishlistLocalService, private productService: ProductService, private productLocalService: ProductLocalService) {}
 
   async ngOnInit(){
+    await this.wishlistUpdate();
+  }
+
+  async wishlistUpdate(){
     this.wishlistItems = this.wishlistLocalService.getItems();
 
     if(this.wishlistItems.length == 0){return;}
@@ -48,11 +52,21 @@ export class FavoritePage {
       const product = await this.productLocalService.getProductById(id);
       this.products.push(product);
     }
-
   }
+
 
 
   async goHomepage(){
     await this.router.navigate(['/categories']);
+  }
+
+  async onWishlistChange(product: Product) {
+    let localProducts: Product[] = [];
+    this.products.forEach((item) => {
+      if(item.id !== product.id) {
+        localProducts.push(item);
+      }
+    });
+    this.products = localProducts;
   }
 }

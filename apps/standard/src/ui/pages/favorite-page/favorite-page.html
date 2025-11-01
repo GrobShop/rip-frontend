@@ -12,6 +12,7 @@
     <lib-product-card-component
     *ngFor="let product of products"
     [product]="product"
+    (onWishlistChange)="onWishlistChange($event)"
     />
   </div>
 </div>

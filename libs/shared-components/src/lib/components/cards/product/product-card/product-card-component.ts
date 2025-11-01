@@ -312,6 +312,8 @@ export class ProductCardComponent {
   @Input() showQuantity: boolean = false;
 
   @Output() onQuantityChange = new EventEmitter<{quantity: number, product_id: string, product: Product}>();
+  @Output() onWishlistChange = new EventEmitter<Product>();
+  @Output() onCartChange = new EventEmitter<{product: Product, quantity: number}>();
 
   // === Реактивные стримы ===
   private imageUrlsCache = new Map<string, Observable<string[]>>(); // Кэш по product.id
@@ -419,6 +421,7 @@ export class ProductCardComponent {
       await this.wishlistLocalService.addItem(this.product.id);
     }
     this.updateWishlistStatus();
+    this.onWishlistChange.emit(this.product);
   }
 
   // === Cart ===
@@ -430,6 +433,7 @@ export class ProductCardComponent {
       await this.cartLocalService.addItem(this.product.id, this.quantity);
     }
     this.updateCartStatus();
+    this.onCartChange.emit({product: this.product, quantity: this.quantity});
   }
 
   // === Количество ===

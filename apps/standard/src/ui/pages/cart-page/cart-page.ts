@@ -111,4 +111,16 @@ export class CartPage {
     this.totalAmount = Number(allAmount.toFixed(2));
     this.totalCount = allCount;
   }
+
+  onCartChange($event: { product: Product; quantity: number }) {
+    let localProducts: Product[] = [];
+    this.products.forEach((item) => {
+      if(item.id !== $event.product.id) {
+        localProducts.push(item);
+      }
+    });
+    this.products = localProducts;
+    this.totalCount -= $event.quantity;
+    this.totalAmount -= Number($event.quantity * $event.product.price);
+  }
 }
