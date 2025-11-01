@@ -35,44 +35,100 @@ import {Category} from "../../../../../../libs/shared-components/src/lib/interfa
   standalone: true
 })
 export class ProductPage {
+  // products: Product[] = [];
+  // category: Category | null = null;
+  // categoryId: any;
+  // categoryDescription: string = '';
+  //
+  // constructor(private route: ActivatedRoute,private router: Router, private http: HttpClient, private productService: ProductService, protected productLocalService: ProductLocalService, private httpClient: HttpClient, private injector: EnvironmentInjector, private categoryService: CategoryService, protected categoryLocalService: CategoryLocalService) {}
+  //
+  //
+  // async ngOnInit(){
+  //   // Подписываемся на изменения параметров маршрута
+  //   this.route.paramMap.subscribe(async (params) => {
+  //     const id = params.get('categoryId');
+  //     if (id) {
+  //       this.categoryId = id;
+  //       console.log('Category ID:', this.categoryId);
+  //       await this.updateProducts();
+  //     } else {
+  //       console.warn('categoryId не найден в URL');
+  //     }
+  //   });
+  //   await this.getCategoryById();
+  //   await this.updateProducts();
+  // }
+  //
+  // async ngAfterViewInit(){
+  //   await this.updateProducts();
+  // }
+  //
+  // protected async updateProducts() {
+  //   const userId = await StoreService.get(StoreKeys.USER_ID);
+  //   console.log(userId);
+  //   await this.productLocalService.syncProductsByCategory(this.categoryId);
+  //   this.products = this.productLocalService.getProducts();
+  //   console.log(this.products);
+  // }
+  //
+  // protected async getCategoryById(){
+  //   this.category = await this.categoryLocalService.getCategoryById(this.categoryId);
+  //   this.categoryDescription = this.category.description ? this.category.description : '';
+  // }
+  //
+  // async goHomepage(){
+  //   await this.router.navigate(['/categories']);
+  // }
+
   products: Product[] = [];
   category: Category | null = null;
-  categoryId: any;
+  categoryId: string | null = null;
   categoryDescription: string = '';
 
-  constructor(private route: ActivatedRoute,private router: Router, private http: HttpClient, private productService: ProductService, protected productLocalService: ProductLocalService, private httpClient: HttpClient, private injector: EnvironmentInjector, private categoryService: CategoryService, protected categoryLocalService: CategoryLocalService) {}
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    protected productLocalService: ProductLocalService,
+    private injector: EnvironmentInjector,
+    protected categoryLocalService: CategoryLocalService
+  ) {}
 
-
-  async ngOnInit(){
-    // Подписываемся на изменения параметров маршрута
+  async ngOnInit(): Promise<void> {
+    // Подписываемся на изменения маршрута
     this.route.paramMap.subscribe(async (params) => {
       const id = params.get('categoryId');
-      if (id) {
+      if (id && id !== this.categoryId) {
         this.categoryId = id;
         console.log('Category ID:', this.categoryId);
-        await this.updateProducts();
-      } else {
-        console.warn('categoryId не найден в URL');
+
+        // Последовательно: категория → товары
+        await this.loadCategoryAndProducts();
       }
     });
-    await this.getCategoryById();
-    await this.updateProducts();
   }
 
-  protected async updateProducts() {
-    const userId = await StoreService.get(StoreKeys.USER_ID);
-    console.log(userId);
-    await this.productLocalService.syncProductsByCategory(this.categoryId);
-    this.products = this.productLocalService.getProducts();
-    console.log(this.products);
+  /** Загружаем категорию и товары */
+  private async loadCategoryAndProducts(): Promise<void> {
+    if (!this.categoryId) return;
+
+    try {
+      // 1. Загружаем категорию
+      this.category = await this.categoryLocalService.getCategoryById(this.categoryId);
+      this.categoryDescription = this.category?.description || '';
+
+      // 2. Синхронизируем товары
+      await this.productLocalService.syncProductsByCategory(this.categoryId);
+      this.products = this.productLocalService.getProducts();
+
+      console.log('Products loaded:', this.products);
+    } catch (error) {
+      console.error('Ошибка загрузки данных:', error);
+      this.products = [];
+      this.category = null;
+    }
   }
 
-  protected async getCategoryById(){
-    this.category = await this.categoryLocalService.getCategoryById(this.categoryId);
-    this.categoryDescription = this.category.description ? this.category.description : '';
-  }
-
-  async goHomepage(){
+  async goHomepage(): Promise<void> {
     await this.router.navigate(['/categories']);
   }
 }

@@ -1,6 +1,9 @@
 <div class="card" [style.width]="adaptedWidth" [style.height]="adaptedHeight">
   <div class="left-section">
-    <lib-image-carousel-component [images]="(imageUrlsAsync$ | async) || []"></lib-image-carousel-component>
+<!--    <lib-image-carousel-component [images]="(imageUrlsAsync$ | async) || []"></lib-image-carousel-component>-->
+    <lib-image-carousel-component
+      [images]="(imageUrls$ | async) || []">
+    </lib-image-carousel-component>
   </div>
   <div class="right-section">
     <h2 *ngIf="product?.title" class="title">{{ product.title }}</h2>
