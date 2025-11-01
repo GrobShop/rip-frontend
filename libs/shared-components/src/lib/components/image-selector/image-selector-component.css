@@ -41,6 +41,7 @@
   cursor: pointer;
   font-family: 'IBM Plex Serif', serif;
   font-size: 14px;
+  justify-content: center;
 }
 
 .select-button {

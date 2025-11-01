@@ -40,3 +40,19 @@
 .category-add-btn{
   margin-left: 12vw;
 }
+
+@media (max-width: 630px) {
+  .category-page-controls{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+    align-content: center;
+    align-items: center;
+    margin: 0;
+  }
+
+  .category-add-btn{
+    margin: 0;
+  }
+}

@@ -29,7 +29,7 @@ import {WishlistLocalService} from "../services/routes/whislist/whislist-local.s
   standalone: true
 })
 export class App {
-  protected title = 'standard';
+  protected title = 'RIP - Магазин';
 
   constructor(appRef: ApplicationRef, injector: EnvironmentInjector, private wishlistService: WishlistService, private wishlistLocalService: WishlistLocalService) {
     ToastService.initialize(appRef, injector);

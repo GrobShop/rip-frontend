@@ -16,7 +16,7 @@ import {WishlistLocalService} from "../../../standard/src/services/routes/whisli
   standalone: true
 })
 export class App {
-  protected title = 'admin';
+  protected title = 'RIP - Административная панель';
   protected readonly AdminNavLinks = AdminNavLinks;
 
   constructor(appRef: ApplicationRef, injector: EnvironmentInjector, private wishlistService: WishlistService, private wishlistLocalService: WishlistLocalService) {
