@@ -16,3 +16,10 @@
   justify-content: center;
   margin-top: 10px;
 }
+
+@media (max-width: 500px) {
+  .partners-modal-main{
+    display: flex;
+    flex-direction: column;
+  }
+}
