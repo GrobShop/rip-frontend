@@ -4,6 +4,9 @@ import { map } from 'rxjs/operators';
 import { firstValueFrom } from 'rxjs';
 import { ApiRoutes } from '../../../../../../libs/shared-components/src/lib/data/api/api.routes';
 import { AuthHeadersService } from '../../../../../admin/src/services/routes/auth/auth-headers.service';
+import {StoreService} from "../../../../../../libs/shared-components/src/lib/services/vault/store.service";
+import {StoreKeys} from "../../../../../../libs/shared-components/src/lib/data/vault/store.keys";
+import {ToastService} from "../../../../../../libs/shared-components/src/lib/services/notification/toast.service";
 
 export interface Cart {
   id: string;
@@ -24,6 +27,20 @@ export interface CartItem {
 export interface CartItemResponse {
   item: CartItem;
   message: string;
+}
+
+export interface CartSubmission {
+  cart_id: string;
+  items: CartItem[];
+  payment_method: string;
+  delivery_method: string;
+  submitted_at: string;
+  email_sent_to: string;
+}
+
+export interface SubmitCartOrderResponse {
+  message: string;
+  submission: CartSubmission;
 }
 
 @Injectable({
@@ -96,11 +113,11 @@ export class CartService {
   }
 
   /** Обновить количество товара */
-  async updateCartItem(itemId: string, quantity: number): Promise<CartItemResponse> {
+  async updateCartItem(itemId: string, quantity: number, productId: string): Promise<CartItemResponse> {
     const headers = await this.getHeaders();
-    const body = { quantity };
+    const cartId = await StoreService.get(StoreKeys.CART_ID);
     return firstValueFrom(
-      this.http.put<CartItemResponse>(ApiRoutes.STANDARD.CART.UPDATE_ITEM(itemId), body, { headers }).pipe(
+      this.http.put<CartItemResponse>(ApiRoutes.STANDARD.CART.UPDATE_ITEM(itemId), {cart_id: cartId, product_id: productId, quantity: quantity}, { headers }).pipe(
         map((response: any) => {
           if (response.item && response.message) {
             return response as CartItemResponse;
@@ -122,6 +139,32 @@ export class CartService {
         map((response: any) => {
           if (response.message) {
             return response;
+          } else if (response.error) {
+            throw new Error(response.error);
+          } else {
+            throw new Error('Некорректный ответ сервера');
+          }
+        })
+      )
+    );
+  }
+
+  /** Отправить заказ из корзины */
+  async submitCartOrder(
+    paymentMethod: string,
+    deliveryMethod: string
+  ): Promise<SubmitCartOrderResponse> {
+    const headers = await this.getHeaders();
+    const body = {
+      payment_method: paymentMethod,
+      delivery_method: deliveryMethod
+    };
+
+    return firstValueFrom(
+      this.http.post<SubmitCartOrderResponse>(ApiRoutes.STANDARD.CART.SUBMIT_ORDER, body, { headers }).pipe(
+        map((response: any) => {
+          if (response.submission && response.message) {
+            return response as SubmitCartOrderResponse;
           } else if (response.error) {
             throw new Error(response.error);
           } else {

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CartService, Cart, CartItem } from './cart.service';
+import {CartService, Cart, CartItem, SubmitCartOrderResponse} from './cart.service';
 import { StoreService } from '../../../../../../libs/shared-components/src/lib/services/vault/store.service';
 import { StoreKeys } from '../../../../../../libs/shared-components/src/lib/data/vault/store.keys';
 
@@ -60,14 +60,14 @@ export class CartLocalService {
   }
 
   /** Обновить количество товара */
-  async updateItem(itemId: string, quantity: number): Promise<CartItemLocal> {
+  async updateItem(itemId: string, quantity: number, productId: string): Promise<CartItemLocal> {
     if (quantity <= 0) {
       await this.removeItem(itemId);
       return { id: itemId, product_id: '', quantity: 0 };
     }
 
     try {
-      const response = await this.cartService.updateCartItem(itemId, quantity);
+      const response = await this.cartService.updateCartItem(itemId, quantity, productId);
       const index = this.items.findIndex(i => i.id === itemId);
       if (index !== -1) {
         this.items[index] = {
@@ -130,5 +130,34 @@ export class CartLocalService {
       const price = getPrice(item.product_id);
       return sum + price * item.quantity;
     }, 0);
+  }
+
+  /** Отправить заказ и очистить корзину */
+  async submitOrder(
+    paymentMethod: string,
+    deliveryMethod: string
+  ): Promise<SubmitCartOrderResponse> {
+    try {
+      const response = await this.cartService.submitCartOrder(paymentMethod, deliveryMethod);
+
+      // После успешной отправки — очищаем локальную корзину
+      this.clearCart();
+
+      return response;
+    } catch (error) {
+      console.error('Ошибка отправки заказа:', error);
+      throw error;
+    }
+  }
+
+  /** Очистить корзину локально */
+  async clearCart() {
+
+    for (const item of this.getItems()) {
+      await this.removeItem(item.id);
+    }
+
+    this.cartId = null;
+    this.items = [];
   }
 }

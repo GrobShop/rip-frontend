@@ -70,6 +70,7 @@ export const ApiRoutes = {
       GET_ITEMS: (cartId: string) => ApiSettings.apiUrl + `/carts/items/cart/${cartId}`,
       UPDATE_ITEM: (itemId: string) => ApiSettings.apiUrl + `/carts/items/${itemId}`,
       DELETE_ITEM: (itemId: string) => ApiSettings.apiUrl + `/carts/items/${itemId}`,
+      SUBMIT_ORDER: ApiSettings.apiUrl + '/carts/submit'
     }
   }
 };

@@ -11,7 +11,7 @@ export class ValidateService {
   }
 
   static validatePassword(password: string): PasswordValidationResult {
-    const minLength = 8;
+    const minLength = 3;
     const maxLength = 128;
     const hasMinLength = password.length >= minLength;
     const hasMaxLength = password.length <= maxLength;

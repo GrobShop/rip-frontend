@@ -11,7 +11,10 @@ import {
   WishlistLocalService
 } from "../../../../../../../../apps/standard/src/services/routes/whislist/whislist-local.service";
 import {CartService} from "../../../../../../../../apps/standard/src/services/routes/cart/cart.service";
-import {CartLocalService} from "../../../../../../../../apps/standard/src/services/routes/cart/cart-local.service";
+import {
+  CartItemLocal,
+  CartLocalService
+} from "../../../../../../../../apps/standard/src/services/routes/cart/cart-local.service";
 import {InputComponent} from "../../../input/input-component";
 
 @Component({
@@ -311,6 +314,8 @@ export class ProductCardComponent {
   @Input() showFavoriteBtn: boolean = true;
   @Input() showQuantity: boolean = false;
 
+  @Input() cartItems: CartItemLocal[] = [];
+
   @Output() onQuantityChange = new EventEmitter<{quantity: number, product_id: string, product: Product}>();
   @Output() onWishlistChange = new EventEmitter<Product>();
   @Output() onCartChange = new EventEmitter<{product: Product, quantity: number}>();
@@ -326,6 +331,14 @@ export class ProductCardComponent {
   isCart = false;
   quantity = 1;
 
+  ngOnInit(){
+    this.cartItems.forEach((item) => {
+      if(item.product_id === this.product.id){
+        this.quantity = item.quantity;
+      }
+    })
+  }
+
   constructor(
     private productLocalService: ProductLocalService,
     private wishlistLocalService: WishlistLocalService,
@@ -339,6 +352,14 @@ export class ProductCardComponent {
       this.updateCartStatus();
       this.loadProductImagesWithCache(); // ← Кэш + Lazy
       this.cdr.detectChanges();
+
+
+      console.log(this.cartItems);
+      this.cartItems.forEach((item) => {
+        if(item.product_id === this.product.id){
+          this.quantity = item.quantity;
+        }
+      })
     }
   }
 

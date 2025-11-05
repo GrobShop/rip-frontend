@@ -16,6 +16,9 @@ import {CartItem, CartService} from "../../../services/routes/cart/cart.service"
 import {CartItemLocal, CartLocalService} from "../../../services/routes/cart/cart-local.service";
 import {ProductService} from "../../../services/routes/product/product.service";
 import {ProductLocalService} from "../../../services/routes/product/product-local.service";
+import {StoreService} from "../../../../../../libs/shared-components/src/lib/services/vault/store.service";
+import {StoreKeys} from "../../../../../../libs/shared-components/src/lib/data/vault/store.keys";
+import {ToastService} from "../../../../../../libs/shared-components/src/lib/services/notification/toast.service";
 
 @Component({
   selector: 'app-cart-page',
@@ -84,13 +87,19 @@ export class CartPage {
     this.paymentMethod = $event;
   }
 
-  onSubmitCartRequest() {
-
+  async onSubmitCartRequest() {
+    await this.cartLocalService.submitOrder(this.paymentMethod, this.shipMethod);
+    ToastService.success("Заказ был отправлен!");
+    this.cartItems = [];
+    this.products = [];
+    this.shipMethod = '';
+    this.paymentMethod = '';
+    this.isOrder = false;
   }
 
-  onQuantityChange(quantityObj: {quantity: number, product_id: string, product: Product}) {
+  async onQuantityChange(quantityObj: { quantity: number, product_id: string, product: Product }) {
     this.cartItems.map((item) => {
-      if(item.product_id === quantityObj.product_id){
+      if (item.product_id === quantityObj.product_id) {
         item.quantity = quantityObj.quantity;
       }
     });
@@ -101,7 +110,7 @@ export class CartPage {
     this.cartItems.forEach((item) => {
       allCount += Number(item.quantity);
       this.products.forEach((itemProduct) => {
-        if(item.product_id === itemProduct.id){
+        if (item.product_id === itemProduct.id) {
           let amountProduct = item.quantity * itemProduct.price;
           allAmount += Number(amountProduct);
         }
@@ -110,9 +119,15 @@ export class CartPage {
 
     this.totalAmount = Number(allAmount.toFixed(2));
     this.totalCount = allCount;
+
+    for (const item of this.cartItems) {
+      if (item.product_id === quantityObj.product.id) {
+        await this.cartLocalService.updateItem(item.id, quantityObj.quantity, item.product_id);
+      }
+    }
   }
 
-  onCartChange($event: { product: Product; quantity: number }) {
+  async onCartChange($event: { product: Product; quantity: number }) {
     let localProducts: Product[] = [];
     this.products.forEach((item) => {
       if(item.id !== $event.product.id) {
