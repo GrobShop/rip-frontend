@@ -3,8 +3,8 @@
     <lib-image-carousel-component [images]="[logoCategoryUrl ? logoCategoryUrl : '']"></lib-image-carousel-component>
   </div>
   <div class="right-section">
-    <h2 *ngIf="category?.title" class="title">{{ category.title }}</h2>
-    <p *ngIf="category?.description" class="description">{{ category.description }}</p>
+    <h2 *ngIf="category.title" class="title">{{ category.title }}</h2>
+    <p *ngIf="category.description" class="description">{{ category.description }}</p>
     <div class="bottom-section">
       <div class="buttons">
         <lib-button-component (click)="onEdit()"  [text]="'Редактировать'" [height]="'36px'" [color]="'#111111'" [icon]="'assets/icons/controls/edit.svg'"></lib-button-component>

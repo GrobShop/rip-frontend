@@ -17,7 +17,7 @@ import { HttpClient } from '@angular/common/http';
   standalone: true
 })
 export class CategoryCardMinComponent {
-  @Input() category: Category = {id: '', title: '', image: ''};
+  @Input() category: Category = {id: '', title: '', image: '', description: ''};
   @Input() categoryLocalService: CategoryLocalService | null = null;
   logoCategoryUrl: string | null = null; // Сохраняем URL вместо Blob
 

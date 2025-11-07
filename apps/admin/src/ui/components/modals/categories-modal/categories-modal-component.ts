@@ -37,6 +37,7 @@ export class CategoriesModalComponent {
   @Output() updateCategories = new EventEmitter<void>();
   localCategory: Category = {id: '', title: '', image: '', description: ''};
   selectedImages: string[] = [];
+  description: string = '';
 
   ngOnInit(){
     this.localCategory = this.selectedCategoryEntry !== null ? this.selectedCategoryEntry : {id: '', title: '', image: '', description: ''};
@@ -52,14 +53,18 @@ export class CategoriesModalComponent {
 
   onClearLocalCategory(){
     this.localCategory = {id: '', title: '', image: '', description: ''};
+    this.description = '';
+    this.selectedImages = [];
   }
 
   onChangeName(newName: string){
     this.localCategory.title = newName;
+    console.log(this.localCategory.title);
   }
 
   onChangeDescription(newDescription: string){
     this.localCategory.description = newDescription;
+    this.description = newDescription;
   }
 
   onImagesChanged(images: string[]) {
@@ -73,13 +78,14 @@ export class CategoriesModalComponent {
     if(this.localCategory.title === ''){
       return;
     }
-    const newCategoryEntry = await this.categoryLocalService?.createCategory(this.localCategory.title, this.localCategory.description ? this.localCategory.description: "");
+    const newCategoryEntry = await this.categoryLocalService?.createCategory(this.localCategory.title, this.description);
+    console.log(newCategoryEntry);
     if (newCategoryEntry && this.selectedImages.length > 0 && this.categoryLocalService !== null) {
       await this.categoryLocalService?.addLogoCategory(newCategoryEntry.id, this.selectedImages[0]);
       this.localCategory.image = (await this.categoryLocalService.getCategoryLogo(newCategoryEntry.id)).toString();
     }
-    this.closed.emit();
     this.onClearLocalCategory();
+    this.closed.emit();
     this.updateCategories.emit();
   }
 
@@ -89,6 +95,7 @@ export class CategoriesModalComponent {
       return;
     }
     this.categoryLocalService?.updateCategory(this.localCategory);
+    this.onClearLocalCategory();
     this.closed.emit();
     this.updateCategories.emit();
   }

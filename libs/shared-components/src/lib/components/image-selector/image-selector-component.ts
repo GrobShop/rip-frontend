@@ -21,6 +21,12 @@ export class ImageSelectorComponent {
 
   croppedImages: string[] = [];
 
+  ngOnChanges(){
+    if(this.selectedImages.length === 0){
+      this.croppedImages = [];
+    }
+  }
+
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {

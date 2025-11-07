@@ -92,7 +92,7 @@ export class ProductService {
     };
     const headers = await this.getHeaders();
     return firstValueFrom(
-      this.http.put<ProductServer>(ApiRoutes.ADMIN.PRODUCT.UPDATE_PRODUCT(product.id), body, { headers }).pipe(
+      this.http.patch<ProductServer>(ApiRoutes.ADMIN.PRODUCT.UPDATE_PRODUCT(product.id), body, { headers }).pipe(
         map(() => {
           ToastService.success('Продукт успешно обновлён!');
         })

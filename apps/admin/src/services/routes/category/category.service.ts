@@ -75,7 +75,7 @@ export class CategoryService {
   async updateCategory(category: Category): Promise<void> {
     const headers = await this.getHeaders();
     return firstValueFrom(
-      this.http.put<CategoryServer>(ApiRoutes.ADMIN.CATEGORY.UPDATE_CATEGORY(category.id), { name: category.title, description: category.description }, { headers }).pipe(
+      this.http.patch<CategoryServer>(ApiRoutes.ADMIN.CATEGORY.UPDATE_CATEGORY(category.id), { name: category.title, description: category.description }, { headers }).pipe(
         map(() => {
           ToastService.success('Категория успешно обновлена!');
         })
