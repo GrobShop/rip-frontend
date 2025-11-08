@@ -10,7 +10,7 @@ export const authInterceptor: HttpInterceptorFn = (
 ): Observable<HttpEvent<any>> => {
   return next(req).pipe(
     catchError((error: any) => {
-      if (error.status === 403 && !isReloading) {
+      if ((error.status === 403 || error.status === 401) && !isReloading) {
         isReloading = true;
         console.warn('403 Forbidden: Сессия истекла. Очищаем localStorage и перезагружаем...');
 
