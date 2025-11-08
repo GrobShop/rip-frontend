@@ -12,6 +12,7 @@
   height: clamp(110px, 161px, 220px); /* ~161px на 1920px */
   border-radius: 18px;
   overflow: hidden;
+  cursor: pointer;
 }
 
 .carousel-image {
@@ -89,4 +90,93 @@
 
 .dot.active {
   background-color: #FFFFFF;
+}
+
+/* === ПОЛНОЭКРАННЫЙ РЕЖИМ === */
+.fullscreen-backdrop {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  backdrop-filter: blur(8px);
+}
+
+.fullscreen-container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.fullscreen-image {
+  max-width: 95vw;
+  max-height: 95vh;
+  object-fit: contain;
+  transition: transform 0.1s ease-out;
+  user-select: none;
+  touch-action: none;
+  cursor: grab;
+}
+
+.fullscreen-image:active {
+  cursor: grabbing;
+}
+
+/* Кнопки */
+.close-btn {
+  position: absolute;
+  top: 16px; right: 16px;
+  background: rgba(255,255,255,0.2);
+  border: none;
+  border-radius: 50%;
+  width: 40px; height: 40px;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.fs-arrow {
+  position: absolute;
+  top: 50%; transform: translateY(-50%);
+  background: rgba(255,255,255,0.3);
+  border: none;
+  border-radius: 50%;
+  width: 48px; height: 48px;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.fs-arrow.left { left: 16px; }
+.fs-arrow.right { right: 16px; }
+
+.fullscreen-controls {
+  position: absolute;
+  bottom: 20px;
+  left: 50%; transform: translateX(-50%);
+  background: rgba(0,0,0,0.7);
+  border-radius: 30px;
+  padding: 8px 16px;
+  display: flex;
+  gap: 12px;
+  z-index: 10;
+}
+
+.fullscreen-controls button {
+  background: none;
+  border: 1px solid #fff;
+  color: white;
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
 }

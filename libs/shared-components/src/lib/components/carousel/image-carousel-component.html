@@ -1,10 +1,48 @@
+<!--<div class="carousel-container">-->
+<!--  <div class="image-wrapper">-->
+<!--    <button *ngIf="images.length > 1" class="arrow left-arrow" (click)="prevImage()" [disabled]="currentIndex === 0">-->
+<!--      <svg class="arrow-icon" aria-hidden="true">-->
+<!--        <use href="assets/icons/controls/arrow-left.svg"></use>-->
+<!--      </svg>-->
+<!--    </button>-->
+<!--    <img-->
+<!--      *ngIf="images[currentIndex]"-->
+<!--      [src]="images[currentIndex]"-->
+<!--      class="carousel-image"-->
+<!--      [alt]="'Image ' + (currentIndex + 1)"-->
+<!--      (error)="handleImageError()"-->
+<!--    >-->
+<!--    <div *ngIf="!images[currentIndex] || imageError" class="image-placeholder">-->
+<!--      <svg class="placeholder-icon" aria-hidden="true">-->
+<!--        <use href="assets/icons/image/image-placeholder.svg"></use>-->
+<!--      </svg>-->
+<!--    </div>-->
+<!--    <button *ngIf="images.length > 1" class="arrow right-arrow" (click)="nextImage()" [disabled]="currentIndex === images.length - 1">-->
+<!--      <svg class="arrow-icon" aria-hidden="true">-->
+<!--        <use href="assets/icons/controls/arrow-right.svg"></use>-->
+<!--      </svg>-->
+<!--    </button>-->
+<!--  </div>-->
+<!--  <div *ngIf="images.length > 1" class="controls">-->
+<!--    <div class="dots">-->
+<!--          <span-->
+<!--            *ngFor="let img of images; let i = index"-->
+<!--            class="dot"-->
+<!--            [class.active]="i === currentIndex"-->
+<!--            (click)="goToImage(i)"-->
+<!--          ></span>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
+
 <div class="carousel-container">
-  <div class="image-wrapper">
-    <button *ngIf="images.length > 1" class="arrow left-arrow" (click)="prevImage()" [disabled]="currentIndex === 0">
+  <div class="image-wrapper" (click)="openFullscreen()">
+    <button *ngIf="images.length > 1" class="arrow left-arrow" (click)="$event.stopPropagation(); prevImage()" [disabled]="currentIndex === 0">
       <svg class="arrow-icon" aria-hidden="true">
         <use href="assets/icons/controls/arrow-left.svg"></use>
       </svg>
     </button>
+
     <img
       *ngIf="images[currentIndex]"
       [src]="images[currentIndex]"
@@ -12,25 +50,75 @@
       [alt]="'Image ' + (currentIndex + 1)"
       (error)="handleImageError()"
     >
+
     <div *ngIf="!images[currentIndex] || imageError" class="image-placeholder">
       <svg class="placeholder-icon" aria-hidden="true">
         <use href="assets/icons/image/image-placeholder.svg"></use>
       </svg>
     </div>
-    <button *ngIf="images.length > 1" class="arrow right-arrow" (click)="nextImage()" [disabled]="currentIndex === images.length - 1">
+
+    <button *ngIf="images.length > 1" class="arrow right-arrow" (click)="$event.stopPropagation(); nextImage()" [disabled]="currentIndex === images.length - 1">
       <svg class="arrow-icon" aria-hidden="true">
         <use href="assets/icons/controls/arrow-right.svg"></use>
       </svg>
     </button>
   </div>
+
   <div *ngIf="images.length > 1" class="controls">
     <div class="dots">
-          <span
-            *ngFor="let img of images; let i = index"
-            class="dot"
-            [class.active]="i === currentIndex"
-            (click)="goToImage(i)"
-          ></span>
+      <span
+        *ngFor="let img of images; let i = index"
+        class="dot"
+        [class.active]="i === currentIndex"
+        (click)="goToImage(i)"
+      ></span>
+    </div>
+  </div>
+</div>
+
+<!-- === ПОЛНОЭКРАННЫЙ РЕЖИМ === -->
+<div *ngIf="isFullscreen" class="fullscreen-backdrop" (click)="onBackdropClick($event)">
+  <div class="fullscreen-container">
+    <!-- Кнопка закрытия -->
+    <button class="close-btn" (click)="closeFullscreen()">
+<!--      <svg width="24" height="24" fill="white">-->
+<!--        <use href="assets/icons/controls/close.svg"></use>-->
+<!--      </svg>-->
+      <img width="24" height="24" [src]="'assets/icons/controls/close.svg'" alt="">
+    </button>
+
+    <!-- Навигация -->
+    <button *ngIf="images.length > 1" class="fs-arrow left" (click)="prevImage()">
+      <svg class="arrow-icon"><use href="assets/icons/controls/arrow-left.svg"></use></svg>
+    </button>
+    <button *ngIf="images.length > 1" class="fs-arrow right" (click)="nextImage()">
+      <svg class="arrow-icon"><use href="assets/icons/controls/arrow-right.svg"></use></svg>
+    </button>
+
+    <!-- Изображение -->
+    <img
+      #fullscreenImage
+      [src]="images[currentIndex]"
+      class="fullscreen-image"
+      [style.transform]="'translate(' + translateX + 'px, ' + translateY + 'px) scale(' + scale + ') rotate(' + rotate + 'deg)'"
+      (pointerdown)="onPointerDown($event)"
+      (pointermove)="onPointerMove($event)"
+      (error)="handleImageError()"
+    >
+
+    <!-- Панель управления -->
+    <div class="fullscreen-controls">
+      <button (click)="zoomOut()" title="Уменьшить">−</button>
+      <button (click)="resetTransform()" title="Сбросить">
+        <img width="24" height="24" [src]="'assets/icons/controls/reset.svg'" alt="">
+      </button>
+      <button (click)="zoomIn()" title="Увеличить">+</button>
+      <button (click)="rotateLeft()" title="Повернуть влево">
+        <img width="24" height="24" [src]="'assets/icons/controls/rotate_left.svg'" alt="">
+      </button>
+      <button (click)="rotateRight()" title="Повернуть вправо">
+        <img width="24" height="24" [src]="'assets/icons/controls/rotate_right.svg'" alt="">
+      </button>
     </div>
   </div>
 </div>
