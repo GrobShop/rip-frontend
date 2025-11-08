@@ -2,7 +2,7 @@
   background-color: #444444;
   border-radius: 20px;
   display: flex;
-  overflow: hidden;
+  /*overflow: hidden;*/
 }
 
 .left-section {

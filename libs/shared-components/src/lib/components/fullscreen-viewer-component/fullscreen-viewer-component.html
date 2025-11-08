@@ -1,0 +1,38 @@
+<div class="fs-backdrop" (click)="onBackdropClick($event)">
+  <div class="fs-container">
+    <button class="close-btn" (click)="close.emit()">
+      <img width="24" height="24" [src]="'assets/icons/controls/close.svg'" alt="">
+    </button>
+
+    <button *ngIf="images.length > 1" class="fs-arrow left" (click)="prev.emit()">
+      <svg class="arrow-icon"><use href="assets/icons/controls/arrow-left.svg"></use></svg>
+    </button>
+    <button *ngIf="images.length > 1" class="fs-arrow right" (click)="next.emit()">
+      <svg class="arrow-icon"><use href="assets/icons/controls/arrow-right.svg"></use></svg>
+    </button>
+
+    <img
+      #img
+      [src]="images[currentIndex]"
+      class="fs-image"
+      [style.transform]="'translate(' + tx + 'px, ' + ty + 'px) scale(' + scale + ') rotate(' + rotate + 'deg)'"
+      (pointerdown)="onDown($event)"
+      (pointermove)="onMove($event)"
+      (pointerup)="onUp($event)"
+    >
+
+    <div class="fs-controls">
+      <button (click)="zoom.emit(-0.5)">−</button>
+      <button (click)="reset.emit()">
+        <img width="24" height="24" [src]="'assets/icons/controls/reset.svg'" alt="">
+      </button>
+      <button (click)="zoom.emit(0.5)">+</button>
+      <button (click)="rotateLeft.emit()">
+        <img width="24" height="24" [src]="'assets/icons/controls/rotate_left.svg'" alt="">
+      </button>
+      <button (click)="rotateRight.emit()">
+        <img width="24" height="24" [src]="'assets/icons/controls/rotate_right.svg'" alt="">
+      </button>
+    </div>
+  </div>
+</div>

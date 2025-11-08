@@ -43,6 +43,7 @@
 
 import { Component, Input, HostListener, ElementRef, ViewChild } from '@angular/core';
 import { NgForOf, NgIf } from "@angular/common";
+import {FullscreenService} from "../../services/fullscreen.service";
 
 @Component({
   selector: 'lib-image-carousel-component',
@@ -69,6 +70,8 @@ export class ImageCarouselComponent {
   private startDistance = 0;
 
   @ViewChild('fullscreenImage') fullscreenImage!: ElementRef<HTMLImageElement>;
+
+  constructor(private fs: FullscreenService) {}
 
   // === Навигация ===
   nextImage() {
