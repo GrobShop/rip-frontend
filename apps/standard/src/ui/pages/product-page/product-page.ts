@@ -19,6 +19,8 @@ import {CategoryService} from "../../../services/routes/category/category.servic
 import {CategoryLocalService} from "../../../services/routes/category/category-local.service";
 import {NgForOf, NgIf} from "@angular/common";
 import {Category} from "../../../../../../libs/shared-components/src/lib/interfaces/category.interface";
+import {ProductLocalService as ProdLocS} from '../../../../../admin/src/services/routes/product/product-local.service';
+
 
 @Component({
   selector: 'app-product-page',
@@ -90,7 +92,8 @@ export class ProductPage {
     private router: Router,
     protected productLocalService: ProductLocalService,
     private injector: EnvironmentInjector,
-    protected categoryLocalService: CategoryLocalService
+    protected categoryLocalService: CategoryLocalService,
+    private prodLocS: ProdLocS
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -119,6 +122,11 @@ export class ProductPage {
       // 2. Синхронизируем товары
       await this.productLocalService.syncProductsByCategory(this.categoryId);
       this.products = this.productLocalService.getProducts();
+
+      for (const item of this.products) {
+        const img = await this.prodLocS.getAllProductImages(item.id);
+        item.productImages = img.images;
+      }
 
       console.log('Products loaded:', this.products);
     } catch (error) {

@@ -19,7 +19,7 @@ import {ProductLocalService} from "../../../services/routes/product/product-loca
 import {StoreService} from "../../../../../../libs/shared-components/src/lib/services/vault/store.service";
 import {StoreKeys} from "../../../../../../libs/shared-components/src/lib/data/vault/store.keys";
 import {ToastService} from "../../../../../../libs/shared-components/src/lib/services/notification/toast.service";
-
+import {ProductLocalService as ProdLocS} from '../../../../../admin/src/services/routes/product/product-local.service';
 @Component({
   selector: 'app-cart-page',
   imports: [
@@ -47,7 +47,7 @@ export class CartPage {
   shipMethod: string = '';
   paymentMethod: string = '';
 
-  constructor(private router: Router, private cartService: CartService, private cartLocalService: CartLocalService, private productService: ProductService, private productLocalService: ProductLocalService) {}
+  constructor(private router: Router, private cartService: CartService, private cartLocalService: CartLocalService, private productService: ProductService, private productLocalService: ProductLocalService, private prodLocS: ProdLocS) {}
 
   async ngOnInit(){
     await this.cartLocalService.syncCart();
@@ -62,6 +62,8 @@ export class CartPage {
     for (const id of this.productsIds) {
       const product = await this.productLocalService.getProductById(id);
       this.totalAmount += Number(product.price);
+      const img = await this.prodLocS.getAllProductImages(product.id);
+      product.productImages = img.images;
       this.products.push(product);
     }
     this.totalCount = this.cartLocalService.getTotalItems();
