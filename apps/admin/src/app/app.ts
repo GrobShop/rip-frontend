@@ -21,8 +21,8 @@ export class App {
 
   constructor(appRef: ApplicationRef, injector: EnvironmentInjector, private wishlistService: WishlistService, private wishlistLocalService: WishlistLocalService) {
     ToastService.initialize(appRef, injector);
-    this.startSessionTimer();
-    this.setupUnloadCleanup();
+    // this.startSessionTimer();
+    // this.setupUnloadCleanup();
   }
 
   private sessionTimer: any = null;
