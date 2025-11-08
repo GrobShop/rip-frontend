@@ -15,6 +15,8 @@ import {
   WishlistLocalService
 } from "../../../../../../../../apps/standard/src/services/routes/whislist/whislist-local.service";
 import {CartLocalService} from "../../../../../../../../apps/standard/src/services/routes/cart/cart-local.service";
+import {StoreService} from "../../../../services/vault/store.service";
+import {StoreKeys} from "../../../../data/vault/store.keys";
 
 @Component({
   selector: 'lib-product-card-admin',
@@ -29,7 +31,7 @@ import {CartLocalService} from "../../../../../../../../apps/standard/src/servic
   standalone: true
 })
 export class ProductCardAdmin {
-  @Input() product: Product = {id: '', images: [], price: 0, isFavorite: false, title: '', description: ''};
+  @Input() product!: Product;
   // @Input() productLocalService: ProductLocalService | null = null;
   @Output() onDeleteEvent = new EventEmitter<Product>();
   @Output() onEditEvent = new EventEmitter<Product>();
@@ -39,13 +41,15 @@ export class ProductCardAdmin {
   imageUrls$!: Observable<string[]>;
   isLoadingImages$ = new BehaviorSubject<boolean>(true);
 
-  private blobUrls: string[] = [];
+  protected blobUrls: string[] = [];
+
+  imgUrls: string[] = [];
 
   constructor(
     private productLocalService: ProductLocalService,
     private cdr: ChangeDetectorRef
-  ) {}
-
+  ) {
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['product'] && this.product) {
@@ -85,6 +89,7 @@ export class ProductCardAdmin {
           images.map(async (img: ProductImage) => {
             try {
               const blob = await this.productLocalService.getProductImage(this.product.id, img.id);
+              console.log(blob);
               const url = URL.createObjectURL(blob);
               this.blobUrls.push(url);
               return url;

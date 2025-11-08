@@ -97,6 +97,10 @@ export class ProductsControlsPage {
     console.log(userId);
     await this.productLocalService.syncProducts(userId ? userId : '');
     this.products = this.productLocalService.getProducts();
+    for (const item of this.products) {
+      const img = await this.productLocalService.getAllProductImages(item.id);
+      item.productImages = img.images;
+    }
     console.log(this.products);
     this.filteredProducts = this.products;
   }

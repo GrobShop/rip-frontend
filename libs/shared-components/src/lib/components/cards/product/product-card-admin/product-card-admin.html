@@ -8,10 +8,10 @@
   <div class="right-section">
     <h2 *ngIf="product?.title" class="title">{{ product.title }}</h2>
     <p *ngIf="product?.description" class="description">{{ product.description }}</p>
+    <div class="price-container">
+      <span class="price">{{ product?.price }} р</span>
+    </div>
     <div class="bottom-section">
-      <div class="price-container">
-        <span class="price">{{ product?.price }} р</span>
-      </div>
       <div class="buttons">
         <lib-button-component (click)="onEdit()" [text]="'Редактировать'" [height]="'36px'" [color]="'#111111'" [icon]="'assets/icons/controls/edit.svg'"></lib-button-component>
         <lib-button-component
