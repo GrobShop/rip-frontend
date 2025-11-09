@@ -7,7 +7,7 @@
 ## Установка и запуск
 ```bash
 # 1. Клонируем репозиторий
-git clone https://github.com/your-org/rip-shop.git
+git clone https://github.com/GrobShop/rip-frontend.git
 ```
 ```bash
 # 2. Переходим в директорию проекта
