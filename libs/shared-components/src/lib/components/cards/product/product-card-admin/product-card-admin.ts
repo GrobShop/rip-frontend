@@ -51,6 +51,10 @@ export class ProductCardAdmin {
   ) {
   }
 
+  ngOnInit(){
+    console.log(this.product);
+  }
+
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['product'] && this.product) {
       this.loadProductImagesWithCache(); // ← Кэш + Lazy

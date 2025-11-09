@@ -92,8 +92,10 @@ export class ProductModalComponent {
   }
 
   onImagesChanged(images: string[]) {
+    console.log('images', images);
     this.selectedImages = images;
     this.localProducts.images = images.length > 0 ? images : [];
+    console.log('selectedImages', this.selectedImages);
   }
 
   protected readonly CategoryModalModes = CategoryModalModes;
@@ -102,6 +104,7 @@ export class ProductModalComponent {
     if(this.localProducts.title === '' || this.localProducts.price === 0){
       return;
     }
+    console.log('selectedImages', this.selectedImages);
     const newProductEntry = await this.productLocalService?.createProduct(this.localProducts);
     if (newProductEntry && this.selectedImages.length > 0 && this.categoryLocalService !== null) {
       for(let i = 0; i < this.selectedImages.length; i++) {
