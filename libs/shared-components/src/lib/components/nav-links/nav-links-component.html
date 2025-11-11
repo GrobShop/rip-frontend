@@ -5,6 +5,8 @@
     routerLinkActive="active"
     [routerLinkActiveOptions]="{ exact: false }"
     class="link"
+    (click)="onClickItem(item)"
+    [style.color]="item.id === 'quit' ? 'red' : null"
   >
     <img [src]="item.icon" class="nav-icon">
 <!--    <svg *ngIf="item.icon" class="nav-icon">-->
