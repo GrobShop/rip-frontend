@@ -254,6 +254,7 @@ export class CategoryService {
           if (response.message) {
             ToastService.success('Категория успешно удалена!');
           } else if (response.error) {
+            console.log(response.error);
             throw new Error(response.error);
           }
         })

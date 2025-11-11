@@ -49,6 +49,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { firstValueFrom } from 'rxjs';
+import {ToastService} from "../services/notification/toast.service";
 
 let isReloading = false;
 
@@ -64,6 +65,9 @@ export async function withTokenRefresh<T>(
       catchError(err => {
         if ((err.status === 401 || err.status === 403) && !isReloading) {
           handleLogout();
+        }
+        if(err.status === 500 && err.error.error.includes('delete category')){
+         ToastService.danger("Для удаления данной категории необходимо удалить все товара принадлежащие данной категории!","Невозможно удалить категорию, к которой привязаны товары!");
         }
         const message = err.error?.error || err.message || 'Ошибка сервера';
         return throwError(() => new Error(message));
