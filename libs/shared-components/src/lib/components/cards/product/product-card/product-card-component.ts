@@ -16,6 +16,9 @@ import {
   CartLocalService
 } from "../../../../../../../../apps/standard/src/services/routes/cart/cart-local.service";
 import {InputComponent} from "../../../input/input-component";
+import {
+  ProductLocalService as ProdLocS
+} from "../../../../../../../../apps/admin/src/services/routes/product/product-local.service";
 
 @Component({
   selector: 'lib-product-card-component',
@@ -331,7 +334,11 @@ export class ProductCardComponent {
   isCart = false;
   quantity = 1;
 
-  ngOnInit(){
+  async ngOnInit(){
+    const img = await this.prodLocS.getAllProductImages(this.product.id);
+    this.product.productImages = img.images;
+    this.loadProductImagesWithCache(); // ← Кэш + Lazy
+    this.cdr.detectChanges();
     this.cartItems.forEach((item) => {
       if(item.product_id === this.product.id){
         this.quantity = item.quantity;
@@ -343,14 +350,15 @@ export class ProductCardComponent {
     private productLocalService: ProductLocalService,
     private wishlistLocalService: WishlistLocalService,
     private cartLocalService: CartLocalService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private prodLocS: ProdLocS
   ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['product'] && this.product) {
       this.updateWishlistStatus();
       this.updateCartStatus();
-      this.loadProductImagesWithCache(); // ← Кэш + Lazy
+      // this.loadProductImagesWithCache(); // ← Кэш + Lazy
       this.cdr.detectChanges();
 
 
@@ -387,6 +395,7 @@ export class ProductCardComponent {
   }
 
   private createImageStream(): Observable<string[]> {
+    console.log(this.product);
     return of(this.product.productImages || []).pipe(
       switchMap(images => {
         if (images.length === 0) return of([]);

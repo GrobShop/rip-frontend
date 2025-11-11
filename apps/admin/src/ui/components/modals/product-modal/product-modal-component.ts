@@ -124,7 +124,9 @@ export class ProductModalComponent {
     }
     this.productLocalService?.updateProduct(this.localProducts);
     this.closed.emit();
-    this.updateProducts.emit();
+    setTimeout(() => {
+      this.updateProducts.emit();
+    }, 200)
   }
 
   onCategorySelected($event: string) {
