@@ -97,6 +97,8 @@ export class CartPage {
     this.shipMethod = '';
     this.paymentMethod = '';
     this.isOrder = false;
+    this.totalAmount = 0;
+    this.totalCount = 0;
   }
 
   async onQuantityChange(quantityObj: { quantity: number, product_id: string, product: Product }) {

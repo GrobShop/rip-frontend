@@ -1,0 +1,39 @@
+<div class="pagination-container">
+  <button
+    class="nav-btn"
+    (click)="prevPage()"
+    [disabled]="currentPage === 1"
+    [class.disabled]="currentPage === 1"
+  >
+    Left Arrow
+  </button>
+
+  <ng-container *ngFor="let page of pages">
+    <button
+      *ngIf="page === '...' else numberBtn"
+      class="dots"
+      disabled
+    >
+      ...
+    </button>
+
+    <ng-template #numberBtn>
+      <button
+        class="page-btn"
+        [class.active]="page === currentPage"
+        (click)="goToPage(page)"
+      >
+        {{ page }}
+      </button>
+    </ng-template>
+  </ng-container>
+
+  <button
+    class="nav-btn"
+    (click)="nextPage()"
+    [disabled]="currentPage === totalPages"
+    [class.disabled]="currentPage === totalPages"
+  >
+    Right Arrow
+  </button>
+</div>

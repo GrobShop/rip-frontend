@@ -26,6 +26,9 @@ import {
 } from "../../../../../../libs/shared-components/src/lib/services/modals/confirm-modal.service";
 import {ButtonComponent} from "../../../../../../libs/shared-components/src/lib/components/button/button-component";
 import {InputComponent} from "../../../../../../libs/shared-components/src/lib/components/input/input-component";
+import {
+  LibPaginationComponent
+} from "../../../../../../libs/shared-components/src/lib/components/pagination/lib-pagination-component";
 
 @Component({
   selector: 'app-categories-controls-page',
@@ -41,7 +44,8 @@ import {InputComponent} from "../../../../../../libs/shared-components/src/lib/c
     NgForOf,
     NgIf,
     ButtonComponent,
-    InputComponent
+    InputComponent,
+    LibPaginationComponent
   ],
   templateUrl: './categories-controls-page.html',
   styleUrl: './categories-controls-page.css',

@@ -94,9 +94,13 @@ export class CategoriesModalComponent {
       this.closed.emit();
       return;
     }
+    this.localCategory.description = this.description;
+    console.log(this.localCategory);
     this.categoryLocalService?.updateCategory(this.localCategory);
     this.onClearLocalCategory();
+    setTimeout(() => {
+      this.updateCategories.emit();
+    }, 200)
     this.closed.emit();
-    this.updateCategories.emit();
   }
 }
