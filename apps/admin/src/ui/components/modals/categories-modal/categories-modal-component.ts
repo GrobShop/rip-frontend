@@ -103,4 +103,10 @@ export class CategoriesModalComponent {
     }, 200)
     this.closed.emit();
   }
+
+  async onClearAllImages() {
+    if(this.selectedImages.length > 0){
+      await this.categoryLocalService?.deleteLogoCategory(this.localCategory.id);
+    }
+  }
 }

@@ -77,6 +77,7 @@ export class ImageSelectorComponent {
   @Input() multiple: boolean = false;
   @Input() selectedImages: string[] = []; // ← Только для отображения (не трогаем!)
   @Output() imagesChanged = new EventEmitter<string[]>();
+  @Output() clearImagesEvent = new EventEmitter<void>();
 
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
 
@@ -128,6 +129,7 @@ export class ImageSelectorComponent {
 
   clearSelection(): void {
     // Освобождаем память
+    this.clearImagesEvent.emit();
     this._croppedImages.forEach(url => URL.revokeObjectURL(url));
     this._croppedImages = [];
     this.imagesChanged.emit(this._croppedImages);

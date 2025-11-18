@@ -309,4 +309,28 @@ export class CategoryService {
       )
     );
   }
+
+  // 8. DELETE LOGO
+  async deleteLogoCategory(categoryId: string): Promise<{ message: string; deleted_file?: string }> {
+    return withTokenRefresh(this.http, (headers) =>
+      this.http.delete<any>(
+        ApiRoutes.ADMIN.CATEGORY.DELETE_LOGO_CATEGORY(categoryId),
+        { headers }
+      ).pipe(
+        map((response: any) => {
+          if (response.message && response.category) {
+            ToastService.success('Логотип успешно удалён!');
+            return {
+              message: response.message,
+              deleted_file: response.deleted_file || undefined
+            };
+          } else if (response.error) {
+            throw new Error(response.error);
+          } else {
+            throw new Error('Некорректный ответ сервера');
+          }
+        })
+      )
+    );
+  }
 }

@@ -13,6 +13,7 @@ export const ApiRoutes = {
       DELETE_CATEGORY: (categoryId: string) => ApiSettings.apiUrl + `/categories/${categoryId}`,
       ADD_LOGO_CATEGORY: (categoryId: string) => ApiSettings.apiUrl + `/categories/${categoryId}/logo`,
       GET_CATEGORY_LOGO: (categoryId: string) => ApiSettings.apiUrl + `/categories/${categoryId}/logo`,
+      DELETE_LOGO_CATEGORY: (categoryId: string) => ApiSettings.apiUrl + `/categories/${categoryId}/logo`,
     },
     PARTNER: {
       CREATE_PARTNER: ApiSettings.apiUrl + '/auth/register',

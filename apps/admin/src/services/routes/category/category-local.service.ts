@@ -103,6 +103,18 @@ export class CategoryLocalService {
     }
   }
 
+  async deleteLogoCategory(categoryId: string): Promise<void> {
+    try {
+      await this.serverCategoryService.deleteLogoCategory(categoryId);
+      const index = this.categories.findIndex(c => c.id === categoryId);
+      if (index !== -1) {
+        this.categories[index] = { ...this.categories[index], image: '' };
+      }
+    } catch (e) {
+      throw e;
+    }
+  }
+
   async getCategoryLogo(categoryId: string): Promise<Blob> {
     return this.serverCategoryService.getCategoryLogo(categoryId);
   }
