@@ -42,6 +42,7 @@ export class ProductModalComponent {
   @Output() updateProducts = new EventEmitter<void>();
   localProducts: Product = {id: '', title: '', images: [], description: '', isFavorite: false, price: 0};
   selectedImages: string[] = [];
+  defaultSelectedCategoryLabel: string = '';
 
   @Input() categories: Category[] = [];
 
@@ -66,6 +67,10 @@ export class ProductModalComponent {
     console.log(this.categories);
     this.categories.forEach(category => {
       this.optionsCategories.push({value: category.id, label: category.title});
+      if(category.id === this.localProducts.category_id){
+        this.defaultSelectedCategoryLabel = category.title;
+        console.log('default', this.defaultSelectedCategoryLabel);
+      }
     })
   }
 
@@ -75,14 +80,21 @@ export class ProductModalComponent {
       this.localProducts = this.selectedProductEntry !== null ? { ...this.selectedProductEntry } : {id: '', title: '', images: [], description: '', isFavorite: false, price: 0};
       this.selectedImages = this.localProducts.images ? this.localProducts.images : [];
 
+      this.optionsCategories = [];
       this.categories.forEach(category => {
         this.optionsCategories.push({value: category.id, label: category.title});
+        if(category.id === this.localProducts.category_id){
+          this.defaultSelectedCategoryLabel = category.title;
+          console.log('default', this.defaultSelectedCategoryLabel);
+        }
       })
     }
   }
 
   onClearLocalProduct(){
     this.localProducts = {id: '', title: '', images: [], description: '', isFavorite: false, price: 0};
+    this.categories = [];
+    this.defaultSelectedCategoryLabel = '';
   }
 
   onChangeName(newName: string){
