@@ -52,8 +52,13 @@ export class ProductModalComponent {
 
 
   async ngOnInit(){
+    console.log(this.selectedProductEntry);
     this.localProducts = this.selectedProductEntry !== null ? this.selectedProductEntry : {id: '', title: '', images: [], description: '', isFavorite: false, price: 0};
+    // this.selectedImages = this.localProducts.images ? this.localProducts.images : [];
     this.selectedImages = this.localProducts.images ? this.localProducts.images : [];
+
+    this.localProducts.images.forEach((item) => {
+    })
 
     await this.categoryLocalService.syncCategories();
     this.categories = this.categoryLocalService.getCategories();
@@ -65,7 +70,8 @@ export class ProductModalComponent {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['selectedCategoryEntry']) {
+    console.log(this.selectedProductEntry);
+    if (changes['selectedProductEntry']) {
       this.localProducts = this.selectedProductEntry !== null ? { ...this.selectedProductEntry } : {id: '', title: '', images: [], description: '', isFavorite: false, price: 0};
       this.selectedImages = this.localProducts.images ? this.localProducts.images : [];
 

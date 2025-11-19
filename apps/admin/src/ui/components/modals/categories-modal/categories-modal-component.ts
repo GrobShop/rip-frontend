@@ -42,12 +42,14 @@ export class CategoriesModalComponent {
   ngOnInit(){
     this.localCategory = this.selectedCategoryEntry !== null ? this.selectedCategoryEntry : {id: '', title: '', image: '', description: ''};
     this.selectedImages = this.localCategory.image ? [this.localCategory.image] : [];
+    console.log('selectedImages:', this.selectedImages);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['selectedCategoryEntry']) {
       this.localCategory = this.selectedCategoryEntry !== null ? { ...this.selectedCategoryEntry } : { id: '', title: '', image: '', description: '' };
       this.selectedImages = this.localCategory.image ? [this.localCategory.image] : [];
+      console.log('selectedImages:', this.selectedImages);
     }
   }
 
@@ -94,7 +96,9 @@ export class CategoriesModalComponent {
       this.closed.emit();
       return;
     }
-    this.localCategory.description = this.description;
+    if(this.description !== '' && this.description !== null){
+      this.localCategory.description = this.description;
+    }
     console.log(this.localCategory);
     this.categoryLocalService?.updateCategory(this.localCategory);
     this.onClearLocalCategory();
@@ -107,6 +111,8 @@ export class CategoriesModalComponent {
   async onClearAllImages() {
     if(this.selectedImages.length > 0){
       await this.categoryLocalService?.deleteLogoCategory(this.localCategory.id);
+      console.log(this.localCategory.description);
+      this.categoryLocalService?.updateCategory(this.localCategory);
     }
   }
 }
