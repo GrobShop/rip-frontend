@@ -42,6 +42,7 @@ export const ApiRoutes = {
       ADD_PRODUCT_IMAGE: ApiSettings.apiUrl + '/products/images',
       GET_IMAGE_BY_ID: (productId: string, imageId: string) => ApiSettings.apiUrl + `/products/images/${productId}/${imageId}`,
       GET_ALL_IMAGES: (productId: string) => ApiSettings.apiUrl + `/products/${productId}?include_images=true`,
+      DELETE_PRODUCT_IMAGE:  (imageId: string) => ApiSettings.apiUrl + `/products/images/${imageId}`
     }
   },
   STANDARD: {

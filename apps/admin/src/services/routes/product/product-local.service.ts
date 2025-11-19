@@ -149,6 +149,23 @@ export class ProductLocalService {
     }
   }
 
+  async deleteProductImage(productId: string, imageId: string): Promise<void> {
+    try {
+      await this.serverProductService.deleteProductImage(productId, imageId);
+      const productIndex = this.products.findIndex(p => p.id === productId);
+      if (productIndex !== -1) {
+        this.products[productIndex] = {
+          ...this.products[productIndex],
+          images: this.products[productIndex].images.filter(url => {
+            return !url.includes(imageId);
+          })
+        };
+      }
+    } catch (e) {
+      throw e;
+    }
+  }
+
   async getProductImage(productId: string, imageId: string): Promise<Blob> {
     return this.serverProductService.getImageById(productId, imageId);
   }

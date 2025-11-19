@@ -177,7 +177,7 @@
 // }
 
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { firstValueFrom } from 'rxjs';
 import { AuthHeadersService } from '../auth/auth-headers.service';
@@ -372,6 +372,32 @@ export class ProductService {
             throw new Error(response.error);
           } else {
             throw new Error('Некорректный ответ сервера');
+          }
+        })
+      )
+    );
+  }
+
+
+  // 9. DELETE PRODUCT IMAGE
+  async deleteProductImage(productId: string, imageId: string): Promise<{ message: string }> {
+    const params = new HttpParams().set('product_id', productId);
+
+    return withTokenRefresh(this.http, (headers) =>
+      this.http.delete<any>(
+        ApiRoutes.ADMIN.PRODUCT.DELETE_PRODUCT_IMAGE(imageId),
+        { headers, params }
+      ).pipe(
+        map((response: any) => {
+          if (response.message) {
+            ToastService.success('Изображение успешно удалено!');
+            return { message: response.message };
+          } else if (response.error) {
+            throw new Error(response.error || 'Ошибка при удалении изображения');
+          } else {
+            // Сервер может вернуть просто {} при успехе
+            ToastService.success('Изображение успешно удалено!');
+            return { message: 'Изображение удалено' };
           }
         })
       )
