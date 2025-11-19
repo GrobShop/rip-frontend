@@ -102,9 +102,11 @@ export class ImageCarouselComponent {
 
   // === Полноэкранный режим ===
   openFullscreen() {
-    this.isFullscreen = true;
-    this.resetTransform();
-    document.body.style.overflow = 'hidden';
+    if(this.images[0] !== ''){
+      this.isFullscreen = true;
+      this.resetTransform();
+      document.body.style.overflow = 'hidden';
+    }
   }
 
   closeFullscreen() {
