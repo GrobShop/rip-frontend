@@ -9,7 +9,7 @@
   </div>
   <div class="image-selector-controls">
     <button (click)="triggerFileInput()" class="select-button">Выбрать изображение</button>
-    <button *ngIf="croppedImages.length > 0 || selectedImages.length > 0" (click)="clearSelection()" class="clear-button">Очистить</button>
+<!--    <button *ngIf="croppedImages.length > 0 || selectedImages.length > 0" (click)="clearSelection()" class="clear-button">Очистить</button>-->
     <input #fileInput type="file" [multiple]="multiple" (change)="onFileSelected($event)" style="display: none;" accept="image/*" />
   </div>
 </div>

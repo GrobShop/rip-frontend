@@ -94,15 +94,6 @@ export class ProductModalComponent {
       this.selectedImages = this.selectedProductEntry !== null && this.selectedProductEntry.images ? this.selectedProductEntry.images : [];
       // this.selectedImages = this.localProducts.images ? this.localProducts.images : [];
 
-      // console.log(this.categories);
-      // this.optionsCategories = [];
-      // this.categories.forEach(category => {
-      //   this.optionsCategories.push({value: category.id, label: category.title});
-      //   if(category.id === this.selectedProductEntry?.category_id){
-      //     this.defaultSelectedCategoryLabel = category.title;
-      //     console.log('default', this.defaultSelectedCategoryLabel);
-      //   }
-      // })
 
       this.categories.forEach(category => {
           if(category.id === this.selectedProductEntry?.category_id){
