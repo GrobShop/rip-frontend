@@ -96,6 +96,8 @@ export class ProductCardAdmin {
               console.log(blob);
               const url = URL.createObjectURL(blob);
               this.blobUrls.push(url);
+              this.product.images = [];
+              this.product.images.push(url);
               return url;
             } catch (error) {
               console.warn(`Failed to load image ${img.id}`, error);
