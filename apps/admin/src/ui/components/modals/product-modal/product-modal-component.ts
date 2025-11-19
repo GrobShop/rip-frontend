@@ -43,6 +43,8 @@ export class ProductModalComponent {
   localProducts: Product = {id: '', title: '', images: [], description: '', isFavorite: false, price: 0};
   selectedImages: string[] = [];
   defaultSelectedCategoryLabel: string = '';
+  blobUrls: string[] = [];
+  logoProductsUrl: string[] | [] = []; // Сохраняем URL вместо Blob
 
   @Input() categories: Category[] = [];
 
@@ -56,11 +58,12 @@ export class ProductModalComponent {
     console.log(this.selectedProductEntry);
     this.localProducts = this.selectedProductEntry !== null ? this.selectedProductEntry : {id: '', title: '', images: [], description: '', isFavorite: false, price: 0};
     // this.selectedImages = this.localProducts.images ? this.localProducts.images : [];
-    this.selectedImages = this.localProducts.images ? this.localProducts.images : [];
+    // this.selectedImages = this.localProducts.images ? this.localProducts.images : [];
+    this.selectedImages = this.selectedProductEntry !== null && this.selectedProductEntry.images ? this.selectedProductEntry.images : [];
 
+    console.log(this.localProducts.productImages);
     this.localProducts.images.forEach((item) => {
     })
-
     await this.categoryLocalService.syncCategories();
     this.categories = this.categoryLocalService.getCategories();
 
@@ -76,9 +79,11 @@ export class ProductModalComponent {
 
   ngOnChanges(changes: SimpleChanges): void {
     console.log(this.selectedProductEntry);
+    console.log(this.localProducts.productImages);
     if (changes['selectedProductEntry']) {
       this.localProducts = this.selectedProductEntry !== null ? { ...this.selectedProductEntry } : {id: '', title: '', images: [], description: '', isFavorite: false, price: 0};
-      this.selectedImages = this.localProducts.images ? this.localProducts.images : [];
+      this.selectedImages = this.selectedProductEntry !== null && this.selectedProductEntry.images ? this.selectedProductEntry.images : [];
+      // this.selectedImages = this.localProducts.images ? this.localProducts.images : [];
 
       this.optionsCategories = [];
       this.categories.forEach(category => {

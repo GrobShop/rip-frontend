@@ -89,6 +89,7 @@ export class ProductCardAdmin {
     return of(this.product.productImages || []).pipe(
       switchMap(images => {
         if (images.length === 0) return of([]);
+        this.product.images = [];
         return Promise.all(
           images.map(async (img: ProductImage) => {
             try {
@@ -96,7 +97,6 @@ export class ProductCardAdmin {
               console.log(blob);
               const url = URL.createObjectURL(blob);
               this.blobUrls.push(url);
-              this.product.images = [];
               this.product.images.push(url);
               return url;
             } catch (error) {
