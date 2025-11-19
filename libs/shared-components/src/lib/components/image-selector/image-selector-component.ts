@@ -78,6 +78,7 @@ export class ImageSelectorComponent {
   @Input() selectedImages: string[] = []; // ← Только для отображения (не трогаем!)
   @Output() imagesChanged = new EventEmitter<string[]>();
   @Output() clearImagesEvent = new EventEmitter<void>();
+  @Input() showImageSelectBtn: boolean = true;
 
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
 

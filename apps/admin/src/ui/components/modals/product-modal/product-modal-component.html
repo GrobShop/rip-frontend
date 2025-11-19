@@ -5,7 +5,7 @@
   <div class="category-modal-main">
     <div class="category-modal-main-img-title">
       <div class="category-modal-image">
-        <lib-image-selector-component (clearImagesEvent)="onClearAllImages()" [multiple]="true" [selectedImages]="selectedImages" (imagesChanged)="onImagesChanged($event)" />
+        <lib-image-selector-component [showImageSelectBtn]="mode === CategoryModalModes.CREATE" (clearImagesEvent)="onClearAllImages()" [multiple]="true" [selectedImages]="selectedImages" (imagesChanged)="onImagesChanged($event)" />
       </div>
       <div class="category-modal-title product-modal-title">
         <lib-input-component labelText="Название товара" (valueChange)="onChangeName($event)" [value]="localProducts.title" placeholderText="Введите название товара..."/>

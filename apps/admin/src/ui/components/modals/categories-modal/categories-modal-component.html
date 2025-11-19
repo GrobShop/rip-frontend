@@ -5,7 +5,7 @@
   <div class="category-modal-main">
     <div class="category-modal-main-img-title">
       <div class="category-modal-image">
-        <lib-image-selector-component (clearImagesEvent)="onClearAllImages()" [multiple]="false" [selectedImages]="selectedImages" (imagesChanged)="onImagesChanged($event)" />
+        <lib-image-selector-component [showImageSelectBtn]="mode === CategoryModalModes.CREATE" (clearImagesEvent)="onClearAllImages()" [multiple]="false" [selectedImages]="selectedImages" (imagesChanged)="onImagesChanged($event)" />
       </div>
       <div class="category-modal-title">
         <lib-input-component (valueChange)="onChangeName($event)" [value]="localCategory.title" placeholderText="Введите название категории..."/>
