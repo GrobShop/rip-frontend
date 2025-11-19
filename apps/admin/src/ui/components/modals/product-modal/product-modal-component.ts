@@ -67,7 +67,16 @@ export class ProductModalComponent {
     await this.categoryLocalService.syncCategories();
     this.categories = this.categoryLocalService.getCategories();
 
-    console.log(this.categories);
+    // console.log(this.categories);
+    // this.categories.forEach(category => {
+    //   this.optionsCategories.push({value: category.id, label: category.title});
+    //   if(category.id === this.localProducts.category_id){
+    //     this.defaultSelectedCategoryLabel = category.title;
+    //     console.log('default', this.defaultSelectedCategoryLabel);
+    //   }
+    // })
+
+    this.optionsCategories = [];
     this.categories.forEach(category => {
       this.optionsCategories.push({value: category.id, label: category.title});
       if(category.id === this.localProducts.category_id){
@@ -85,13 +94,21 @@ export class ProductModalComponent {
       this.selectedImages = this.selectedProductEntry !== null && this.selectedProductEntry.images ? this.selectedProductEntry.images : [];
       // this.selectedImages = this.localProducts.images ? this.localProducts.images : [];
 
-      this.optionsCategories = [];
+      // console.log(this.categories);
+      // this.optionsCategories = [];
+      // this.categories.forEach(category => {
+      //   this.optionsCategories.push({value: category.id, label: category.title});
+      //   if(category.id === this.selectedProductEntry?.category_id){
+      //     this.defaultSelectedCategoryLabel = category.title;
+      //     console.log('default', this.defaultSelectedCategoryLabel);
+      //   }
+      // })
+
       this.categories.forEach(category => {
-        this.optionsCategories.push({value: category.id, label: category.title});
-        if(category.id === this.localProducts.category_id){
-          this.defaultSelectedCategoryLabel = category.title;
-          console.log('default', this.defaultSelectedCategoryLabel);
-        }
+          if(category.id === this.selectedProductEntry?.category_id){
+            this.defaultSelectedCategoryLabel = category.title;
+            console.log('default', this.defaultSelectedCategoryLabel);
+          }
       })
     }
   }
@@ -154,5 +171,15 @@ export class ProductModalComponent {
 
   onCategorySelected($event: string) {
     this.localProducts.category_id = $event;
+  }
+
+  async onClearAllImages() {
+    if (this.selectedImages.length > 0 && this.selectedProductEntry !== null) {
+      const prImages = this.selectedProductEntry.productImages || [];
+      for (const item of prImages){
+        // await this.productLocalService?.deleteProductImage(this.localProducts.id, item.id);
+      }
+      // this.productLocalService?.updateProduct(this.localProducts);
+    }
   }
 }
