@@ -78,6 +78,7 @@ export class ImageSelectorComponent {
   @Input() selectedImages: string[] = []; // ← Только для отображения (не трогаем!)
   @Output() imagesChanged = new EventEmitter<string[]>();
   @Output() clearImagesEvent = new EventEmitter<void>();
+  @Output() chooseImagesEvent = new EventEmitter<void>();
   @Input() showImageSelectBtn: boolean = true;
 
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
@@ -126,6 +127,8 @@ export class ImageSelectorComponent {
 
     // Очистка input
     input.value = '';
+
+    this.chooseImagesEvent.emit();
   }
 
   clearSelection(): void {

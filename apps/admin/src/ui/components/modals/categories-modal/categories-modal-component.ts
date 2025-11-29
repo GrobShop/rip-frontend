@@ -14,7 +14,6 @@ import {CategoryLocalService} from "../../../../services/routes/category/categor
 import {
   ImageSelectorComponent
 } from "../../../../../../../libs/shared-components/src/lib/components/image-selector/image-selector-component";
-
 @Component({
   selector: 'app-categories-modal-component',
   imports: [
@@ -38,6 +37,7 @@ export class CategoriesModalComponent {
   localCategory: Category = {id: '', title: '', image: '', description: ''};
   selectedImages: string[] = [];
   description: string = '';
+  private readonly placeholderSvgPath = 'assets/icons/image/image-placeholder.svg';
 
   ngOnInit(){
     this.localCategory = this.selectedCategoryEntry !== null ? this.selectedCategoryEntry : {id: '', title: '', image: '', description: ''};
@@ -99,6 +99,7 @@ export class CategoriesModalComponent {
     if(this.description !== '' && this.description !== null){
       this.localCategory.description = this.description;
     }
+    if(this.selectedImages.length === 0){this.localCategory.image = ""}
     console.log(this.localCategory);
     this.categoryLocalService?.updateCategory(this.localCategory);
     this.onClearLocalCategory();
@@ -109,10 +110,51 @@ export class CategoriesModalComponent {
   }
 
   async onClearAllImages() {
-    if(this.selectedImages.length > 0){
-      await this.categoryLocalService?.deleteLogoCategory(this.localCategory.id);
-      console.log(this.localCategory.description);
-      this.categoryLocalService?.updateCategory(this.localCategory);
+    // // if(this.selectedImages.length > 0){
+    //   await this.categoryLocalService?.deleteLogoCategory(this.localCategory.id);
+    //   this.selectedImages = [];
+    //   this.categoryLocalService?.updateCategory(this.localCategory);
+    //
+    // // Загружаем placeholder как файл
+    // const placeholderUrl = (await this.placeholderSvg).default;
+    // const blob = await (await fetch(placeholderUrl)).blob();
+    // const file = new File([blob], 'placeholder.svg', { type: 'image/svg+xml' });
+    //
+    // // Конвертируем в data URL (или временный URL)
+    // const filePath = URL.createObjectURL(file);
+    //
+    // // Загружаем как логотип
+    // await this.categoryLocalService?.addLogoCategory(this.localCategory.id, filePath);
+    //
+    // // Опционально: обновляем локально
+    // this.selectedImages = [placeholderUrl];
+    // this.localCategory.image = placeholderUrl;
+    // // }
+    await this.setPlaceholderAsLogo();
+  }
+
+  async chooseUpdateImage() {
+    if(this.mode === CategoryModalModes.CREATE){return;}
+    // await this.onClearAllImages();
+    if (this.selectedCategoryEntry && this.selectedImages.length > 0 && this.categoryLocalService !== null) {
+      await this.categoryLocalService?.addLogoCategory(this.selectedCategoryEntry.id, this.selectedImages[0]);
+      this.localCategory.image = (await this.categoryLocalService.getCategoryLogo(this.selectedCategoryEntry.id)).toString();
     }
+  }
+  async setPlaceholderAsLogo() {
+    if (!this.localCategory.id || !this.categoryLocalService) return;
+
+    try {
+      await this.categoryLocalService.deleteLogoCategory(this.localCategory.id);
+    } catch (e) {
+      console.warn('Логотипа не было');
+    }
+
+    const fileUrl = this.placeholderSvgPath;
+
+    await this.categoryLocalService.addLogoCategory(this.localCategory.id, fileUrl);
+
+    this.selectedImages = [fileUrl];
+    this.localCategory.image = fileUrl;
   }
 }

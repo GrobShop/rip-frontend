@@ -25,6 +25,11 @@
             "glob": "**/*",
             "input": "libs/shared-components/src/lib/assets",
             "output": "assets"
+          },
+          {
+            "glob": "**/*.svg",
+            "input": "libs/shared-components/src/lib/assets/icons/image",
+            "output": "assets/icons/image"
           }
         ],
         "styles": ["apps/admin/src/styles.scss"]

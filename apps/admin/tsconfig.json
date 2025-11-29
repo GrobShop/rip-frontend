@@ -20,7 +20,10 @@
     "strictTemplates": true
   },
   "files": [],
-  "include": [],
+  "include": [
+    "src/**/*.ts",
+    "src/types/**/*.d.ts"
+  ],
   "references": [
     {
       "path": "./tsconfig.app.json"
