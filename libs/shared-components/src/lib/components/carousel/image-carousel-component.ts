@@ -41,7 +41,7 @@
 // }
 
 
-import { Component, Input, HostListener, ElementRef, ViewChild } from '@angular/core';
+import {Component, Input, HostListener, ElementRef, ViewChild, Output, EventEmitter} from '@angular/core';
 import { NgForOf, NgIf } from "@angular/common";
 import {FullscreenService} from "../../services/fullscreen.service";
 
@@ -69,6 +69,8 @@ export class ImageCarouselComponent {
   private startScale = 1;
   private startDistance = 0;
 
+  @Output() currentIndexChange = new EventEmitter<number>();
+
   @ViewChild('fullscreenImage') fullscreenImage!: ElementRef<HTMLImageElement>;
 
   constructor(private fs: FullscreenService) {}
@@ -77,6 +79,7 @@ export class ImageCarouselComponent {
   nextImage() {
     if (this.currentIndex < this.images.length - 1) {
       this.currentIndex++;
+      this.currentIndexChange.emit(this.currentIndex);
       this.imageError = false;
       this.resetTransform();
     }
@@ -85,6 +88,7 @@ export class ImageCarouselComponent {
   prevImage() {
     if (this.currentIndex > 0) {
       this.currentIndex--;
+      this.currentIndexChange.emit(this.currentIndex);
       this.imageError = false;
       this.resetTransform();
     }
@@ -92,6 +96,7 @@ export class ImageCarouselComponent {
 
   goToImage(index: number) {
     this.currentIndex = index;
+    this.currentIndexChange.emit(this.currentIndex);
     this.imageError = false;
     this.resetTransform();
   }

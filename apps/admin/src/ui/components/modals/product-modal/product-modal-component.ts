@@ -50,6 +50,9 @@ export class ProductModalComponent {
 
   optionsCategories: { value: string; label: string }[] = [];
 
+  private readonly placeholderSvgPath = 'assets/icons/image/image-placeholder.svg';
+
+
   constructor(private categoryService: CategoryService, private categoryLocalService: CategoryLocalService) {
   }
 
@@ -138,6 +141,7 @@ export class ProductModalComponent {
     console.log('selectedImages', this.selectedImages);
     const newProductEntry = await this.productLocalService?.createProduct(this.localProducts);
     if (newProductEntry && this.selectedImages.length > 0 && this.categoryLocalService !== null) {
+      this.selectedImages.reverse();
       for(let i = 0; i < this.selectedImages.length; i++) {
         await this.productLocalService?.addProductImage(newProductEntry.id, this.selectedImages[i]);
       }
@@ -165,12 +169,46 @@ export class ProductModalComponent {
   }
 
   async onClearAllImages() {
+    // let currentId = null;
+    // if(this.mode === CategoryModalModes.CREATE){return;}
+    //
+    // if (this.selectedImages.length > 0 && this.selectedProductEntry !== null) {
+    //   const prImages = this.selectedProductEntry.productImages || [];
+    //   if(prImages.length === 0){return;}
+    //   currentId = prImages[0].id;
+    //   if(currentId !== null){
+    //     await this.productLocalService?.deleteProductImage(this.localProducts.id, currentId);
+    //     await this.setPlaceholderAsLogo();
+    //   }
+    //   this.productLocalService?.updateProduct(this.localProducts);
+    // }
+  }
+
+  async deleteCurrentImage(currentImageIndex: number) {
+    let currentId = null;
+    if(this.mode === CategoryModalModes.CREATE){return;}
+
     if (this.selectedImages.length > 0 && this.selectedProductEntry !== null) {
       const prImages = this.selectedProductEntry.productImages || [];
-      for (const item of prImages){
-        // await this.productLocalService?.deleteProductImage(this.localProducts.id, item.id);
+      currentId = prImages[currentImageIndex].id;
+      if(currentId !== null){
+        await this.productLocalService?.deleteProductImage(this.localProducts.id, currentId);
       }
+
+      setTimeout(() => {
+        this.updateProducts.emit();
+      }, 200)
       // this.productLocalService?.updateProduct(this.localProducts);
     }
   }
+
+  // async setPlaceholderAsLogo() {
+  //   if (this.productLocalService === null) return;
+  //
+  //   const fileUrl = this.placeholderSvgPath;
+  //
+  //   await this.productLocalService.addProductImage(this.localProducts.id, fileUrl);
+  //
+  //   this.selectedImages.push(fileUrl);
+  // }
 }

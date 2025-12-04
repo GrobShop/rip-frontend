@@ -1,15 +1,21 @@
 <div class="image-selector">
   <div class="image-selector-preview">
-    <lib-image-carousel-component [images]="croppedImages.length > 0 ? croppedImages : selectedImages" />
-<!--    <div *ngIf="croppedImages.length === 0 && selectedImages.length === 0" class="placeholder-image">-->
-<!--      <svg class="placeholder-icon">-->
-<!--        <use href="assets/icons/image/image-placeholder.svg"></use>-->
-<!--      </svg>-->
-<!--    </div>-->
+    <lib-image-carousel-component       (currentIndexChange)="currentImageIndex = $event"
+                                        [images]="croppedImages.length > 0 ? croppedImages : selectedImages" />
   </div>
   <div class="image-selector-controls">
     <button *ngIf="showImageSelectBtn" (click)="triggerFileInput()" class="select-button">Выбрать изображение</button>
-    <button *ngIf="croppedImages.length > 0 || selectedImages.length > 0" (click)="clearSelection()" class="clear-button">Очистить</button>
+    <button *ngIf="showClearSelectBtn && ((croppedImages.length > 0 && croppedImages.length === 1) || selectedImages.length === 1)" (click)="clearSelection()" class="clear-button">Очистить</button>
     <input #fileInput type="file" [multiple]="multiple" (change)="onFileSelected($event)" style="display: none;" accept="image/*" />
+
+    <!-- Удалить текущее изображение (если >1) -->
+    <button
+      *ngIf="(displayImages.length > 1) || (displayImages.length === 1 && showClearCurrentSelectBtn)"
+      (click)="deleteCurrent()"
+      class="clear-button"
+      title="Удалить текущее изображение"
+    >
+      Удалить текущее
+    </button>
   </div>
 </div>

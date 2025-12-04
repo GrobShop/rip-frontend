@@ -38,6 +38,7 @@ export class CategoriesModalComponent {
   selectedImages: string[] = [];
   description: string = '';
   private readonly placeholderSvgPath = 'assets/icons/image/image-placeholder.svg';
+  clearImagesCount: number = 0;
 
   ngOnInit(){
     this.localCategory = this.selectedCategoryEntry !== null ? this.selectedCategoryEntry : {id: '', title: '', image: '', description: ''};
@@ -86,6 +87,7 @@ export class CategoriesModalComponent {
       await this.categoryLocalService?.addLogoCategory(newCategoryEntry.id, this.selectedImages[0]);
       this.localCategory.image = (await this.categoryLocalService.getCategoryLogo(newCategoryEntry.id)).toString();
     }
+    this.clearImagesCount++;
     this.onClearLocalCategory();
     this.closed.emit();
     this.updateCategories.emit();
@@ -131,6 +133,7 @@ export class CategoriesModalComponent {
     // this.localCategory.image = placeholderUrl;
     // // }
     await this.setPlaceholderAsLogo();
+    this.onUpdateNewCategory();
   }
 
   async chooseUpdateImage() {

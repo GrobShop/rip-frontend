@@ -1,68 +1,4 @@
-// import {Component, ElementRef, EventEmitter, Input, Output, ViewChild} from '@angular/core';
-// import {ImageCarouselComponent} from "../carousel/image-carousel-component";
-// import {NgIf} from "@angular/common";
-//
-// @Component({
-//   selector: 'lib-image-selector-component',
-//   imports: [
-//     ImageCarouselComponent,
-//     NgIf
-//   ],
-//   templateUrl: './image-selector-component.html',
-//   styleUrl: './image-selector-component.css',
-//   standalone: true
-// })
-// export class ImageSelectorComponent {
-//   @Input() multiple: boolean = false; // Позволяет выбрать одно или несколько изображений
-//   @Input() selectedImages: string[] = []; // Текущие выбранные изображения
-//   @Output() imagesChanged = new EventEmitter<string[]>(); // Эмитит обновлённый массив изображений
-//
-//   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
-//
-//   croppedImages: string[] = [];
-//
-//   ngOnChanges(){
-//     if(this.selectedImages.length === 0){
-//       this.croppedImages = [];
-//     }
-//   }
-//
-//   onFileSelected(event: Event): void {
-//     const input = event.target as HTMLInputElement;
-//     if (input.files && input.files.length > 0) {
-//       const files = Array.from(input.files);
-//       const allowedImages = files.filter(file => file.type.startsWith('image/'));
-//       if (allowedImages.length === 0) {
-//         alert('Пожалуйста, выберите изображения.');
-//         return;
-//       }
-//
-//       const maxFiles = this.multiple ? allowedImages.length : 1;
-//       const selectedFiles = allowedImages.slice(0, maxFiles);
-//
-//       this.croppedImages = selectedFiles.map(file => URL.createObjectURL(file));
-//       this.imagesChanged.emit(this.croppedImages);
-//
-//       this.croppedImages = this.croppedImages.map(img => {
-//         return img;
-//       });
-//
-//       input.value = '';
-//     }
-//   }
-//
-//   clearSelection(): void {
-//     this.croppedImages = [];
-//     this.imagesChanged.emit(this.croppedImages);
-//     if (this.fileInput) this.fileInput.nativeElement.value = '';
-//   }
-//
-//   triggerFileInput(): void {
-//     if (this.fileInput) this.fileInput.nativeElement.click();
-//   }
-// }
-
-import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, Output, SimpleChanges, ViewChild} from '@angular/core';
 import { ImageCarouselComponent } from "../carousel/image-carousel-component";
 import { NgIf } from "@angular/common";
 
@@ -80,8 +16,25 @@ export class ImageSelectorComponent {
   @Output() clearImagesEvent = new EventEmitter<void>();
   @Output() chooseImagesEvent = new EventEmitter<void>();
   @Input() showImageSelectBtn: boolean = true;
+  @Output() deleteCurrentImage = new EventEmitter<number>();
+  @Input() showClearSelectBtn: boolean = true;
+  @Input() showClearCurrentSelectBtn: boolean = false;
+  @Input() clearImagesCount: number = 0;
 
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
+
+  currentImageIndex: number = 0;
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['clearImagesCount']) {
+      this._croppedImages = [];
+    }
+  }
+
+  // Показываемые изображения (с учётом приоритета: новые > старые)
+  get displayImages(): string[] {
+    return this._croppedImages.length > 0 ? this._croppedImages : this.selectedImages;
+  }
 
   // ← ВНУТРЕННЕЕ состояние — НЕ зависит от selectedImages
   private _croppedImages: string[] = [];
@@ -147,5 +100,27 @@ export class ImageSelectorComponent {
   // Освобождаем URL при уничтожении
   ngOnDestroy() {
     this._croppedImages.forEach(url => URL.revokeObjectURL(url));
+  }
+
+  deleteCurrent(): void {
+    if (this.displayImages.length === 0) return;
+
+    const indexToDelete = this.currentImageIndex;
+
+    // Если это новое изображение (из _croppedImages)
+    if (this._croppedImages.length > 0) {
+      const urlToRevoke = this._croppedImages[indexToDelete];
+      URL.revokeObjectURL(urlToRevoke);
+      this._croppedImages.splice(indexToDelete, 1);
+      this.imagesChanged.emit(this._croppedImages);
+    }
+
+    // Эмитим индекс в массиве отображаемых изображений
+    this.deleteCurrentImage.emit(indexToDelete);
+
+    // Корректируем индекс, если удалили последний
+    if (this.currentImageIndex >= this.displayImages.length) {
+      this.currentImageIndex = Math.max(0, this.displayImages.length - 1);
+    }
   }
 }
