@@ -253,9 +253,9 @@
   }
 
   /* --- СКРЫВАЕМ СТРЕЛКИ КАРУСЕЛИ НА МОБИЛКАХ --- */
-  .arrow {
-    display: none !important;
-  }
+  /*.arrow {*/
+  /*  display: none !important;*/
+  /*}*/
 
   .controls {
     padding: 0 12px !important;
