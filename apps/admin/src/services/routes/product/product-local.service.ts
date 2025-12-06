@@ -36,6 +36,7 @@ export class ProductLocalService {
   async syncProducts(creatorId: string): Promise<void> {
     try {
       const serverProducts: ProductServer[] = await this.serverProductService.getAllProducts(creatorId);
+      console.log(serverProducts);
 
       // Очищаем старые данные
       this.products = serverProducts.map(p => ({

@@ -45,6 +45,8 @@ export class ProductModalComponent {
   defaultSelectedCategoryLabel: string = '';
   blobUrls: string[] = [];
   logoProductsUrl: string[] | [] = []; // Сохраняем URL вместо Blob
+  clearImagesCount: number = 0;
+  lengthImg: number = 0;
 
   @Input() categories: Category[] = [];
 
@@ -90,11 +92,14 @@ export class ProductModalComponent {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    this.defaultSelectedCategoryLabel = '';
+    this.clearImagesCount++;
     console.log(this.selectedProductEntry);
     console.log(this.localProducts.productImages);
     if (changes['selectedProductEntry']) {
       this.localProducts = this.selectedProductEntry !== null ? { ...this.selectedProductEntry } : {id: '', title: '', images: [], description: '', isFavorite: false, price: 0};
       this.selectedImages = this.selectedProductEntry !== null && this.selectedProductEntry.images ? this.selectedProductEntry.images : [];
+
       // this.selectedImages = this.localProducts.images ? this.localProducts.images : [];
 
 
@@ -147,6 +152,7 @@ export class ProductModalComponent {
       }
       // this.localProducts.images = (await this.productLocalService?.getProductImage(newProductEntry.id)).toString();
     }
+    this.clearImagesCount++;
     this.closed.emit();
     this.onClearLocalProduct();
     this.updateProducts.emit();
@@ -169,46 +175,44 @@ export class ProductModalComponent {
   }
 
   async onClearAllImages() {
-    // let currentId = null;
-    // if(this.mode === CategoryModalModes.CREATE){return;}
-    //
-    // if (this.selectedImages.length > 0 && this.selectedProductEntry !== null) {
-    //   const prImages = this.selectedProductEntry.productImages || [];
-    //   if(prImages.length === 0){return;}
-    //   currentId = prImages[0].id;
-    //   if(currentId !== null){
-    //     await this.productLocalService?.deleteProductImage(this.localProducts.id, currentId);
-    //     await this.setPlaceholderAsLogo();
-    //   }
-    //   this.productLocalService?.updateProduct(this.localProducts);
-    // }
   }
 
   async deleteCurrentImage(currentImageIndex: number) {
     let currentId = null;
     if(this.mode === CategoryModalModes.CREATE){return;}
 
-    if (this.selectedImages.length > 0 && this.selectedProductEntry !== null) {
+    if (this.selectedImages.length > 0 && this.selectedProductEntry !== null && this.productLocalService !== null) {
       const prImages = this.selectedProductEntry.productImages || [];
       currentId = prImages[currentImageIndex].id;
-      if(currentId !== null){
-        await this.productLocalService?.deleteProductImage(this.localProducts.id, currentId);
-      }
+        if(currentId !== null){
+          await this.productLocalService.deleteProductImage(this.localProducts.id, currentId);
+          let copyImages: string[] = [];
 
-      setTimeout(() => {
-        this.updateProducts.emit();
-      }, 200)
-      // this.productLocalService?.updateProduct(this.localProducts);
+          this.selectedImages.forEach((image, index) => {
+            if(currentImageIndex !== index){
+              copyImages.push(image);
+            }
+          })
+
+          this.selectedImages = copyImages;
+        }
+        this.productLocalService?.updateProduct(this.localProducts);
+
+        setTimeout(() => {
+          this.updateProducts.emit();
+        }, 200)
     }
   }
 
-  // async setPlaceholderAsLogo() {
-  //   if (this.productLocalService === null) return;
-  //
-  //   const fileUrl = this.placeholderSvgPath;
-  //
-  //   await this.productLocalService.addProductImage(this.localProducts.id, fileUrl);
-  //
-  //   this.selectedImages.push(fileUrl);
-  // }
+  async chooseUpdateImage() {
+    if(this.mode === CategoryModalModes.CREATE){return;}
+    if (this.selectedProductEntry && this.selectedImages.length > 0 && this.productLocalService !== null) {
+      await this.productLocalService.addProductImage(this.localProducts.id, this.selectedImages[this.selectedImages.length-1]);
+      this.productLocalService?.updateProduct(this.localProducts);
+      this.closed.emit();
+      setTimeout(() => {
+        this.updateProducts.emit();
+      }, 200)
+    }
+  }
 }

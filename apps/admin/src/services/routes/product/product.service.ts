@@ -366,6 +366,9 @@ export class ProductService {
         { headers }
       ).pipe(
         map((response: any) => {
+          if(response.images === null){
+            response.images = [];
+          }
           if (response.images && response.product) {
             return response as { images: ProductImage[]; product: ProductServer };
           } else if (response.error) {
